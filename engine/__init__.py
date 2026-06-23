@@ -1,0 +1,1 @@
+"""Werewolf benchmark engine package."""

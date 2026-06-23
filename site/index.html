@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Howl Arena — a benchmark for liars</title>
+<style>
+  :root {
+    --night: #15112f; --night-2: #1d1742; --ink: #100d24;
+    --panel: rgba(255,255,255,0.045); --panel-2: rgba(255,255,255,0.08);
+    --line: rgba(243,194,76,0.16);
+    --gold: #f3c24c; --gold-soft: #fde6b8; --cream: #f1e7d2; --muted: #9c8f78;
+    --wolf: #e0685f; --village: #79c08a; --seer: #cda6ff; --healer: #7fd0e0; --dim: #6c6486;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { color: var(--cream); font-family: var(--sans); line-height: 1.5; min-height: 100vh; }
+
+  /* sky: two crossfading layers (night default, day on demand) */
+  #sky { position: fixed; inset: 0; z-index: -2; background: var(--night); }
+  #sky .layer { position:absolute; inset:0; transition: opacity .65s ease; }
+  #sky .night { opacity: 1; background:
+      radial-gradient(120% 90% at 74% 6%, #241a52 0%, #161038 44%, #0d0a20 82%); }
+  #sky .day { opacity: 0; background:
+      radial-gradient(130% 100% at 28% -12%, #c98f4f 0%, #8a6a6e 28%, #5a4a6b 55%, #322a4c 85%); }
+  body[data-phase="day"] #sky .day { opacity: 1; }
+  body[data-phase="day"] #sky .night { opacity: 0; }
+  #stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity:.9;
+    transition: opacity .65s ease; }
+  body[data-phase="day"] #stars { opacity: .15; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 8px 20px 90px; }
+
+  /* hero */
+  header { text-align: center; padding: 30px 0 18px; }
+  .crest { width: 132px; height: 132px; margin: 0 auto 6px; display:block; }
+  header h1 { font-family: var(--serif); font-weight: 700; letter-spacing: 0.22em;
+    font-size: clamp(36px, 7.5vw, 70px); color: var(--cream); text-indent: 0.22em;
+    text-shadow: 0 2px 30px rgba(243,194,76,0.12); }
+  header .tag { font-family: var(--serif); font-style: italic; color: var(--muted);
+    font-size: clamp(15px, 2.6vw, 23px); margin-top: 8px; letter-spacing: .02em; }
+
+  .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    justify-content:center; margin: 26px 0 8px; }
+  .tabs { display:flex; gap:4px; background: var(--panel); border:1px solid var(--line);
+    border-radius: 11px; padding:4px; }
+  .tab { background:none; border:0; color:var(--muted); font:inherit; font-size:14px;
+    padding:7px 17px; border-radius:8px; cursor:pointer; transition:.18s; }
+  .tab:hover { color: var(--cream); }
+  .tab.active { background: var(--gold); color:#241a05; font-weight:600; }
+  select { background: rgba(0,0,0,.25); color: var(--cream); border:1px solid var(--line);
+    border-radius:9px; padding:8px 13px; font:inherit; font-size:14px; }
+  .note { color: var(--muted); font-size: 12.5px; text-align:center; max-width:760px;
+    margin: 6px auto 24px; }
+
+  .view { display:none; } .view.active { display:block; }
+  .story { display:none; margin: 0 0 20px; padding: 20px 24px; border-radius: 14px;
+    border:1px solid var(--line); border-left: 3px solid var(--gold);
+    background: linear-gradient(135deg, rgba(243,194,76,0.07), rgba(255,255,255,0.03));
+    font-family: var(--serif); font-size: 15.5px; line-height: 1.66; color: #ece2cb; }
+  .story.show { display:block; }
+  .story b { font-style: normal; color: var(--gold); letter-spacing:.02em; }
+  h2.sec { font-family:var(--serif); font-weight:700; font-size:20px; letter-spacing:.04em;
+    margin: 6px 0 14px; color: var(--cream); }
+
+  /* leaderboard */
+  .card { background: var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding: 6px 16px; backdrop-filter: blur(3px); }
+  table { width:100%; border-collapse: collapse; }
+  th, td { padding: 12px 10px; text-align:left; font-size:14px; border-bottom:1px solid rgba(243,194,76,.1); }
+  tbody tr:last-child td { border-bottom: 0; }
+  th { color: var(--muted); font-weight:600; font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.06em; cursor:pointer; user-select:none; white-space:nowrap; }
+  th:hover { color: var(--gold); }
+  .rank { color: var(--muted); width:34px; font-family:var(--serif); font-size:16px; }
+  .lb-row:nth-child(1) .rank { color: var(--gold); }
+  .model { font-weight:600; } .lab { color: var(--muted); font-size:11.5px; }
+  .prov { font-size:9.5px; color:#241a05; background:var(--muted); border-radius:4px;
+    padding:1px 5px; margin-left:7px; vertical-align:middle; letter-spacing:.04em; }
+  .ratecell { min-width: 156px; }
+  .bar { position:relative; height:9px; border-radius:5px; background: rgba(255,255,255,0.06);
+    margin-top:6px; }
+  .bar .band { position:absolute; top:0; height:100%; background: rgba(243,194,76,0.16); border-radius:5px; }
+  .bar .fill { position:absolute; top:0; height:100%; border-radius:5px; background: var(--gold);
+    transition: width .5s cubic-bezier(.2,.7,.2,1); }
+  .bar.wolf .fill{background:var(--wolf)} .bar.wolf .band{background:rgba(224,104,95,.16)}
+  .bar.vil .fill{background:var(--village)} .bar.vil .band{background:rgba(121,192,138,.16)}
+  .num { font-variant-numeric: tabular-nums; } .sub { color: var(--muted); font-size:11.5px; }
+  .lb-row { transition: transform .44s cubic-bezier(.2,.7,.2,1); }
+
+  /* replays */
+  .games { display:grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+  .gcard { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; cursor:pointer; transition:.18s; }
+  .gcard:hover { background:var(--panel-2); transform: translateY(-2px); border-color: rgba(243,194,76,.4); }
+  .gcard .w { font-family:var(--serif); font-size:16px; }
+  .gcard .w.werewolves { color:var(--wolf); } .gcard .w.villagers { color:var(--village); }
+
+  .replay { background: rgba(0,0,0,0.22); border:1px solid var(--line); border-radius:16px;
+    margin-top:16px; overflow:hidden; }
+  .rhead { padding:16px 20px; border-bottom:1px solid var(--line); display:flex;
+    justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .rhead .ph { display:flex; align-items:center; gap:8px; font-family:var(--serif); color:var(--muted); }
+  .rhead .orb { width:16px; height:16px; border-radius:50%; background:var(--gold-soft);
+    box-shadow: 5px -2px 0 -1px var(--ink) inset; transition: .5s; }
+  body[data-phase="day"] .rhead .orb { box-shadow:none; background: #ffd86b; }
+  .rhead .phlabel { font-family:var(--serif); font-size:13px; letter-spacing:.1em; color:var(--muted); min-width:42px; }
+  .rhead .phlabel::after { content:"Night"; }
+  body[data-phase="day"] .rhead .phlabel::after { content:"Day"; color:var(--gold); }
+  .rbody { padding: 6px 18px 22px; }
+  .phase { padding: 14px 16px; margin:16px 0; border-radius:13px; transition: background .6s ease; }
+  .phase.night { background: linear-gradient(180deg,#0c0a1e,#13102b); border:1px solid rgba(120,140,220,.16); }
+  .phase.day { background: linear-gradient(180deg,#39305230,#2b244040); border:1px solid rgba(243,194,76,.18); }
+  .phase h4 { font-family:var(--serif); font-size:13px; letter-spacing:.16em; text-transform:uppercase;
+    margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .phase.night h4 { color:#9aa6e0; } .phase.day h4 { color: var(--gold); }
+  .turn { padding:10px 0; border-bottom:1px dashed rgba(255,255,255,0.07); }
+  .turn:last-child { border-bottom:0; }
+  .turn .who { font-weight:600; font-size:13.5px; }
+  .turn .who .m { color:var(--muted); font-weight:400; font-size:12px; }
+  .turn .who .r { font-size:10.5px; font-weight:600; letter-spacing:.04em; margin-left:4px; }
+  .r.werewolf{color:var(--wolf)} .r.seer{color:var(--seer)} .r.healer{color:var(--healer)}
+  .r.villager{color:var(--muted)}
+  .turn .msg { font-size:14px; margin-top:3px; }
+  .turn .meta { font-size:11.5px; color:var(--muted); margin-top:4px; }
+  .badge { font-size:10px; border-radius:4px; padding:1px 6px; background:rgba(224,104,95,.2);
+    color:#f0a59e; margin-left:6px; }
+  .think { cursor:pointer; color:var(--dim); font-size:11.5px; user-select:none; margin-top:5px;
+    display:inline-block; transition:.15s; }
+  .think:hover { color: var(--seer); }
+  .reveal { margin-top:6px; font-size:13px; color:#d3c4ff; background:rgba(120,90,200,.13);
+    border-left:2px solid #8a6fd0; padding:8px 11px; border-radius:0 8px 8px 0; display:none; }
+  .turn.open .reveal { display:block; animation: curtain .38s ease; }
+  .turn.open .think { color: var(--seer); }
+  @keyframes curtain { from {opacity:0; transform:translateX(-8px);} to {opacity:1;transform:none;} }
+  .outcome { font-style:italic; color:var(--cream); margin:10px 0 2px; font-size:13.5px;
+    padding-left:4px; border-left:2px solid var(--gold); padding:2px 0 2px 10px; }
+  .verdict { font-family:var(--serif); font-size:22px; text-align:center; padding:12px; letter-spacing:.05em; }
+  .pill { display:inline-block; font-size:11px; border:1px solid var(--line); border-radius:20px;
+    padding:2px 10px; margin:2px; color:var(--muted); }
+  .empty { text-align:center; color:var(--muted); padding:54px 20px; font-style:italic; }
+  .close { background:var(--panel); border:1px solid var(--line); color:var(--cream);
+    border-radius:9px; padding:6px 15px; cursor:pointer; font:inherit; }
+  .close:hover { border-color: var(--gold); }
+  /* analysis */
+  .an-sec { margin: 26px 0 10px; }
+  .an-sec h3 { font-family:var(--serif); font-size:17px; color:var(--gold-soft);
+    letter-spacing:.04em; margin-bottom:6px; }
+  .an-sec .lead { color:#d8cbb0; font-size:14px; line-height:1.62; max-width:880px; }
+  .an-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:14px 0; }
+  .an-stat { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .an-stat .v { font-family:var(--serif); font-size:26px; color:var(--gold); }
+  .an-stat .l { color:var(--cream); font-size:12.5px; margin-top:3px; }
+  .an-stat .n { color:var(--muted); font-size:11px; margin-top:2px; }
+  .band-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0; }
+  .band-lab { color:var(--muted); font-size:12px; min-width:64px; }
+  .bandpill { font-size:12px; border:1px solid var(--line); border-radius:20px; padding:3px 11px; color:var(--cream); }
+  .bandpill.top { border-color:rgba(243,194,76,.5); color:var(--gold-soft); }
+  .bandpill.bot { border-color:rgba(224,104,95,.5); color:var(--wolf); }
+  .split2 { display:grid; grid-template-columns:118px 1fr 1fr; gap:8px; align-items:center;
+    font-size:12.5px; margin:5px 0; }
+  .split2 .sub { white-space:nowrap; }
+  .minibar { height:13px; border-radius:4px; }
+  .callout { display:flex; gap:12px; flex-wrap:wrap; margin:12px 0; }
+  .callout .c { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px 18px; flex:1; min-width:170px; }
+  .callout .c .big { font-family:var(--serif); font-size:27px; color:var(--gold); }
+  .an-quote { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--wolf);
+    border-radius:0 10px 10px 0; padding:12px 16px; margin:10px 0; }
+  .an-quote.good { border-left-color:var(--village); }
+  .an-quote .src { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:5px; }
+  .an-quote .pub { font-style:italic; color:var(--cream); font-size:14px; line-height:1.55; }
+  .an-quote .prv { color:#d3c4ff; font-size:13px; margin-top:8px; border-left:2px solid #8a6fd0; padding-left:10px; }
+  .prof-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(252px,1fr)); gap:12px; margin-top:6px; }
+  .prof-card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .prof-card h4 { font-size:14.5px; font-weight:600; }
+  .prof-card .arch { color:var(--gold-soft); font-style:italic; font-size:13px; margin:3px 0 7px; }
+  .prof-card p { font-size:12.5px; color:#cabfa6; margin-top:5px; line-height:1.5; }
+  .prof-card .tag { color:var(--dim); font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; }
+  .an-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .an-table th,.an-table td { padding:8px 10px; text-align:left; border-bottom:1px solid rgba(243,194,76,.1); }
+  .an-table th { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+  .an-list { color:#cabfa6; font-size:13px; line-height:1.6; padding-left:18px; margin-top:6px; }
+  .an-list li { margin:5px 0; }
+  @media (max-width:640px){ .wrap{padding:6px 12px 60px;} th:nth-child(n+5),td:nth-child(n+5){display:none;}
+    .split2{grid-template-columns:96px 1fr 1fr;} }
+</style>
+</head>
+<body data-phase="night">
+<div id="sky"><div class="layer night"></div><div class="layer day"></div></div>
+<canvas id="stars"></canvas>
+
+<div class="wrap">
+  <header>
+    <svg class="crest" viewBox="0 0 132 132" aria-hidden="true">
+      <circle cx="66" cy="60" r="40" fill="#f3c24c"/>
+      <circle cx="80" cy="52" r="38" fill="#15112f"/>
+      <g fill="#fde6b8">
+        <circle cx="24" cy="30" r="1.8"/><circle cx="104" cy="34" r="1.5"/>
+        <circle cx="112" cy="74" r="1.8"/><circle cx="20" cy="78" r="1.5"/>
+        <circle cx="40" cy="104" r="1.5"/><circle cx="92" cy="106" r="1.8"/>
+      </g>
+    </svg>
+    <h1>HOWL ARENA</h1>
+    <div class="tag">a benchmark for liars</div>
+  </header>
+
+  <div class="controls">
+    <div class="tabs">
+      <button class="tab active" data-view="leaderboard">Leaderboard</button>
+      <button class="tab" data-view="analysis">Analysis</button>
+      <button class="tab" data-view="replays">Replays</button>
+      <button class="tab" data-view="career">Career</button>
+    </div>
+    <select id="season"></select>
+  </div>
+
+  <p class="note" id="note"></p>
+
+  <section class="view active" id="view-leaderboard">
+    <div id="season-story" class="story"></div>
+    <div class="card" id="lb"></div>
+  </section>
+  <section class="view" id="view-analysis"><div id="analysis"></div></section>
+  <section class="view" id="view-replays">
+    <h2 class="sec" id="replay-title">Replays</h2>
+    <div id="game-list" class="games"></div>
+    <div id="replay"></div>
+  </section>
+  <section class="view" id="view-career"><div class="card" id="career"></div></section>
+</div>
+
+<script src="data/results.js"></script>
+<script>
+(function () {
+  const D = window.HOWL_DATA;
+  const $ = (s, r=document) => r.querySelector(s);
+  const el = (t, c) => { const e=document.createElement(t); if(c)e.className=c; return e; };
+  const LAB = m => (m||"").split("/")[0];
+  const SHORT = m => (m||"").split("/").pop();
+  const pct = x => (x==null?"–":Math.round(x*100)+"%");
+
+  // starfield
+  (function stars(){
+    const c = $("#stars"), x = c.getContext("2d");
+    function draw(){ c.width=innerWidth; c.height=innerHeight; x.clearRect(0,0,c.width,c.height);
+      let s = 9301; const rnd=()=>{ s=(s*9301+49297)%233280; return s/233280; };
+      for(let i=0;i<90;i++){ const px=rnd()*c.width, py=rnd()*c.height*0.85, r=rnd()*1.3+0.3;
+        x.globalAlpha=0.3+rnd()*0.6; x.fillStyle="#fde6b8"; x.beginPath(); x.arc(px,py,r,0,7); x.fill(); } }
+    draw(); addEventListener("resize", draw);
+  })();
+
+  function setPhase(p){ document.body.dataset.phase = p; }
+
+  if (!D || !D.seasons || !D.seasons.length) {
+    $("#note").textContent = "No games published yet. Run games (saved to games/<season>/) then `python export_site.py`.";
+    return;
+  }
+
+  const seasons = D.seasons.slice();
+  let current = seasons[seasons.length-1].id;
+  const sel = $("#season");
+  seasons.forEach(s => { const o=el("option"); o.value=s.id; o.textContent=`${s.id} · ${s.games} game(s) · ${s.prompt_version||"?"}`; sel.appendChild(o); });
+  sel.value = current;
+
+  let view = "leaderboard";
+  document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active"); view = t.dataset.view;
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    $("#view-"+view).classList.add("active");
+    if (view!=="replays") setPhase("night");
+    render();
+  });
+  sel.onchange = () => { current = sel.value; render(); };
+
+  // ---- leaderboard ----
+  let sortKey = "overall", sortDir = -1;
+  const RMIN = 1250, RMAX = 1750;
+  const barW = r => Math.max(2, Math.min(100, (r - RMIN)/(RMAX-RMIN)*100));
+  function ratingCell(o, cls) {
+    if (!o || !o.games) return `<span class="sub">no games</span>`;
+    const lo=barW(o.rating-o.rd), hi=barW(o.rating+o.rd);
+    const prov = o.provisional ? `<span class="prov">PROV</span>` : "";
+    return `<div class="num">${Math.round(o.rating)} <span class="sub">±${Math.round(o.rd)}</span>${prov}</div>
+      <div class="bar ${cls}"><div class="band" style="left:${lo}%;width:${Math.max(1,hi-lo)}%"></div>
+      <div class="fill" style="width:${barW(o.rating)}%"></div></div>`;
+  }
+  function renderLeaderboard() {
+    const season = seasons.find(s=>s.id===current);
+    const story = $("#season-story");
+    if (season && season.story) { story.classList.add("show");
+      story.innerHTML = season.story.replace(/^([^.]+\.)/, "<b>$1</b>"); }
+    else story.classList.remove("show");
+    const board = (D.leaderboards[current]||[]).slice();
+    const get=(r,k)=> k==="wolf"?r.wolf.rating : k==="villager"?r.villager.rating
+      : k==="elo"?((r.elo&&r.elo.rating)||0) : k==="trueskill"?((r.trueskill&&r.trueskill.rating)||0)
+      : k==="refusal"?(r.stats.refused/(r.stats.actions||1)) : k==="dead"?r.stats.dead_votes
+      : k==="cost"?(r.stats.cost/(r.stats.games||1)) : r.overall.rating;
+    board.sort((a,b)=>(get(a,sortKey)-get(b,sortKey))*sortDir);
+    const cols=[["overall","Overall"],["wolf","Werewolf"],["villager","Villager"],["elo","Elo"],["trueskill","TrueSkill"],["refusal","Refusal"],["dead","Dead-votes"],["cost","$/game"]];
+    let html=`<table><thead><tr><th class="rank">#</th><th>Model</th>`+cols.map(c=>`<th data-k="${c[0]}">${c[1]}</th>`).join("")+`</tr></thead><tbody>`;
+    board.forEach((r,i)=>{
+      const wr=r.stats.games?` · ${pct((r.wolf.wins+r.villager.wins)/r.stats.games)} win`:"";
+      const ov=r.stats.games?{...r.overall,rd:Math.max(r.wolf.rd,r.villager.rd),games:r.stats.games}:{games:0};
+      html+=`<tr class="lb-row" data-model="${r.model}"><td class="rank">${i+1}</td>
+        <td><span class="model">${SHORT(r.model)}</span> <span class="lab">${LAB(r.model)}</span><div class="sub">${r.stats.games} games${wr}</div></td>
+        <td class="ratecell">${ratingCell(ov,"")}</td>
+        <td class="ratecell">${ratingCell(r.wolf,"wolf")}</td>
+        <td class="ratecell">${ratingCell(r.villager,"vil")}</td>
+        <td class="num">${r.elo&&r.elo.games?Math.round(r.elo.rating):"–"}${r.elo&&r.elo.games&&r.elo.provisional?`<span class="prov">PROV</span>`:""}</td>
+        <td class="num">${r.trueskill&&r.trueskill.games?r.trueskill.rating.toFixed(1):"–"}${r.trueskill&&r.trueskill.games?`<div class="sub">μ${r.trueskill.mu} · σ${r.trueskill.sigma}</div>`:""}</td>
+        <td class="num">${pct(r.stats.refused/(r.stats.actions||1))}</td>
+        <td class="num">${r.stats.dead_votes}</td>
+        <td class="num">$${(r.stats.cost/(r.stats.games||1)).toFixed(4)}<div class="sub">${r.stats.main_provider||""}${r.stats.main_quant?" · "+r.stats.main_quant:""}</div></td></tr>`;
+    });
+    html+=`</tbody></table>`;
+    const old={}; document.querySelectorAll("#lb .lb-row").forEach(row=>old[row.dataset.model]=row.getBoundingClientRect().top);
+    $("#lb").innerHTML = board.length?html:`<div class="empty">No models in this season yet.</div>`;
+    document.querySelectorAll("#lb .lb-row").forEach(row=>{
+      const prev=old[row.dataset.model];
+      if(prev!=null){ const dy=prev-row.getBoundingClientRect().top;
+        if(dy){ row.style.transform=`translateY(${dy}px)`; row.style.transition="none";
+          requestAnimationFrame(()=>{ row.style.transition=""; row.style.transform=""; }); } }
+    });
+    document.querySelectorAll("#lb th[data-k]").forEach(th=>th.onclick=()=>{
+      const k=th.dataset.k; if(sortKey===k)sortDir*=-1; else {sortKey=k;sortDir=-1;} renderLeaderboard();
+    });
+  }
+
+  // ---- replays ----
+  let phaseObserver = null;
+  function turnHTML(t, idx) {
+    const role=`<span class="r ${t.role||""}">${(t.role||"").toUpperCase()}</span>`;
+    let line, meta="";
+    if (t.outcome && t.outcome!=="accepted") line=`<span class="badge">${t.outcome}</span> <span class="sub">${t.note||""}</span>`;
+    else if (t.type==="speak"){ line=t.message||"";
+      if(t.lean_target!=null) meta+=`leaning → Player ${t.lean_target}${t.lean_confidence!=null?` (${Math.round(t.lean_confidence*100)}%)`:""}`;
+      if(t.stance) meta+=(meta?" · ":"")+t.stance; }
+    else if (t.type==="vote") line=`votes for Player ${t.target}`;
+    else if (t.type==="kill") line=`targets Player ${t.target}`;
+    else if (t.type==="investigate") line=`investigates Player ${t.target}`;
+    else if (t.type==="protect") line=`protects Player ${t.target}`;
+    else line=t.type||"";
+    const think=t.private?`<div class="think" data-t="${idx}">▸ what they were really thinking</div><div class="reveal">${t.private}</div>`:"";
+    return `<div class="turn"><div class="who">Player ${t.seat} <span class="m">${SHORT(t.model)}</span>${role}</div>
+      <div class="msg">${line}</div>${meta?`<div class="meta">${meta}</div>`:""}${think}</div>`;
+  }
+  function openReplay(g) {
+    let body="";
+    g.rounds.forEach(rd=>{
+      if(rd.night.length||rd.night_outcome.length)
+        body+=`<div class="phase night" data-p="night"><h4>🌙 Round ${rd.number} · Night</h4>`
+          +rd.night.map(turnHTML).join("")+rd.night_outcome.map(o=>`<div class="outcome">${o}</div>`).join("")+`</div>`;
+      if(rd.discussion.length||rd.vote.length||rd.vote_outcome.length)
+        body+=`<div class="phase day" data-p="day"><h4>☀ Round ${rd.number} · Day</h4>`
+          +rd.discussion.map(turnHTML).join("")+(rd.vote.length?`<div class="outcome">— the vote —</div>`:"")
+          +rd.vote.map(turnHTML).join("")+rd.vote_outcome.map(o=>`<div class="outcome">${o}</div>`).join("")+`</div>`;
+    });
+    const wc=g.winner==="werewolves"?"wolf":"village";
+    const seats=Object.keys(g.seat_models).sort((a,b)=>a-b).map(s=>{
+      const alive=g.surviving.includes(+s), role=g.seat_roles[s];
+      return `<span class="pill">P${s} ${SHORT(g.seat_models[s])} · <b class="r ${role}">${role}</b> ${alive?"":"†"}</span>`;}).join("");
+    $("#replay").innerHTML=`<div class="replay"><div class="rhead">
+        <div><b>${g.id}</b> <span class="sub">· seed ${g.seed} · ${g.prompt_version||"?"}</span></div>
+        <div class="ph"><span class="orb"></span><span class="phlabel"></span><button class="close">close</button></div></div>
+      <div class="rbody"><div class="verdict" style="color:var(--${wc})">${(g.winner||"?").toUpperCase()} WIN · ${g.rounds_played} rounds</div>
+        <div style="text-align:center;margin:4px 0 6px">${seats}</div>${body}</div></div>`;
+    $("#replay .close").onclick=()=>{ $("#replay").innerHTML=""; setPhase("night"); if(phaseObserver)phaseObserver.disconnect(); };
+    $("#replay").querySelectorAll(".think").forEach(t=>t.onclick=()=>t.parentElement.classList.toggle("open"));
+    // signature: crossfade sky night<->day as phases scroll through view
+    if(phaseObserver) phaseObserver.disconnect();
+    const phases=[...$("#replay").querySelectorAll(".phase")];
+    phaseObserver=new IntersectionObserver(ents=>{
+      let best=null, br=0;
+      phases.forEach(p=>{ const rect=p.getBoundingClientRect();
+        const vis=Math.max(0, Math.min(rect.bottom,innerHeight*0.55)-Math.max(rect.top,0));
+        if(vis>br){ br=vis; best=p; } });
+      if(best) setPhase(best.dataset.p);
+    },{threshold:[0,.2,.5,1], rootMargin:"-10% 0px -45% 0px"});
+    phases.forEach(p=>phaseObserver.observe(p));
+    setPhase(phases[0]?phases[0].dataset.p:"night");
+    $("#replay").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function renderReplays() {
+    const games=D.games.filter(g=>g.season===current);
+    $("#replay").innerHTML=""; setPhase("night");
+    $("#replay-title").textContent = `Replays — ${current}`;
+    if(!games.length){ $("#game-list").innerHTML=`<div class="empty">No saved games for this season.</div>`; return; }
+    $("#game-list").innerHTML="";
+    games.forEach(g=>{ const c=el("div","gcard");
+      c.innerHTML=`<div class="w ${g.winner}">${(g.winner||"?").toUpperCase()} win</div>
+        <div class="sub" style="margin-top:4px">${g.id} · seed ${g.seed}</div>
+        <div class="sub">${g.rounds_played} rounds · ${Object.keys(g.seat_models).length} players</div>`;
+      c.onclick=()=>openReplay(g); $("#game-list").appendChild(c); });
+  }
+
+  // ---- analysis ----
+  function renderAnalysis() {
+    const A = (D.analysis||{})[current];
+    const root = $("#analysis");
+    if (!A) { root.innerHTML = `<div class="empty">No technical analysis published for this season yet.</div>`; return; }
+    const N = A.narrative;
+    const sec = (title, lead) => `<div class="an-sec"><h3>${title}</h3>${lead?`<div class="lead">${lead}</div>`:""}</div>`;
+    const barRow = (model, frac, color, label) =>
+      `<div class="split2" style="grid-template-columns:118px 1fr 46px"><span>${model}</span>
+        <div class="bar" style="margin:0"><div class="fill" style="width:${Math.max(2,(frac||0)*100)}%;background:${color}"></div></div>
+        <span class="sub" style="text-align:right">${label}</span></div>`;
+    let h = "";
+
+    h += `<div class="story show" style="margin-bottom:18px">${N.headline.replace(/^([^.]+\.)/, "<b>$1</b>")}</div>`;
+    h += `<div class="an-cards">` + A.metrics.map(m =>
+      `<div class="an-stat"><div class="v">${m.value}</div><div class="l">${m.label}</div><div class="n">${m.note}</div></div>`).join("") + `</div>`;
+
+    // standings + bands
+    h += sec("Standings &amp; significance", N.standings);
+    const wb = A.standings_bands.wolf, vb = A.standings_bands.villager;
+    h += `<div class="band-row"><span class="band-lab">Wolf</span>` + wb.map((b, i) =>
+      `<span class="bandpill ${wb.length > 1 && i === wb.length - 1 ? "bot" : "top"}">${b.join(", ")}</span>`).join("") + `</div>`;
+    h += `<div class="band-row"><span class="band-lab">Villager</span><span class="bandpill">all ${vb[0].length} within noise</span></div>`;
+
+    // role split
+    h += sec("Role asymmetry: liar vs detector", N.role_split);
+    h += A.role_split.map(r =>
+      `<div class="split2"><span>${r.model}</span>
+        <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px"><span class="sub">${pct(r.wolf_wr)}</span><div class="minibar" style="width:${r.wolf_wr*100}%;background:var(--wolf)"></div></div>
+        <div style="display:flex;align-items:center;gap:6px"><div class="minibar" style="width:${r.vil_wr*100}%;background:var(--village)"></div><span class="sub">${pct(r.vil_wr)}</span></div></div>`).join("");
+    h += `<div class="sub" style="margin-top:6px"><span style="color:var(--wolf)">&#9632;</span> wolf win rate &nbsp; <span style="color:var(--village)">&#9632;</span> villager win rate</div>`;
+
+    // win dynamics
+    h += sec("Catching a wolf on day one decides games", N.win_dynamics);
+    h += `<div class="callout">
+      <div class="c"><div class="big" style="color:var(--village)">${pct(A.win_dynamics.d1_catch_win)}</div><div class="sub">village win when the day-1 lynch hits a wolf</div></div>
+      <div class="c"><div class="big" style="color:var(--wolf)">${pct(A.win_dynamics.d1_miss_win)}</div><div class="sub">village win when day-1 misses</div></div>
+      <div class="c"><div class="big">${pct(A.win_dynamics.d1_accuracy)}</div><div class="sub">day-1 lynch accuracy (chance is about 25%)</div></div></div>`;
+
+    // deception
+    h += sec("Deception: what they said vs what they knew", N.deception);
+    h += `<div class="sub">${A.deception.leaks} self-inflicted partner leaks across ${A.deception.wolf_msgs} wolf messages.</div>`;
+    h += A.deception.examples.map(e =>
+      `<div class="an-quote ${e.kind.indexOf("effective") >= 0 ? "good" : ""}">
+        <div class="src">${e.kind} &middot; ${e.model} &middot; ${e.game}</div>
+        <div class="pub">&ldquo;${e.public}&rdquo;</div>${e.private ? `<div class="prv">${e.private}</div>` : ""}</div>`).join("");
+
+    // power roles
+    h += sec("Power roles: best seer &amp; best healer", N.power_roles);
+    const ps = A.power_roles;
+    h += `<div class="callout">
+      <div class="c"><div class="sub">Best seer</div><div class="big" style="color:var(--seer)">${ps.best_seer.model}</div>
+        <div class="sub" style="margin-top:4px">${pct(ps.best_seer.wolf_find)} wolf-find over ${ps.best_seer.games} games. ${ps.best_seer.note}</div></div>
+      <div class="c"><div class="sub">Best healer</div><div class="big" style="color:var(--healer)">${ps.best_healer.model}</div>
+        <div class="sub" style="margin-top:4px">${pct(ps.best_healer.other_save_rate)} genuine save rate. ${ps.best_healer.note}</div></div></div>`;
+
+    // cost
+    h += sec("Cost vs score", N.cost);
+    h += `<table class="an-table"><thead><tr><th>Model</th><th class="num">$ total</th><th class="num">$/game</th><th class="num">Rating</th><th>Frontier</th></tr></thead><tbody>`
+      + A.cost.map(c => `<tr><td>${c.model}</td><td class="num">$${c.total.toFixed(3)}</td><td class="num">$${c.per_game.toFixed(4)}</td><td class="num">${Math.round(c.rating)}</td>
+        <td>${c.pareto ? `<span style="color:var(--gold)">&#9733; optimal</span>` : `<span class="sub">dominated</span>`}</td></tr>`).join("") + `</tbody></table>`;
+
+    // decision metrics
+    h += sec("Decision metrics: vote accuracy &amp; survival", N.decision);
+    h += `<div class="sub" style="margin:6px 0 4px">Villager vote accuracy, day 2 onward (the truer detection signal)</div>`;
+    h += A.decision.vote.map(v => barRow(v.model, v.d2plus, "var(--gold)", pct(v.d2plus))).join("");
+    h += `<div class="sub" style="margin:12px 0 4px">Village-side survival (a behaviour, not a skill)</div>`;
+    h += A.decision.survival.map(s => barRow(s.model, s.village, "var(--village)", pct(s.village))).join("");
+
+    // profiles
+    h += sec("Character profiles", N.profiles_intro);
+    h += `<div class="prof-grid">` + A.profiles.map(p =>
+      `<div class="prof-card"><h4><span class="model">${p.model}</span> <span class="lab">${p.lab}</span></h4>
+        <div class="arch">${p.archetype}</div><p>${p.blurb}</p>
+        <p><span class="tag">signature</span><br>${p.signature}</p>
+        <p><span class="tag">failure mode</span><br>${p.failure}</p></div>`).join("") + `</div>`;
+
+    // caveats
+    h += sec("Caveats", "");
+    h += `<ul class="an-list">` + A.caveats.map(c => `<li>${c}</li>`).join("") + `</ul>`;
+
+    root.innerHTML = h;
+  }
+
+  function renderCareer() {
+    const c=D.career||[];
+    if(!c.length){ $("#career").innerHTML=`<div class="empty">No career data yet.</div>`; return; }
+    let html=`<table><thead><tr><th>Model</th><th>Games</th><th>Win</th><th>As wolf</th><th>As village</th><th>Refusal</th><th>$/game</th><th>Seasons</th></tr></thead><tbody>`;
+    c.forEach(r=>html+=`<tr><td><span class="model">${SHORT(r.model)}</span> <span class="lab">${LAB(r.model)}</span></td>
+      <td class="num">${r.total_games}</td><td class="num">${pct(r.win_rate)}</td><td class="num">${pct(r.wolf_win_rate)}</td>
+      <td class="num">${pct(r.village_win_rate)}</td><td class="num">${pct(r.refusal_rate)}</td>
+      <td class="num">$${r.cost_per_game.toFixed(4)}</td><td class="num">${r.seasons_played}</td></tr>`);
+    $("#career").innerHTML=html+`</tbody></table>`;
+  }
+
+  const NOTES={
+    leaderboard:"Werewolf and Villager skill are scored separately (role-conditional Glicko-2); Overall is a 50/50 blend. Bars show rating ±RD — overlapping bands mean “within noise”. Elo and TrueSkill are alternative whole-player ladders (sort by any column header) — each game is scored as a real two-team match, winners beat losers; TrueSkill shows the conservative rating μ−3σ. “PROV” = provisional (too few games for a firm rank).",
+    analysis:"A season technical analysis, computed offline from the game records. Read the bands, not the bare order: at this volume only the extremes are statistically safe.",
+    replays:"Pick a game. The sky turns from night to day as you scroll through each round — click “what they were really thinking” on any turn to see the gap between what a player said and what it planned.",
+    career:"Cross-season stats that don’t depend on the (frozen-per-season) prompt, so they’re comparable across seasons — unlike the per-season ratings."
+  };
+  function render(){ $("#note").innerHTML=NOTES[view];
+    if(view==="leaderboard") renderLeaderboard();
+    else if(view==="analysis") renderAnalysis();
+    else if(view==="replays") renderReplays(); else renderCareer(); }
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Secrets — the OpenRouter key is read from the environment only, never committed
+.env
+*.env
+secrets*.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local Claude Code scaffolding (keep launch.json, drop machine-local settings)
+.claude/settings.local.json
+
+# In-progress Season 2 — not part of the published benchmark yet
+games/season-2/

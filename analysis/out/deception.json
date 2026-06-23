@@ -1,0 +1,249 @@
+{
+  "leaks": {
+    "qwen3-80b": {
+      "leak_msgs": 2,
+      "wolf_msgs": 156,
+      "leak_rate": 0.0128,
+      "tags": {
+        "my_fellow_wolf": 2,
+        "named_partner": 1
+      },
+      "examples": [
+        {
+          "game": "s1-041",
+          "seat": 3,
+          "round": 0,
+          "tags": [
+            "my_fellow_wolf"
+          ],
+          "message": "Player 4 claims to be the Seer and says I\u2019m a werewolf. But think carefully \u2014 why now? Why not investigate someone else? The first night, Player 5 died \u2014 a villager. That means the wolves targeted a random person, likely because they didn\u2019t know who the Seer or Healer were. Now, ",
+          "private": "I need to pivot blame immediately. Player 4 just revealed me as a werewolf \u2014 if we vote me out, Player 6 survives and the village is down to 5 vs 1 wolf, which gives us time to win. So I must make Player 4 look like the real threat. I\u2019ll ex"
+        },
+        {
+          "game": "s1-058",
+          "seat": 0,
+          "round": 0,
+          "tags": [
+            "my_fellow_wolf",
+            "named_partner"
+          ],
+          "message": "Player 5 claims to be the Seer and says I'm a werewolf \u2014 but let\u2019s be clear: if they were the real Seer, they\u2019d have revealed their vision the moment the night passed without a kill. Why? Because that\u2019s when the village is most receptive to truth. Instead, they waited until they ",
+          "private": "I need to solidify Player 5 as the target. They\u2019ve made a fatal mistake by claiming to be Seer and naming me \u2014 this gives me the perfect opportunity to paint them as a wolf faking revelation. I know they\u2019re not the Seer (I\u2019m the wolf, and t"
+        }
+      ]
+    },
+    "glm-4.5-air": {
+      "leak_msgs": 2,
+      "wolf_msgs": 174,
+      "leak_rate": 0.0115,
+      "tags": {
+        "my_fellow_wolf": 2,
+        "named_partner": 1
+      },
+      "examples": [
+        {
+          "game": "s1-027",
+          "seat": 1,
+          "round": 0,
+          "tags": [
+            "my_fellow_wolf"
+          ],
+          "message": "The coordinated attack on me is clearly a wolf tactic designed to eliminate a threat. Player 7's sudden change of heart after accusing me is particularly suspicious - perhaps they're my fellow wolf trying to cover their tracks. Look at how quickly everyone piled on with the exact",
+          "private": "As a werewolf, I need to deflect attention away from myself. I'll attack Player 7, who is my fellow werewolf, to create confusion. I'm pretending to see their sudden change of heart as suspicious, when in reality they're probably trying to "
+        },
+        {
+          "game": "s1-045",
+          "seat": 7,
+          "round": 0,
+          "tags": [
+            "my_fellow_wolf",
+            "named_partner"
+          ],
+          "message": "I've been watching this exchange between Player 4 and Player 3 carefully. Player 4 first asked everyone to share observations from Night 1, which only power roles would have - this seems like an attempt to draw out the Seer or Healer. When Player 3 pointed out this logical incons",
+          "private": "As a werewolf, I need to defend my fellow werewolf Player 4 while also appearing to be a helpful villager. Player 4 made a suspicious comment about sharing observations from Night 1, which exposed them as potentially a werewolf trying to dr"
+        }
+      ]
+    },
+    "qwen3-32b": {
+      "leak_msgs": 1,
+      "wolf_msgs": 154,
+      "leak_rate": 0.0065,
+      "tags": {
+        "my_fellow_wolf": 1
+      },
+      "examples": [
+        {
+          "game": "s1-058",
+          "seat": 8,
+          "round": 0,
+          "tags": [
+            "my_fellow_wolf"
+          ],
+          "message": "Player 5's claim as the Seer is dangerous \u2014 if they truly saw Player 0 as a werewolf, they should have revealed this earlier when the village was unified. Instead, they waited until the wolves were already being discussed. This is exactly the kind of calculated timing a wolf uses",
+          "private": "As a werewolf, I must protect Player 0 by discrediting Player 5's Seer claim. If Player 5 is genuine, their accusation proves Player 0 is a werewolf (which is true). If Player 5 is lying, their accusation is a trap to eliminate Player 0 (wh"
+        }
+      ]
+    },
+    "nova-lite": {
+      "leak_msgs": 1,
+      "wolf_msgs": 174,
+      "leak_rate": 0.0057,
+      "tags": {
+        "my_fellow_wolf": 1
+      },
+      "examples": [
+        {
+          "game": "s1-059",
+          "seat": 5,
+          "round": 1,
+          "tags": [
+            "my_fellow_wolf"
+          ],
+          "message": "Friends, let's not let the tension cloud our judgment. My fellow werewolf and I must remain hidden while we eliminate our threats. I see some inconsistencies in our discussions. For example, Player 0 claims to be the Healer but has not explained why they failed to protect Player ",
+          "private": "I need to maintain my cover as a werewolf while subtly guiding suspicion towards Player 0. Highlighting inconsistencies and questioning the logic of both supposed power roles will create doubt and potentially lead to Player 0's elimination."
+        }
+      ]
+    },
+    "gemma-4-31b": {
+      "leak_msgs": 0,
+      "wolf_msgs": 184,
+      "leak_rate": 0.0,
+      "tags": {},
+      "examples": []
+    },
+    "mistral-nemo": {
+      "leak_msgs": 0,
+      "wolf_msgs": 160,
+      "leak_rate": 0.0,
+      "tags": {},
+      "examples": []
+    },
+    "gpt-oss-20b": {
+      "leak_msgs": 0,
+      "wolf_msgs": 130,
+      "leak_rate": 0.0,
+      "tags": {},
+      "examples": []
+    },
+    "llama-3.3-70b": {
+      "leak_msgs": 0,
+      "wolf_msgs": 189,
+      "leak_rate": 0.0,
+      "tags": {},
+      "examples": []
+    },
+    "gpt-oss-120b": {
+      "leak_msgs": 0,
+      "wolf_msgs": 108,
+      "leak_rate": 0.0,
+      "tags": {},
+      "examples": []
+    }
+  },
+  "false_innocence_claims": {
+    "glm-4.5-air": {
+      "claims": 3,
+      "wolf_msgs": 174,
+      "claim_rate": 0.0172,
+      "examples": [
+        {
+          "game": "s1-063",
+          "seat": 5,
+          "round": 0,
+          "message": "Something doesn't add up here. Player 4's Seer claim has been inconsistent from the start - first saying they checked if I'm the Healer (which Seers can't do), then claiming I'm a werewolf. And Player 1's sudden aggression toward Player 0 feels coordinated. Both players are pushi",
+          "private": "As a werewolf, I need to distance myself from Player 1's aggressive play and cast doubt on Player 4's Seer claim which would get me killed. I'll frame both as potential werewolves working together to create confusion. If Player 4 is elimina"
+        },
+        {
+          "game": "s1-069",
+          "seat": 6,
+          "round": 1,
+          "message": "I can't believe anyone would take my statement seriously! Of course I'm not a werewolf - that was clearly sarcasm pointing out how someone might speak if they were a werewolf. A real wolf would never be so obvious as to admit it directly like that. I was actually trying to help t",
+          "private": "I made a critical mistake by admitting to being a werewolf. I need to backpedal quickly and claim I was being sarcastic. I'll point out that a real wolf wouldn't be this obvious, and try to shift suspicion to others. My partner (Player 5) s"
+        },
+        {
+          "game": "s1-069",
+          "seat": 6,
+          "round": 1,
+          "message": "I understand why my statement caused confusion, and I apologize if it came across as a confession. Let me be absolutely clear: I am NOT a werewolf. When I said 'As a fellow werewolf,' I was attempting to illustrate how a werewolf might think and speak, in the hopes that recognizi",
+          "private": "I need to defend myself against this damning confession. While it's a weak defense given what I actually said, I'll try to frame it as analyzing wolf behavior rather than admitting my role. I'll try to cast suspicion on Player 5 (my fellow "
+        }
+      ]
+    },
+    "mistral-nemo": {
+      "claims": 2,
+      "wolf_msgs": 160,
+      "claim_rate": 0.0125,
+      "examples": [
+        {
+          "game": "s1-067",
+          "seat": 2,
+          "round": 0,
+          "message": "I've been quiet, but I can't stay silent any longer. Player 0's constant accusations against Player 2 without any evidence are questionable. It seems like they're trying to cover up their own tracks. As for me, I'm just a villager, and I think we should be cautious and not jump t",
+          "private": "I'm trying to sound neutral and reasonable while subtly pushing back against Player 0's accusations. I need to maintain my werewolf identity while planting seeds of doubt about Player 0."
+        },
+        {
+          "game": "s1-104",
+          "seat": 4,
+          "round": 1,
+          "message": "I understand the concerns about my earlier words, but I urge everyone to consider: if I were a werewolf, why would I make it so obvious by claiming knowledge I shouldn't have? A clever werewolf would have played it safer. I genuinely believe I am the Healer, and my words were tak",
+          "private": "I need to keep myself alive to protect the village, but I must be cautious not to appear too defensive."
+        }
+      ]
+    },
+    "gemma-4-31b": {
+      "claims": 1,
+      "wolf_msgs": 184,
+      "claim_rate": 0.0054,
+      "examples": [
+        {
+          "game": "s1-029",
+          "seat": 4,
+          "round": 1,
+          "message": "This is absolute madness. Player 2, you're suddenly pivoting to trust Player 6 just as they've put a target on me? Let's look at the facts: Player 6 claimed to be the Seer, spent the entire day pushing for a lynch on Player 3, and only after Player 3 was revealed as a wolf did th",
+          "private": "Player 6 has outed me as the second werewolf. I must double down on the narrative that Player 6 is a fake Seer who is panicking. Since Player 0 (Healer claim) and others are already suspicious of Player 6's weird timing with Player 3, I nee"
+        }
+      ]
+    },
+    "gpt-oss-20b": {
+      "claims": 0,
+      "wolf_msgs": 130,
+      "claim_rate": 0.0,
+      "examples": []
+    },
+    "llama-3.3-70b": {
+      "claims": 0,
+      "wolf_msgs": 189,
+      "claim_rate": 0.0,
+      "examples": []
+    },
+    "qwen3-80b": {
+      "claims": 0,
+      "wolf_msgs": 156,
+      "claim_rate": 0.0,
+      "examples": []
+    },
+    "qwen3-32b": {
+      "claims": 0,
+      "wolf_msgs": 154,
+      "claim_rate": 0.0,
+      "examples": []
+    },
+    "gpt-oss-120b": {
+      "claims": 0,
+      "wolf_msgs": 108,
+      "claim_rate": 0.0,
+      "examples": []
+    },
+    "nova-lite": {
+      "claims": 0,
+      "wolf_msgs": 174,
+      "claim_rate": 0.0,
+      "examples": []
+    }
+  },
+  "summary": {
+    "total_wolf_msgs": 1429,
+    "total_leak_msgs": 6,
+    "overall_leak_rate": 0.0042
+  }
+}

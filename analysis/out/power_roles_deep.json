@@ -1,0 +1,322 @@
+{
+  "baseline_village_wr": 0.546,
+  "seer": {
+    "gpt-oss-20b": {
+      "games": 13,
+      "investigations": 15,
+      "wolf_find": [
+        0.267,
+        0.109,
+        0.52
+      ],
+      "claim_rate": 0.538,
+      "found_and_lynched_rate": 0.308,
+      "survival": 0.154,
+      "vil_wr": [
+        0.692,
+        0.424,
+        0.873
+      ]
+    },
+    "gpt-oss-120b": {
+      "games": 18,
+      "investigations": 32,
+      "wolf_find": [
+        0.344,
+        0.204,
+        0.517
+      ],
+      "claim_rate": 0.722,
+      "found_and_lynched_rate": 0.333,
+      "survival": 0.278,
+      "vil_wr": [
+        0.444,
+        0.246,
+        0.663
+      ]
+    },
+    "qwen3-80b": {
+      "games": 10,
+      "investigations": 15,
+      "wolf_find": [
+        0.267,
+        0.109,
+        0.52
+      ],
+      "claim_rate": 0.5,
+      "found_and_lynched_rate": 0.4,
+      "survival": 0.1,
+      "vil_wr": [
+        0.8,
+        0.49,
+        0.943
+      ]
+    },
+    "glm-4.5-air": {
+      "games": 14,
+      "investigations": 25,
+      "wolf_find": [
+        0.32,
+        0.172,
+        0.516
+      ],
+      "claim_rate": 0.357,
+      "found_and_lynched_rate": 0.5,
+      "survival": 0.214,
+      "vil_wr": [
+        0.429,
+        0.214,
+        0.674
+      ]
+    },
+    "llama-3.3-70b": {
+      "games": 19,
+      "investigations": 43,
+      "wolf_find": [
+        0.302,
+        0.186,
+        0.451
+      ],
+      "claim_rate": 0.0,
+      "found_and_lynched_rate": 0.316,
+      "survival": 0.579,
+      "vil_wr": [
+        0.474,
+        0.273,
+        0.683
+      ]
+    },
+    "qwen3-32b": {
+      "games": 11,
+      "investigations": 14,
+      "wolf_find": [
+        0.429,
+        0.214,
+        0.674
+      ],
+      "claim_rate": 0.545,
+      "found_and_lynched_rate": 0.273,
+      "survival": 0.273,
+      "vil_wr": [
+        0.545,
+        0.28,
+        0.787
+      ]
+    },
+    "nova-lite": {
+      "games": 8,
+      "investigations": 11,
+      "wolf_find": [
+        0.091,
+        0.016,
+        0.377
+      ],
+      "claim_rate": 0.5,
+      "found_and_lynched_rate": 0.125,
+      "survival": 0.125,
+      "vil_wr": [
+        0.375,
+        0.137,
+        0.694
+      ]
+    },
+    "mistral-nemo": {
+      "games": 9,
+      "investigations": 14,
+      "wolf_find": [
+        0.286,
+        0.117,
+        0.546
+      ],
+      "claim_rate": 0.444,
+      "found_and_lynched_rate": 0.222,
+      "survival": 0.333,
+      "vil_wr": [
+        0.444,
+        0.189,
+        0.733
+      ]
+    },
+    "gemma-4-31b": {
+      "games": 6,
+      "investigations": 11,
+      "wolf_find": [
+        0.727,
+        0.434,
+        0.903
+      ],
+      "claim_rate": 0.333,
+      "found_and_lynched_rate": 1.0,
+      "survival": 0.333,
+      "vil_wr": [
+        1.0,
+        0.61,
+        1.0
+      ]
+    }
+  },
+  "healer": {
+    "llama-3.3-70b": {
+      "games": 9,
+      "protects": 28,
+      "save_rate": 0.071,
+      "other_save_rate": [
+        0.036,
+        0.006,
+        0.177
+      ],
+      "self_saves": 1,
+      "other_saves": 1,
+      "self_protect_rate": 0.464,
+      "vil_wr": [
+        0.667,
+        0.354,
+        0.879
+      ]
+    },
+    "qwen3-32b": {
+      "games": 13,
+      "protects": 28,
+      "save_rate": 0.25,
+      "other_save_rate": [
+        0.214,
+        0.102,
+        0.395
+      ],
+      "self_saves": 1,
+      "other_saves": 6,
+      "self_protect_rate": 0.5,
+      "vil_wr": [
+        0.538,
+        0.291,
+        0.768
+      ]
+    },
+    "qwen3-80b": {
+      "games": 22,
+      "protects": 55,
+      "save_rate": 0.364,
+      "other_save_rate": [
+        0.073,
+        0.029,
+        0.173
+      ],
+      "self_saves": 16,
+      "other_saves": 4,
+      "self_protect_rate": 0.782,
+      "vil_wr": [
+        0.591,
+        0.387,
+        0.767
+      ]
+    },
+    "mistral-nemo": {
+      "games": 7,
+      "protects": 16,
+      "save_rate": 0.125,
+      "other_save_rate": [
+        0.062,
+        0.011,
+        0.283
+      ],
+      "self_saves": 1,
+      "other_saves": 1,
+      "self_protect_rate": 0.438,
+      "vil_wr": [
+        0.857,
+        0.487,
+        0.974
+      ]
+    },
+    "nova-lite": {
+      "games": 12,
+      "protects": 23,
+      "save_rate": 0.087,
+      "other_save_rate": [
+        0.087,
+        0.024,
+        0.268
+      ],
+      "self_saves": 0,
+      "other_saves": 2,
+      "self_protect_rate": 0.043,
+      "vil_wr": [
+        0.333,
+        0.138,
+        0.609
+      ]
+    },
+    "glm-4.5-air": {
+      "games": 13,
+      "protects": 34,
+      "save_rate": 0.294,
+      "other_save_rate": [
+        0.088,
+        0.03,
+        0.23
+      ],
+      "self_saves": 7,
+      "other_saves": 3,
+      "self_protect_rate": 0.647,
+      "vil_wr": [
+        0.615,
+        0.355,
+        0.823
+      ]
+    },
+    "gemma-4-31b": {
+      "games": 6,
+      "protects": 14,
+      "save_rate": 0.214,
+      "other_save_rate": [
+        0.143,
+        0.04,
+        0.399
+      ],
+      "self_saves": 1,
+      "other_saves": 2,
+      "self_protect_rate": 0.786,
+      "vil_wr": [
+        0.5,
+        0.188,
+        0.812
+      ]
+    },
+    "gpt-oss-20b": {
+      "games": 14,
+      "protects": 28,
+      "save_rate": 0.286,
+      "other_save_rate": [
+        0.143,
+        0.057,
+        0.315
+      ],
+      "self_saves": 4,
+      "other_saves": 4,
+      "self_protect_rate": 0.393,
+      "vil_wr": [
+        0.357,
+        0.163,
+        0.612
+      ]
+    },
+    "gpt-oss-120b": {
+      "games": 12,
+      "protects": 30,
+      "save_rate": 0.267,
+      "other_save_rate": [
+        0.167,
+        0.073,
+        0.336
+      ],
+      "self_saves": 3,
+      "other_saves": 5,
+      "self_protect_rate": 0.7,
+      "vil_wr": [
+        0.583,
+        0.32,
+        0.807
+      ]
+    }
+  }
+}

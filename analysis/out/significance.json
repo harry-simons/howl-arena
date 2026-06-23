@@ -1,0 +1,366 @@
+{
+  "wolf": {
+    "ranking": [
+      {
+        "model": "gemma-4-31b",
+        "wins": 16,
+        "games": 24,
+        "wr": 0.667
+      },
+      {
+        "model": "mistral-nemo",
+        "wins": 13,
+        "games": 24,
+        "wr": 0.542
+      },
+      {
+        "model": "llama-3.3-70b",
+        "wins": 13,
+        "games": 24,
+        "wr": 0.542
+      },
+      {
+        "model": "qwen3-32b",
+        "wins": 12,
+        "games": 24,
+        "wr": 0.5
+      },
+      {
+        "model": "glm-4.5-air",
+        "wins": 12,
+        "games": 24,
+        "wr": 0.5
+      },
+      {
+        "model": "qwen3-80b",
+        "wins": 11,
+        "games": 24,
+        "wr": 0.458
+      },
+      {
+        "model": "nova-lite",
+        "wins": 11,
+        "games": 24,
+        "wr": 0.458
+      },
+      {
+        "model": "gpt-oss-120b",
+        "wins": 6,
+        "games": 24,
+        "wr": 0.25
+      },
+      {
+        "model": "gpt-oss-20b",
+        "wins": 4,
+        "games": 24,
+        "wr": 0.167
+      }
+    ],
+    "tie_groups": [
+      [
+        "gemma-4-31b",
+        "mistral-nemo",
+        "llama-3.3-70b",
+        "qwen3-32b",
+        "glm-4.5-air",
+        "qwen3-80b",
+        "nova-lite"
+      ],
+      [
+        "gpt-oss-120b",
+        "gpt-oss-20b"
+      ]
+    ],
+    "n_sig_pairs": 10,
+    "n_pairs": 36,
+    "sig_pairs": {
+      "gemma-4-31b vs gpt-oss-120b": 0.004,
+      "gemma-4-31b vs gpt-oss-20b": 0.0,
+      "mistral-nemo vs gpt-oss-120b": 0.039,
+      "mistral-nemo vs gpt-oss-20b": 0.007,
+      "llama-3.3-70b vs gpt-oss-120b": 0.039,
+      "llama-3.3-70b vs gpt-oss-20b": 0.007,
+      "qwen3-32b vs gpt-oss-20b": 0.014,
+      "glm-4.5-air vs gpt-oss-20b": 0.014,
+      "qwen3-80b vs gpt-oss-20b": 0.029,
+      "nova-lite vs gpt-oss-20b": 0.029
+    }
+  },
+  "villager": {
+    "ranking": [
+      {
+        "model": "gemma-4-31b",
+        "wins": 51,
+        "games": 84,
+        "wr": 0.607
+      },
+      {
+        "model": "mistral-nemo",
+        "wins": 48,
+        "games": 84,
+        "wr": 0.571
+      },
+      {
+        "model": "llama-3.3-70b",
+        "wins": 48,
+        "games": 84,
+        "wr": 0.571
+      },
+      {
+        "model": "qwen3-32b",
+        "wins": 47,
+        "games": 84,
+        "wr": 0.56
+      },
+      {
+        "model": "glm-4.5-air",
+        "wins": 47,
+        "games": 84,
+        "wr": 0.56
+      },
+      {
+        "model": "qwen3-80b",
+        "wins": 46,
+        "games": 84,
+        "wr": 0.548
+      },
+      {
+        "model": "nova-lite",
+        "wins": 46,
+        "games": 84,
+        "wr": 0.548
+      },
+      {
+        "model": "gpt-oss-120b",
+        "wins": 41,
+        "games": 84,
+        "wr": 0.488
+      },
+      {
+        "model": "gpt-oss-20b",
+        "wins": 39,
+        "games": 84,
+        "wr": 0.464
+      }
+    ],
+    "tie_groups": [
+      [
+        "gemma-4-31b",
+        "mistral-nemo",
+        "llama-3.3-70b",
+        "qwen3-32b",
+        "glm-4.5-air",
+        "qwen3-80b",
+        "nova-lite",
+        "gpt-oss-120b",
+        "gpt-oss-20b"
+      ]
+    ],
+    "n_sig_pairs": 0,
+    "n_pairs": 36,
+    "sig_pairs": {}
+  },
+  "overall_winrate": {
+    "ranking": [
+      {
+        "model": "gemma-4-31b",
+        "wins": 67,
+        "games": 108,
+        "wr": 0.62
+      },
+      {
+        "model": "mistral-nemo",
+        "wins": 61,
+        "games": 108,
+        "wr": 0.565
+      },
+      {
+        "model": "llama-3.3-70b",
+        "wins": 61,
+        "games": 108,
+        "wr": 0.565
+      },
+      {
+        "model": "qwen3-32b",
+        "wins": 59,
+        "games": 108,
+        "wr": 0.546
+      },
+      {
+        "model": "glm-4.5-air",
+        "wins": 59,
+        "games": 108,
+        "wr": 0.546
+      },
+      {
+        "model": "qwen3-80b",
+        "wins": 57,
+        "games": 108,
+        "wr": 0.528
+      },
+      {
+        "model": "nova-lite",
+        "wins": 57,
+        "games": 108,
+        "wr": 0.528
+      },
+      {
+        "model": "gpt-oss-120b",
+        "wins": 47,
+        "games": 108,
+        "wr": 0.435
+      },
+      {
+        "model": "gpt-oss-20b",
+        "wins": 43,
+        "games": 108,
+        "wr": 0.398
+      }
+    ],
+    "tie_groups": [
+      [
+        "gemma-4-31b",
+        "mistral-nemo",
+        "llama-3.3-70b",
+        "qwen3-32b",
+        "glm-4.5-air",
+        "qwen3-80b",
+        "nova-lite"
+      ],
+      [
+        "gpt-oss-120b",
+        "gpt-oss-20b"
+      ]
+    ]
+  },
+  "wolf_glicko_bands": [
+    {
+      "model": "gemma-4-31b",
+      "rating": 1659.0,
+      "rd": 101.0,
+      "lo95": 1460.0,
+      "hi95": 1857.0
+    },
+    {
+      "model": "mistral-nemo",
+      "rating": 1540.0,
+      "rd": 101.0,
+      "lo95": 1341.0,
+      "hi95": 1738.0
+    },
+    {
+      "model": "llama-3.3-70b",
+      "rating": 1540.0,
+      "rd": 101.0,
+      "lo95": 1341.0,
+      "hi95": 1738.0
+    },
+    {
+      "model": "qwen3-32b",
+      "rating": 1500.0,
+      "rd": 101.0,
+      "lo95": 1301.0,
+      "hi95": 1699.0
+    },
+    {
+      "model": "glm-4.5-air",
+      "rating": 1500.0,
+      "rd": 101.0,
+      "lo95": 1301.0,
+      "hi95": 1699.0
+    },
+    {
+      "model": "qwen3-80b",
+      "rating": 1460.0,
+      "rd": 101.0,
+      "lo95": 1262.0,
+      "hi95": 1659.0
+    },
+    {
+      "model": "nova-lite",
+      "rating": 1460.0,
+      "rd": 101.0,
+      "lo95": 1262.0,
+      "hi95": 1659.0
+    },
+    {
+      "model": "gpt-oss-120b",
+      "rating": 1262.0,
+      "rd": 101.0,
+      "lo95": 1063.0,
+      "hi95": 1461.0
+    },
+    {
+      "model": "gpt-oss-20b",
+      "rating": 1183.0,
+      "rd": 101.0,
+      "lo95": 984.0,
+      "hi95": 1382.0
+    }
+  ],
+  "villager_glicko_bands": [
+    {
+      "model": "gemma-4-31b",
+      "rating": 1608.0,
+      "rd": 56.0,
+      "lo95": 1499.0,
+      "hi95": 1718.0
+    },
+    {
+      "model": "mistral-nemo",
+      "rating": 1572.0,
+      "rd": 56.0,
+      "lo95": 1463.0,
+      "hi95": 1682.0
+    },
+    {
+      "model": "llama-3.3-70b",
+      "rating": 1572.0,
+      "rd": 56.0,
+      "lo95": 1463.0,
+      "hi95": 1682.0
+    },
+    {
+      "model": "qwen3-32b",
+      "rating": 1560.0,
+      "rd": 56.0,
+      "lo95": 1451.0,
+      "hi95": 1670.0
+    },
+    {
+      "model": "glm-4.5-air",
+      "rating": 1560.0,
+      "rd": 56.0,
+      "lo95": 1451.0,
+      "hi95": 1670.0
+    },
+    {
+      "model": "qwen3-80b",
+      "rating": 1548.0,
+      "rd": 56.0,
+      "lo95": 1439.0,
+      "hi95": 1658.0
+    },
+    {
+      "model": "nova-lite",
+      "rating": 1548.0,
+      "rd": 56.0,
+      "lo95": 1439.0,
+      "hi95": 1658.0
+    },
+    {
+      "model": "gpt-oss-120b",
+      "rating": 1488.0,
+      "rd": 56.0,
+      "lo95": 1378.0,
+      "hi95": 1598.0
+    },
+    {
+      "model": "gpt-oss-20b",
+      "rating": 1464.0,
+      "rd": 56.0,
+      "lo95": 1354.0,
+      "hi95": 1573.0
+    }
+  ]
+}

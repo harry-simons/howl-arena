@@ -1,0 +1,181 @@
+{
+  "total_season_usd": 9.1475,
+  "per_model": {
+    "gpt-oss-20b": {
+      "total_usd": 0.2219,
+      "games": 108,
+      "cost_per_game": 0.00205,
+      "cost_per_win": 0.00516,
+      "calls": 910,
+      "in_tok_per_call": 4195,
+      "out_tok_per_call": 843,
+      "price_in_per_M": 0.03,
+      "price_out_per_M": 0.14,
+      "blended_per_M": 0.0484,
+      "price_fit_r2": 1.0,
+      "overall_rating": 1323.0,
+      "value_per_usd": -795.8,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "mistral-nemo"
+      ]
+    },
+    "qwen3-80b": {
+      "total_usd": 0.6354,
+      "games": 108,
+      "cost_per_game": 0.00588,
+      "cost_per_win": 0.01115,
+      "calls": 913,
+      "in_tok_per_call": 4485,
+      "out_tok_per_call": 332,
+      "price_in_per_M": 0.0975,
+      "price_out_per_M": 0.78,
+      "blended_per_M": 0.1445,
+      "price_fit_r2": 1.0,
+      "overall_rating": 1504.0,
+      "value_per_usd": 6.8,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "mistral-nemo",
+        "nova-lite"
+      ]
+    },
+    "qwen3-32b": {
+      "total_usd": 0.6633,
+      "games": 108,
+      "cost_per_game": 0.00614,
+      "cost_per_win": 0.01124,
+      "calls": 1057,
+      "in_tok_per_call": 4400,
+      "out_tok_per_call": 982,
+      "price_in_per_M": 0.0801,
+      "price_out_per_M": 0.28,
+      "blended_per_M": 0.1166,
+      "price_fit_r2": 0.99996,
+      "overall_rating": 1530.0,
+      "value_per_usd": 45.4,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "mistral-nemo"
+      ]
+    },
+    "glm-4.5-air": {
+      "total_usd": 1.122,
+      "games": 108,
+      "cost_per_game": 0.01039,
+      "cost_per_win": 0.01902,
+      "calls": 1130,
+      "in_tok_per_call": 4662,
+      "out_tok_per_call": 772,
+      "price_in_per_M": 0.0618,
+      "price_out_per_M": 0.9095,
+      "blended_per_M": 0.1827,
+      "price_fit_r2": 0.99142,
+      "overall_rating": 1530.0,
+      "value_per_usd": 26.8,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "qwen3-32b",
+        "mistral-nemo",
+        "gemma-4-31b"
+      ]
+    },
+    "mistral-nemo": {
+      "total_usd": 0.1099,
+      "games": 108,
+      "cost_per_game": 0.00102,
+      "cost_per_win": 0.0018,
+      "calls": 935,
+      "in_tok_per_call": 4517,
+      "out_tok_per_call": 153,
+      "price_in_per_M": 0.0465,
+      "price_out_per_M": -0.6167,
+      "blended_per_M": 0.0252,
+      "price_fit_r2": 0.96838,
+      "overall_rating": 1556.0,
+      "value_per_usd": 509.7,
+      "pareto_optimal": true,
+      "dominated_by": []
+    },
+    "gpt-oss-120b": {
+      "total_usd": 1.7357,
+      "games": 108,
+      "cost_per_game": 0.01607,
+      "cost_per_win": 0.03693,
+      "calls": 922,
+      "in_tok_per_call": 4092,
+      "out_tok_per_call": 601,
+      "price_in_per_M": 0.35,
+      "price_out_per_M": 0.75,
+      "blended_per_M": 0.4012,
+      "price_fit_r2": 1.0,
+      "overall_rating": 1375.0,
+      "value_per_usd": -72.0,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "qwen3-80b",
+        "qwen3-32b",
+        "glm-4.5-air",
+        "mistral-nemo",
+        "nova-lite",
+        "gemma-4-31b"
+      ]
+    },
+    "nova-lite": {
+      "total_usd": 0.3332,
+      "games": 108,
+      "cost_per_game": 0.00309,
+      "cost_per_win": 0.00585,
+      "calls": 1045,
+      "in_tok_per_call": 4636,
+      "out_tok_per_call": 170,
+      "price_in_per_M": 0.06,
+      "price_out_per_M": 0.24,
+      "blended_per_M": 0.0664,
+      "price_fit_r2": 1.0,
+      "overall_rating": 1504.0,
+      "value_per_usd": 12.9,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "mistral-nemo"
+      ]
+    },
+    "llama-3.3-70b": {
+      "total_usd": 3.5784,
+      "games": 108,
+      "cost_per_game": 0.03313,
+      "cost_per_win": 0.05866,
+      "calls": 1141,
+      "in_tok_per_call": 4804,
+      "out_tok_per_call": 213,
+      "price_in_per_M": 0.6004,
+      "price_out_per_M": 1.1869,
+      "blended_per_M": 0.6252,
+      "price_fit_r2": 0.99998,
+      "overall_rating": 1556.0,
+      "value_per_usd": 15.6,
+      "pareto_optimal": false,
+      "dominated_by": [
+        "mistral-nemo",
+        "gemma-4-31b"
+      ]
+    },
+    "gemma-4-31b": {
+      "total_usd": 0.7477,
+      "games": 108,
+      "cost_per_game": 0.00692,
+      "cost_per_win": 0.01116,
+      "calls": 999,
+      "in_tok_per_call": 4609,
+      "out_tok_per_call": 260,
+      "price_in_per_M": 0.1398,
+      "price_out_per_M": 0.4014,
+      "blended_per_M": 0.1537,
+      "price_fit_r2": 0.99994,
+      "overall_rating": 1634.0,
+      "value_per_usd": 178.6,
+      "pareto_optimal": true,
+      "dominated_by": []
+    }
+  }
+}

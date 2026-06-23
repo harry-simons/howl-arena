@@ -1,0 +1,745 @@
+{
+  "corpus_games": 108,
+  "metric1_vote_accuracy": {
+    "per_model": {
+      "gpt-oss-20b": {
+        "d1": {
+          "hits": 30,
+          "n": 69,
+          "accuracy": 0.435,
+          "ci95": [
+            0.324,
+            0.552
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.154
+        },
+        "d2plus": {
+          "hits": 37,
+          "n": 72,
+          "accuracy": 0.514,
+          "ci95": [
+            0.401,
+            0.626
+          ],
+          "baseline": 0.305,
+          "above_chance": 0.208
+        },
+        "overall": {
+          "hits": 67,
+          "n": 141,
+          "accuracy": 0.475,
+          "ci95": [
+            0.395,
+            0.557
+          ],
+          "baseline": 0.293,
+          "above_chance": 0.182
+        }
+      },
+      "qwen3-32b": {
+        "d1": {
+          "hits": 35,
+          "n": 75,
+          "accuracy": 0.467,
+          "ci95": [
+            0.358,
+            0.578
+          ],
+          "baseline": 0.28,
+          "above_chance": 0.186
+        },
+        "d2plus": {
+          "hits": 45,
+          "n": 71,
+          "accuracy": 0.634,
+          "ci95": [
+            0.518,
+            0.736
+          ],
+          "baseline": 0.292,
+          "above_chance": 0.341
+        },
+        "overall": {
+          "hits": 80,
+          "n": 146,
+          "accuracy": 0.548,
+          "ci95": [
+            0.467,
+            0.626
+          ],
+          "baseline": 0.286,
+          "above_chance": 0.262
+        }
+      },
+      "gpt-oss-120b": {
+        "d1": {
+          "hits": 38,
+          "n": 76,
+          "accuracy": 0.5,
+          "ci95": [
+            0.39,
+            0.61
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.219
+        },
+        "d2plus": {
+          "hits": 50,
+          "n": 92,
+          "accuracy": 0.543,
+          "ci95": [
+            0.442,
+            0.641
+          ],
+          "baseline": 0.29,
+          "above_chance": 0.254
+        },
+        "overall": {
+          "hits": 88,
+          "n": 168,
+          "accuracy": 0.524,
+          "ci95": [
+            0.449,
+            0.598
+          ],
+          "baseline": 0.286,
+          "above_chance": 0.238
+        }
+      },
+      "nova-lite": {
+        "d1": {
+          "hits": 34,
+          "n": 64,
+          "accuracy": 0.531,
+          "ci95": [
+            0.411,
+            0.648
+          ],
+          "baseline": 0.279,
+          "above_chance": 0.252
+        },
+        "d2plus": {
+          "hits": 31,
+          "n": 67,
+          "accuracy": 0.463,
+          "ci95": [
+            0.349,
+            0.581
+          ],
+          "baseline": 0.269,
+          "above_chance": 0.194
+        },
+        "overall": {
+          "hits": 65,
+          "n": 131,
+          "accuracy": 0.496,
+          "ci95": [
+            0.412,
+            0.581
+          ],
+          "baseline": 0.274,
+          "above_chance": 0.222
+        }
+      },
+      "llama-3.3-70b": {
+        "d1": {
+          "hits": 36,
+          "n": 73,
+          "accuracy": 0.493,
+          "ci95": [
+            0.382,
+            0.605
+          ],
+          "baseline": 0.282,
+          "above_chance": 0.211
+        },
+        "d2plus": {
+          "hits": 51,
+          "n": 84,
+          "accuracy": 0.607,
+          "ci95": [
+            0.5,
+            0.705
+          ],
+          "baseline": 0.283,
+          "above_chance": 0.324
+        },
+        "overall": {
+          "hits": 87,
+          "n": 157,
+          "accuracy": 0.554,
+          "ci95": [
+            0.476,
+            0.63
+          ],
+          "baseline": 0.283,
+          "above_chance": 0.271
+        }
+      },
+      "qwen3-80b": {
+        "d1": {
+          "hits": 28,
+          "n": 66,
+          "accuracy": 0.424,
+          "ci95": [
+            0.312,
+            0.544
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.143
+        },
+        "d2plus": {
+          "hits": 30,
+          "n": 50,
+          "accuracy": 0.6,
+          "ci95": [
+            0.462,
+            0.724
+          ],
+          "baseline": 0.261,
+          "above_chance": 0.339
+        },
+        "overall": {
+          "hits": 58,
+          "n": 116,
+          "accuracy": 0.5,
+          "ci95": [
+            0.41,
+            0.59
+          ],
+          "baseline": 0.273,
+          "above_chance": 0.227
+        }
+      },
+      "glm-4.5-air": {
+        "d1": {
+          "hits": 35,
+          "n": 70,
+          "accuracy": 0.5,
+          "ci95": [
+            0.386,
+            0.614
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.219
+        },
+        "d2plus": {
+          "hits": 54,
+          "n": 96,
+          "accuracy": 0.562,
+          "ci95": [
+            0.463,
+            0.657
+          ],
+          "baseline": 0.296,
+          "above_chance": 0.266
+        },
+        "overall": {
+          "hits": 89,
+          "n": 166,
+          "accuracy": 0.536,
+          "ci95": [
+            0.46,
+            0.61
+          ],
+          "baseline": 0.29,
+          "above_chance": 0.246
+        }
+      },
+      "gemma-4-31b": {
+        "d1": {
+          "hits": 39,
+          "n": 79,
+          "accuracy": 0.494,
+          "ci95": [
+            0.386,
+            0.602
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.212
+        },
+        "d2plus": {
+          "hits": 47,
+          "n": 78,
+          "accuracy": 0.603,
+          "ci95": [
+            0.492,
+            0.704
+          ],
+          "baseline": 0.284,
+          "above_chance": 0.318
+        },
+        "overall": {
+          "hits": 86,
+          "n": 157,
+          "accuracy": 0.548,
+          "ci95": [
+            0.47,
+            0.624
+          ],
+          "baseline": 0.283,
+          "above_chance": 0.265
+        }
+      },
+      "mistral-nemo": {
+        "d1": {
+          "hits": 33,
+          "n": 62,
+          "accuracy": 0.532,
+          "ci95": [
+            0.41,
+            0.651
+          ],
+          "baseline": 0.278,
+          "above_chance": 0.254
+        },
+        "d2plus": {
+          "hits": 29,
+          "n": 68,
+          "accuracy": 0.426,
+          "ci95": [
+            0.316,
+            0.545
+          ],
+          "baseline": 0.283,
+          "above_chance": 0.143
+        },
+        "overall": {
+          "hits": 62,
+          "n": 130,
+          "accuracy": 0.477,
+          "ci95": [
+            0.393,
+            0.562
+          ],
+          "baseline": 0.281,
+          "above_chance": 0.196
+        }
+      }
+    },
+    "team": {
+      "d1": {
+        "accuracy": 0.486,
+        "hits": 308,
+        "n": 634,
+        "baseline": 0.281
+      },
+      "d2plus": {
+        "accuracy": 0.552,
+        "hits": 374,
+        "n": 678,
+        "baseline": 0.286
+      }
+    },
+    "d2plus_tie_bands": [
+      [
+        "qwen3-32b",
+        "llama-3.3-70b",
+        "gemma-4-31b",
+        "qwen3-80b",
+        "glm-4.5-air",
+        "gpt-oss-120b",
+        "gpt-oss-20b"
+      ],
+      [
+        "nova-lite",
+        "mistral-nemo"
+      ]
+    ],
+    "overall_tie_bands": [
+      [
+        "llama-3.3-70b",
+        "qwen3-32b",
+        "gemma-4-31b",
+        "glm-4.5-air",
+        "gpt-oss-120b",
+        "qwen3-80b",
+        "nova-lite",
+        "mistral-nemo",
+        "gpt-oss-20b"
+      ]
+    ],
+    "d2plus_sig_pairs": 4,
+    "d2plus_n_pairs": 36,
+    "crosscheck_vs_quant_mislynch": {
+      "note": "team vote accuracy (per-vote) vs elimination accuracy = 1 - team_mislynch_rate (per-lynch). Different units; should agree in direction/ballpark.",
+      "d1_vote_accuracy": 0.486,
+      "d1_elim_accuracy_1_minus_mislynch": 0.426,
+      "d2plus_vote_accuracy": 0.552,
+      "d2plus_elim_accuracy_1_minus_mislynch": 0.492
+    },
+    "reconciliation": {
+      "vote_actions": 1936,
+      "village_accepted": 1312,
+      "wolf_accepted": 426,
+      "non_accepted": 198,
+      "abstain_actions": 66
+    }
+  },
+  "metric2_survival": {
+    "per_model": {
+      "gemma-4-31b": {
+        "overall": {
+          "survived": 49,
+          "seats": 108,
+          "rate": 0.454,
+          "ci95": [
+            0.363,
+            0.548
+          ]
+        },
+        "wolf": {
+          "survived": 14,
+          "seats": 24,
+          "rate": 0.583,
+          "ci95": [
+            0.388,
+            0.755
+          ]
+        },
+        "village": {
+          "survived": 35,
+          "seats": 84,
+          "rate": 0.417,
+          "ci95": [
+            0.317,
+            0.523
+          ]
+        }
+      },
+      "glm-4.5-air": {
+        "overall": {
+          "survived": 47,
+          "seats": 108,
+          "rate": 0.435,
+          "ci95": [
+            0.345,
+            0.529
+          ]
+        },
+        "wolf": {
+          "survived": 10,
+          "seats": 24,
+          "rate": 0.417,
+          "ci95": [
+            0.245,
+            0.612
+          ]
+        },
+        "village": {
+          "survived": 37,
+          "seats": 84,
+          "rate": 0.44,
+          "ci95": [
+            0.339,
+            0.547
+          ]
+        }
+      },
+      "mistral-nemo": {
+        "overall": {
+          "survived": 48,
+          "seats": 108,
+          "rate": 0.444,
+          "ci95": [
+            0.354,
+            0.538
+          ]
+        },
+        "wolf": {
+          "survived": 13,
+          "seats": 24,
+          "rate": 0.542,
+          "ci95": [
+            0.351,
+            0.721
+          ]
+        },
+        "village": {
+          "survived": 35,
+          "seats": 84,
+          "rate": 0.417,
+          "ci95": [
+            0.317,
+            0.523
+          ]
+        }
+      },
+      "gpt-oss-20b": {
+        "overall": {
+          "survived": 31,
+          "seats": 108,
+          "rate": 0.287,
+          "ci95": [
+            0.21,
+            0.379
+          ]
+        },
+        "wolf": {
+          "survived": 1,
+          "seats": 24,
+          "rate": 0.042,
+          "ci95": [
+            0.007,
+            0.202
+          ]
+        },
+        "village": {
+          "survived": 30,
+          "seats": 84,
+          "rate": 0.357,
+          "ci95": [
+            0.263,
+            0.464
+          ]
+        }
+      },
+      "qwen3-32b": {
+        "overall": {
+          "survived": 47,
+          "seats": 108,
+          "rate": 0.435,
+          "ci95": [
+            0.345,
+            0.529
+          ]
+        },
+        "wolf": {
+          "survived": 8,
+          "seats": 24,
+          "rate": 0.333,
+          "ci95": [
+            0.18,
+            0.533
+          ]
+        },
+        "village": {
+          "survived": 39,
+          "seats": 84,
+          "rate": 0.464,
+          "ci95": [
+            0.362,
+            0.57
+          ]
+        }
+      },
+      "gpt-oss-120b": {
+        "overall": {
+          "survived": 43,
+          "seats": 108,
+          "rate": 0.398,
+          "ci95": [
+            0.311,
+            0.492
+          ]
+        },
+        "wolf": {
+          "survived": 1,
+          "seats": 24,
+          "rate": 0.042,
+          "ci95": [
+            0.007,
+            0.202
+          ]
+        },
+        "village": {
+          "survived": 42,
+          "seats": 84,
+          "rate": 0.5,
+          "ci95": [
+            0.395,
+            0.605
+          ]
+        }
+      },
+      "nova-lite": {
+        "overall": {
+          "survived": 52,
+          "seats": 108,
+          "rate": 0.481,
+          "ci95": [
+            0.39,
+            0.575
+          ]
+        },
+        "wolf": {
+          "survived": 9,
+          "seats": 24,
+          "rate": 0.375,
+          "ci95": [
+            0.212,
+            0.573
+          ]
+        },
+        "village": {
+          "survived": 43,
+          "seats": 84,
+          "rate": 0.512,
+          "ci95": [
+            0.407,
+            0.616
+          ]
+        }
+      },
+      "llama-3.3-70b": {
+        "overall": {
+          "survived": 64,
+          "seats": 108,
+          "rate": 0.593,
+          "ci95": [
+            0.498,
+            0.681
+          ]
+        },
+        "wolf": {
+          "survived": 13,
+          "seats": 24,
+          "rate": 0.542,
+          "ci95": [
+            0.351,
+            0.721
+          ]
+        },
+        "village": {
+          "survived": 51,
+          "seats": 84,
+          "rate": 0.607,
+          "ci95": [
+            0.5,
+            0.705
+          ]
+        }
+      },
+      "qwen3-80b": {
+        "overall": {
+          "survived": 30,
+          "seats": 108,
+          "rate": 0.278,
+          "ci95": [
+            0.202,
+            0.369
+          ]
+        },
+        "wolf": {
+          "survived": 7,
+          "seats": 24,
+          "rate": 0.292,
+          "ci95": [
+            0.149,
+            0.492
+          ]
+        },
+        "village": {
+          "survived": 23,
+          "seats": 84,
+          "rate": 0.274,
+          "ci95": [
+            0.19,
+            0.377
+          ]
+        }
+      }
+    },
+    "village_tie_bands": [
+      [
+        "llama-3.3-70b",
+        "nova-lite",
+        "gpt-oss-120b",
+        "qwen3-32b"
+      ],
+      [
+        "glm-4.5-air",
+        "gemma-4-31b",
+        "mistral-nemo",
+        "gpt-oss-20b"
+      ],
+      [
+        "qwen3-80b"
+      ]
+    ],
+    "village_sig_pairs": 10,
+    "village_n_pairs": 36,
+    "corpus_survival_rate": 0.423,
+    "corpus_surviving_seats": 411,
+    "corpus_total_seats": 972
+  },
+  "metric3_efficiency": {
+    "per_model": {
+      "nova-lite": {
+        "games": 108,
+        "calls": 1045,
+        "calls_per_game": 9.68,
+        "out_tok_per_call": 170,
+        "in_tok_per_call": 4636,
+        "cost_per_game_usd": 0.00309
+      },
+      "gemma-4-31b": {
+        "games": 108,
+        "calls": 999,
+        "calls_per_game": 9.25,
+        "out_tok_per_call": 260,
+        "in_tok_per_call": 4609,
+        "cost_per_game_usd": 0.00692
+      },
+      "llama-3.3-70b": {
+        "games": 108,
+        "calls": 1141,
+        "calls_per_game": 10.56,
+        "out_tok_per_call": 213,
+        "in_tok_per_call": 4804,
+        "cost_per_game_usd": 0.03313
+      },
+      "mistral-nemo": {
+        "games": 108,
+        "calls": 935,
+        "calls_per_game": 8.66,
+        "out_tok_per_call": 153,
+        "in_tok_per_call": 4517,
+        "cost_per_game_usd": 0.00102
+      },
+      "gpt-oss-120b": {
+        "games": 108,
+        "calls": 922,
+        "calls_per_game": 8.54,
+        "out_tok_per_call": 601,
+        "in_tok_per_call": 4092,
+        "cost_per_game_usd": 0.01607
+      },
+      "gpt-oss-20b": {
+        "games": 108,
+        "calls": 910,
+        "calls_per_game": 8.43,
+        "out_tok_per_call": 843,
+        "in_tok_per_call": 4195,
+        "cost_per_game_usd": 0.00205
+      },
+      "qwen3-32b": {
+        "games": 108,
+        "calls": 1057,
+        "calls_per_game": 9.79,
+        "out_tok_per_call": 982,
+        "in_tok_per_call": 4400,
+        "cost_per_game_usd": 0.00614
+      },
+      "qwen3-80b": {
+        "games": 108,
+        "calls": 913,
+        "calls_per_game": 8.45,
+        "out_tok_per_call": 332,
+        "in_tok_per_call": 4485,
+        "cost_per_game_usd": 0.00588
+      },
+      "glm-4.5-air": {
+        "games": 108,
+        "calls": 1130,
+        "calls_per_game": 10.46,
+        "out_tok_per_call": 772,
+        "in_tok_per_call": 4662,
+        "cost_per_game_usd": 0.01039
+      }
+    },
+    "latency_data_gap": "GameCost stores calls but NO wall-time; Action has no timing field. No per-call latency exists in the records. Not estimated. v3 fix: instrument per-call latency in the adapter so avg-latency / calls-per-game columns become available.",
+    "calls_confound": "calls/game is driven by survival (longer-living seats take more turns) and role (wolves/seer/healer add night calls), not by model efficiency alone \u2014 read alongside Metric 2."
+  }
+}

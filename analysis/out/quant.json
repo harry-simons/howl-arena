@@ -1,0 +1,2141 @@
+{
+  "corpus": {
+    "games": 108,
+    "void": 0,
+    "prompt_version": [
+      "s2-v1"
+    ],
+    "winners": {
+      "werewolves": 49,
+      "villagers": 59
+    },
+    "rounds_dist": {
+      "2": 26,
+      "3": 49,
+      "4": 29,
+      "5": 3,
+      "6": 1
+    }
+  },
+  "ratings": {
+    "llama-3.3-70b": {
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "wolf": {
+        "rating": 1539.6408888283838,
+        "rd": 101.4514513143984,
+        "games": 24,
+        "wins": 13,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1572.290399992927,
+        "rd": 55.93082959658901,
+        "games": 84,
+        "wins": 48,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1556.0,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1600.5,
+        "games": 108,
+        "wins": 61,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -0.98,
+        "mu": 5.43,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 13,
+        "village_wins": 48,
+        "actions": 1138,
+        "refused": 0,
+        "malformed": 3,
+        "illegal": 50,
+        "timeout": 0,
+        "dead_votes": 48,
+        "cost": 3.5784312400000005,
+        "input_tokens": 5480884,
+        "output_tokens": 242537,
+        "calls": 1141,
+        "void_games": 0,
+        "providers": {
+          "SambaNova": 1137,
+          "Novita": 1
+        },
+        "quants": {
+          "bf16": 1138
+        },
+        "main_provider": "SambaNova",
+        "main_quant": "bf16"
+      }
+    },
+    "glm-4.5-air": {
+      "model": "z-ai/glm-4.5-air",
+      "wolf": {
+        "rating": 1500.0,
+        "rd": 101.45145130904382,
+        "games": 24,
+        "wins": 12,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1560.2419999921417,
+        "rd": 55.930829595677274,
+        "games": 84,
+        "wins": 47,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1530.1,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1561.0,
+        "games": 108,
+        "wins": 59,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -4.73,
+        "mu": 1.68,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 12,
+        "village_wins": 47,
+        "actions": 1053,
+        "refused": 0,
+        "malformed": 6,
+        "illegal": 12,
+        "timeout": 0,
+        "dead_votes": 11,
+        "cost": 1.1220451549999997,
+        "input_tokens": 5268346,
+        "output_tokens": 872479,
+        "calls": 1130,
+        "void_games": 0,
+        "providers": {
+          "Novita": 1053
+        },
+        "quants": {
+          "bf16": 1053
+        },
+        "main_provider": "Novita",
+        "main_quant": "bf16"
+      }
+    },
+    "qwen3-80b": {
+      "model": "qwen/qwen3-next-80b-a3b-instruct",
+      "wolf": {
+        "rating": 1460.3591111716162,
+        "rd": 101.4514513143984,
+        "games": 24,
+        "wins": 11,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1548.1935999924278,
+        "rd": 55.93082959493131,
+        "games": 84,
+        "wins": 46,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1504.3,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1598.9,
+        "games": 108,
+        "wins": 57,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -6.83,
+        "mu": -0.43,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 11,
+        "village_wins": 46,
+        "actions": 913,
+        "refused": 0,
+        "malformed": 0,
+        "illegal": 40,
+        "timeout": 0,
+        "dead_votes": 34,
+        "cost": 0.6353769825000004,
+        "input_tokens": 4094927,
+        "output_tokens": 302720,
+        "calls": 913,
+        "void_games": 0,
+        "providers": {
+          "Alibaba": 913
+        },
+        "quants": {},
+        "main_provider": "Alibaba",
+        "main_quant": null
+      }
+    },
+    "gpt-oss-20b": {
+      "model": "openai/gpt-oss-20b",
+      "wolf": {
+        "rating": 1182.8728872637016,
+        "rd": 101.45145165177762,
+        "games": 24,
+        "wins": 4,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1463.854800006429,
+        "rd": 55.93082959435111,
+        "games": 84,
+        "wins": 39,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1323.4,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1485.4,
+        "games": 108,
+        "wins": 43,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -14.66,
+        "mu": -8.25,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 4,
+        "village_wins": 39,
+        "actions": 847,
+        "refused": 0,
+        "malformed": 3,
+        "illegal": 6,
+        "timeout": 1,
+        "dead_votes": 5,
+        "cost": 0.22192817999999992,
+        "input_tokens": 3817400,
+        "output_tokens": 767187,
+        "calls": 910,
+        "void_games": 0,
+        "providers": {
+          "DeepInfra": 846
+        },
+        "quants": {
+          "bf16": 846
+        },
+        "main_provider": "DeepInfra",
+        "main_quant": "bf16"
+      }
+    },
+    "mistral-nemo": {
+      "model": "mistralai/mistral-nemo",
+      "wolf": {
+        "rating": 1539.6408888283838,
+        "rd": 101.4514513143984,
+        "games": 24,
+        "wins": 13,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1572.290399992927,
+        "rd": 55.93082959658901,
+        "games": 84,
+        "wins": 48,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1556.0,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1544.5,
+        "games": 108,
+        "wins": 61,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -2.82,
+        "mu": 3.58,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 13,
+        "village_wins": 48,
+        "actions": 945,
+        "refused": 0,
+        "malformed": 0,
+        "illegal": 34,
+        "timeout": 14,
+        "dead_votes": 13,
+        "cost": 0.10986175999999999,
+        "input_tokens": 4223753,
+        "output_tokens": 142943,
+        "calls": 935,
+        "void_games": 0,
+        "providers": {
+          "DeepInfra": 830,
+          "Novita": 101
+        },
+        "quants": {
+          "fp8": 931
+        },
+        "main_provider": "DeepInfra",
+        "main_quant": "fp8"
+      }
+    },
+    "nova-lite": {
+      "model": "amazon/nova-lite-v1",
+      "wolf": {
+        "rating": 1460.3591111716162,
+        "rd": 101.4514513143984,
+        "games": 24,
+        "wins": 11,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1548.1935999924278,
+        "rd": 55.93082959493131,
+        "games": 84,
+        "wins": 46,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1504.3,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1582.5,
+        "games": 108,
+        "wins": 57,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -7.71,
+        "mu": -1.3,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 11,
+        "village_wins": 46,
+        "actions": 1011,
+        "refused": 0,
+        "malformed": 8,
+        "illegal": 56,
+        "timeout": 0,
+        "dead_votes": 36,
+        "cost": 0.3332426400000001,
+        "input_tokens": 4845000,
+        "output_tokens": 177261,
+        "calls": 1045,
+        "void_games": 0,
+        "providers": {
+          "Amazon Bedrock": 1011
+        },
+        "quants": {},
+        "main_provider": "Amazon Bedrock",
+        "main_quant": null
+      }
+    },
+    "gemma-4-31b": {
+      "model": "google/gemma-4-31b-it",
+      "wolf": {
+        "rating": 1658.563555564612,
+        "rd": 101.45145139471974,
+        "games": 24,
+        "wins": 16,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1608.4356000038529,
+        "rd": 55.930829600318845,
+        "games": 84,
+        "wins": 51,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1633.5,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1643.0,
+        "games": 108,
+        "wins": 67,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": 0.77,
+        "mu": 7.18,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 16,
+        "village_wins": 51,
+        "actions": 1007,
+        "refused": 0,
+        "malformed": 0,
+        "illegal": 9,
+        "timeout": 10,
+        "dead_votes": 9,
+        "cost": 0.7476798000000006,
+        "input_tokens": 4604608,
+        "output_tokens": 259463,
+        "calls": 999,
+        "void_games": 0,
+        "providers": {
+          "Novita": 988,
+          "Venice": 9
+        },
+        "quants": {
+          "bf16": 997
+        },
+        "main_provider": "Novita",
+        "main_quant": "bf16"
+      }
+    },
+    "qwen3-32b": {
+      "model": "qwen/qwen3-32b",
+      "wolf": {
+        "rating": 1500.0,
+        "rd": 101.45145130904382,
+        "games": 24,
+        "wins": 12,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1560.2419999921417,
+        "rd": 55.930829595677274,
+        "games": 84,
+        "wins": 47,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1530.1,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1589.0,
+        "games": 108,
+        "wins": 59,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -4.74,
+        "mu": 1.66,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 12,
+        "village_wins": 47,
+        "actions": 976,
+        "refused": 0,
+        "malformed": 20,
+        "illegal": 19,
+        "timeout": 0,
+        "dead_votes": 16,
+        "cost": 0.6632919199999996,
+        "input_tokens": 4651040,
+        "output_tokens": 1037956,
+        "calls": 1057,
+        "void_games": 0,
+        "providers": {
+          "DeepInfra": 971,
+          "Nebius": 5
+        },
+        "quants": {
+          "fp8": 976
+        },
+        "main_provider": "DeepInfra",
+        "main_quant": "fp8"
+      }
+    },
+    "gpt-oss-120b": {
+      "model": "openai/gpt-oss-120b",
+      "wolf": {
+        "rating": 1262.154666150897,
+        "rd": 101.45145150182171,
+        "games": 24,
+        "wins": 6,
+        "provisional": false
+      },
+      "villager": {
+        "rating": 1487.9516000024287,
+        "rd": 55.930829593688046,
+        "games": 84,
+        "wins": 41,
+        "provisional": false
+      },
+      "overall": {
+        "rating": 1375.1,
+        "provisional": false
+      },
+      "elo": {
+        "rating": 1506.4,
+        "games": 108,
+        "wins": 47,
+        "provisional": false
+      },
+      "trueskill": {
+        "rating": -13.3,
+        "mu": -6.9,
+        "sigma": 2.14,
+        "games": 108,
+        "provisional": false
+      },
+      "stats": {
+        "games": 108,
+        "wolf_games": 24,
+        "village_games": 84,
+        "wolf_wins": 6,
+        "village_wins": 41,
+        "actions": 916,
+        "refused": 0,
+        "malformed": 0,
+        "illegal": 1,
+        "timeout": 1,
+        "dead_votes": 1,
+        "cost": 1.7356548499999993,
+        "input_tokens": 3772546,
+        "output_tokens": 553685,
+        "calls": 922,
+        "void_games": 0,
+        "providers": {
+          "Cerebras": 915
+        },
+        "quants": {
+          "fp16": 915
+        },
+        "main_provider": "Cerebras",
+        "main_quant": "fp16"
+      }
+    }
+  },
+  "provisional_shift": {
+    "n_games_prov": 31,
+    "overall_order_prov": [
+      "mistral-nemo",
+      "glm-4.5-air",
+      "gemma-4-31b",
+      "qwen3-32b",
+      "qwen3-80b",
+      "llama-3.3-70b",
+      "gpt-oss-120b",
+      "nova-lite",
+      "gpt-oss-20b"
+    ],
+    "overall_order_final": [
+      "gemma-4-31b",
+      "llama-3.3-70b",
+      "mistral-nemo",
+      "glm-4.5-air",
+      "qwen3-32b",
+      "qwen3-80b",
+      "nova-lite",
+      "gpt-oss-120b",
+      "gpt-oss-20b"
+    ],
+    "prov_ratings": {
+      "llama-3.3-70b": 1480.0,
+      "glm-4.5-air": 1588.0,
+      "qwen3-80b": 1511.0,
+      "gpt-oss-20b": 1337.0,
+      "mistral-nemo": 1630.0,
+      "nova-lite": 1410.0,
+      "gemma-4-31b": 1588.0,
+      "qwen3-32b": 1552.0,
+      "gpt-oss-120b": 1465.0
+    },
+    "final_ratings": {
+      "llama-3.3-70b": 1556.0,
+      "glm-4.5-air": 1530.0,
+      "qwen3-80b": 1504.0,
+      "gpt-oss-20b": 1323.0,
+      "mistral-nemo": 1556.0,
+      "nova-lite": 1504.0,
+      "gemma-4-31b": 1634.0,
+      "qwen3-32b": 1530.0,
+      "gpt-oss-120b": 1375.0
+    }
+  },
+  "role_asymmetry": {
+    "llama-3.3-70b": {
+      "wolf_games": 24,
+      "wolf_wins": 13,
+      "wolf_wr": 0.542,
+      "wolf_wr_ci": [
+        0.351,
+        0.721
+      ],
+      "wolf_rating": 1540.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 48,
+      "vil_wr": 0.571,
+      "vil_wr_ci": [
+        0.465,
+        0.672
+      ],
+      "vil_rating": 1572.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -33.0
+    },
+    "glm-4.5-air": {
+      "wolf_games": 24,
+      "wolf_wins": 12,
+      "wolf_wr": 0.5,
+      "wolf_wr_ci": [
+        0.314,
+        0.686
+      ],
+      "wolf_rating": 1500.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 47,
+      "vil_wr": 0.56,
+      "vil_wr_ci": [
+        0.453,
+        0.661
+      ],
+      "vil_rating": 1560.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -60.0
+    },
+    "qwen3-80b": {
+      "wolf_games": 24,
+      "wolf_wins": 11,
+      "wolf_wr": 0.458,
+      "wolf_wr_ci": [
+        0.279,
+        0.649
+      ],
+      "wolf_rating": 1460.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 46,
+      "vil_wr": 0.548,
+      "vil_wr_ci": [
+        0.441,
+        0.65
+      ],
+      "vil_rating": 1548.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -88.0
+    },
+    "gpt-oss-20b": {
+      "wolf_games": 24,
+      "wolf_wins": 4,
+      "wolf_wr": 0.167,
+      "wolf_wr_ci": [
+        0.067,
+        0.359
+      ],
+      "wolf_rating": 1183.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 39,
+      "vil_wr": 0.464,
+      "vil_wr_ci": [
+        0.362,
+        0.57
+      ],
+      "vil_rating": 1464.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -281.0
+    },
+    "mistral-nemo": {
+      "wolf_games": 24,
+      "wolf_wins": 13,
+      "wolf_wr": 0.542,
+      "wolf_wr_ci": [
+        0.351,
+        0.721
+      ],
+      "wolf_rating": 1540.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 48,
+      "vil_wr": 0.571,
+      "vil_wr_ci": [
+        0.465,
+        0.672
+      ],
+      "vil_rating": 1572.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -33.0
+    },
+    "nova-lite": {
+      "wolf_games": 24,
+      "wolf_wins": 11,
+      "wolf_wr": 0.458,
+      "wolf_wr_ci": [
+        0.279,
+        0.649
+      ],
+      "wolf_rating": 1460.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 46,
+      "vil_wr": 0.548,
+      "vil_wr_ci": [
+        0.441,
+        0.65
+      ],
+      "vil_rating": 1548.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -88.0
+    },
+    "gemma-4-31b": {
+      "wolf_games": 24,
+      "wolf_wins": 16,
+      "wolf_wr": 0.667,
+      "wolf_wr_ci": [
+        0.467,
+        0.82
+      ],
+      "wolf_rating": 1659.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 51,
+      "vil_wr": 0.607,
+      "vil_wr_ci": [
+        0.5,
+        0.705
+      ],
+      "vil_rating": 1608.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": 50.0
+    },
+    "qwen3-32b": {
+      "wolf_games": 24,
+      "wolf_wins": 12,
+      "wolf_wr": 0.5,
+      "wolf_wr_ci": [
+        0.314,
+        0.686
+      ],
+      "wolf_rating": 1500.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 47,
+      "vil_wr": 0.56,
+      "vil_wr_ci": [
+        0.453,
+        0.661
+      ],
+      "vil_rating": 1560.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -60.0
+    },
+    "gpt-oss-120b": {
+      "wolf_games": 24,
+      "wolf_wins": 6,
+      "wolf_wr": 0.25,
+      "wolf_wr_ci": [
+        0.12,
+        0.449
+      ],
+      "wolf_rating": 1262.0,
+      "wolf_rd": 101.0,
+      "vil_games": 84,
+      "vil_wins": 41,
+      "vil_wr": 0.488,
+      "vil_wr_ci": [
+        0.384,
+        0.593
+      ],
+      "vil_rating": 1488.0,
+      "vil_rd": 56.0,
+      "rating_gap_wolf_minus_vil": -226.0
+    }
+  },
+  "win_dynamics": {
+    "winners": {
+      "werewolves": 49,
+      "villagers": 59
+    },
+    "village_wr": 0.546,
+    "wolf_wr": 0.454,
+    "rounds_dist": {
+      "2": 26,
+      "3": 49,
+      "4": 29,
+      "5": 3,
+      "6": 1
+    },
+    "mean_rounds": 3.11,
+    "how_games_end": {
+      "parity_wolves_win": 49,
+      "all_wolves_dead": 59
+    },
+    "d1_lynch": {
+      "games_with_d1_elim": 108,
+      "games_no_d1_elim": 0,
+      "d1_hit_wolf": 46,
+      "d1_accuracy": 0.426,
+      "d1_random_baseline": 0.222
+    },
+    "d1_catch_predicts_win": {
+      "vil_wr_when_d1_caught_wolf": [
+        37,
+        46,
+        0.804
+      ],
+      "vil_wr_when_d1_missed": [
+        22,
+        62,
+        0.355
+      ]
+    }
+  },
+  "wolf_pairs": {
+    "glm-4.5-air + qwen3-32b": {
+      "wins": 3,
+      "games": 3,
+      "wr": 1.0
+    },
+    "gemma-4-31b + qwen3-80b": {
+      "wins": 3,
+      "games": 3,
+      "wr": 1.0
+    },
+    "nova-lite + qwen3-80b": {
+      "wins": 3,
+      "games": 3,
+      "wr": 1.0
+    },
+    "gemma-4-31b + mistral-nemo": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gemma-4-31b + gpt-oss-20b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "llama-3.3-70b + qwen3-32b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gemma-4-31b + llama-3.3-70b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gemma-4-31b + qwen3-32b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "mistral-nemo + qwen3-32b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gpt-oss-120b + llama-3.3-70b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "llama-3.3-70b + nova-lite": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "glm-4.5-air + qwen3-80b": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "llama-3.3-70b + mistral-nemo": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gemma-4-31b + glm-4.5-air": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "mistral-nemo + nova-lite": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gpt-oss-120b + mistral-nemo": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "glm-4.5-air + mistral-nemo": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gemma-4-31b + nova-lite": {
+      "wins": 2,
+      "games": 3,
+      "wr": 0.667
+    },
+    "gpt-oss-20b + llama-3.3-70b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "glm-4.5-air + llama-3.3-70b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "llama-3.3-70b + qwen3-80b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "gpt-oss-20b + qwen3-32b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "glm-4.5-air + gpt-oss-120b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "glm-4.5-air + nova-lite": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "gemma-4-31b + gpt-oss-120b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "qwen3-32b + qwen3-80b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "nova-lite + qwen3-32b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "mistral-nemo + qwen3-80b": {
+      "wins": 1,
+      "games": 3,
+      "wr": 0.333
+    },
+    "gpt-oss-20b + qwen3-80b": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-120b + qwen3-80b": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-120b + gpt-oss-20b": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-120b + qwen3-32b": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-20b + nova-lite": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "glm-4.5-air + gpt-oss-20b": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-20b + mistral-nemo": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    },
+    "gpt-oss-120b + nova-lite": {
+      "wins": 0,
+      "games": 3,
+      "wr": 0.0
+    }
+  },
+  "partner_dependence": {
+    "gemma-4-31b": {
+      "qwen3-80b": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-20b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "llama-3.3-70b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "qwen3-32b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "glm-4.5-air": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "nova-lite": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-120b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      }
+    },
+    "glm-4.5-air": {
+      "qwen3-32b": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "qwen3-80b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "llama-3.3-70b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-120b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "nova-lite": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-20b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "gpt-oss-120b": {
+      "llama-3.3-70b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "glm-4.5-air": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gemma-4-31b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-80b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "gpt-oss-20b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "qwen3-32b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "nova-lite": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "gpt-oss-20b": {
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "llama-3.3-70b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-32b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-80b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "gpt-oss-120b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "nova-lite": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "glm-4.5-air": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "mistral-nemo": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "llama-3.3-70b": {
+      "qwen3-32b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-120b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "nova-lite": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-20b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "glm-4.5-air": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-80b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      }
+    },
+    "mistral-nemo": {
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "qwen3-32b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "llama-3.3-70b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "nova-lite": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-120b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "glm-4.5-air": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "qwen3-80b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-20b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "nova-lite": {
+      "qwen3-80b": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "llama-3.3-70b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "glm-4.5-air": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-32b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-20b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "gpt-oss-120b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "qwen3-32b": {
+      "glm-4.5-air": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "llama-3.3-70b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gemma-4-31b": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "mistral-nemo": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "gpt-oss-20b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-80b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "nova-lite": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-120b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    },
+    "qwen3-80b": {
+      "gemma-4-31b": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "nova-lite": {
+        "wins": 3,
+        "games": 3,
+        "wr": 1.0
+      },
+      "glm-4.5-air": {
+        "wins": 2,
+        "games": 3,
+        "wr": 0.667
+      },
+      "llama-3.3-70b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "qwen3-32b": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "mistral-nemo": {
+        "wins": 1,
+        "games": 3,
+        "wr": 0.333
+      },
+      "gpt-oss-20b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      },
+      "gpt-oss-120b": {
+        "wins": 0,
+        "games": 3,
+        "wr": 0.0
+      }
+    }
+  },
+  "behavioral": {
+    "llama-3.3-70b": {
+      "actions": 1138,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 3,
+      "malformed_rate": 0.0026,
+      "illegal": 50,
+      "illegal_rate": 0.0439,
+      "timeout": 0,
+      "timeout_rate": 0.0,
+      "dead_votes": 48,
+      "dead_vote_rate": 0.0422
+    },
+    "glm-4.5-air": {
+      "actions": 1053,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 6,
+      "malformed_rate": 0.0057,
+      "illegal": 12,
+      "illegal_rate": 0.0114,
+      "timeout": 0,
+      "timeout_rate": 0.0,
+      "dead_votes": 11,
+      "dead_vote_rate": 0.0104
+    },
+    "qwen3-80b": {
+      "actions": 913,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 0,
+      "malformed_rate": 0.0,
+      "illegal": 40,
+      "illegal_rate": 0.0438,
+      "timeout": 0,
+      "timeout_rate": 0.0,
+      "dead_votes": 34,
+      "dead_vote_rate": 0.0372
+    },
+    "gpt-oss-20b": {
+      "actions": 847,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 3,
+      "malformed_rate": 0.0035,
+      "illegal": 6,
+      "illegal_rate": 0.0071,
+      "timeout": 1,
+      "timeout_rate": 0.0012,
+      "dead_votes": 5,
+      "dead_vote_rate": 0.0059
+    },
+    "mistral-nemo": {
+      "actions": 945,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 0,
+      "malformed_rate": 0.0,
+      "illegal": 34,
+      "illegal_rate": 0.036,
+      "timeout": 14,
+      "timeout_rate": 0.0148,
+      "dead_votes": 13,
+      "dead_vote_rate": 0.0138
+    },
+    "nova-lite": {
+      "actions": 1011,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 8,
+      "malformed_rate": 0.0079,
+      "illegal": 56,
+      "illegal_rate": 0.0554,
+      "timeout": 0,
+      "timeout_rate": 0.0,
+      "dead_votes": 36,
+      "dead_vote_rate": 0.0356
+    },
+    "gemma-4-31b": {
+      "actions": 1007,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 0,
+      "malformed_rate": 0.0,
+      "illegal": 9,
+      "illegal_rate": 0.0089,
+      "timeout": 10,
+      "timeout_rate": 0.0099,
+      "dead_votes": 9,
+      "dead_vote_rate": 0.0089
+    },
+    "qwen3-32b": {
+      "actions": 976,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 20,
+      "malformed_rate": 0.0205,
+      "illegal": 19,
+      "illegal_rate": 0.0195,
+      "timeout": 0,
+      "timeout_rate": 0.0,
+      "dead_votes": 16,
+      "dead_vote_rate": 0.0164
+    },
+    "gpt-oss-120b": {
+      "actions": 916,
+      "refused": 0,
+      "refused_rate": 0.0,
+      "malformed": 0,
+      "malformed_rate": 0.0,
+      "illegal": 1,
+      "illegal_rate": 0.0011,
+      "timeout": 1,
+      "timeout_rate": 0.0011,
+      "dead_votes": 1,
+      "dead_vote_rate": 0.0011
+    }
+  },
+  "manipulation": {
+    "team_mislynch_rate_d1": 0.574,
+    "team_mislynch_rate_d2plus": 0.508,
+    "team_elim_counts": {
+      "d1": [
+        62,
+        108
+      ],
+      "d2plus": [
+        97,
+        191
+      ]
+    },
+    "per_wolf_model": {
+      "gemma-4-31b": {
+        "d1_mislynch": 18,
+        "d1_elim": 24,
+        "d1_rate": 0.75,
+        "d2_mislynch": 24,
+        "d2_elim": 38,
+        "d2_rate": 0.632
+      },
+      "glm-4.5-air": {
+        "d1_mislynch": 14,
+        "d1_elim": 24,
+        "d1_rate": 0.583,
+        "d2_mislynch": 21,
+        "d2_elim": 34,
+        "d2_rate": 0.618
+      },
+      "gpt-oss-120b": {
+        "d1_mislynch": 10,
+        "d1_elim": 24,
+        "d1_rate": 0.417,
+        "d2_mislynch": 1,
+        "d2_elim": 12,
+        "d2_rate": 0.083
+      },
+      "gpt-oss-20b": {
+        "d1_mislynch": 7,
+        "d1_elim": 24,
+        "d1_rate": 0.292,
+        "d2_mislynch": 4,
+        "d2_elim": 20,
+        "d2_rate": 0.2
+      },
+      "llama-3.3-70b": {
+        "d1_mislynch": 16,
+        "d1_elim": 24,
+        "d1_rate": 0.667,
+        "d2_mislynch": 25,
+        "d2_elim": 39,
+        "d2_rate": 0.641
+      },
+      "mistral-nemo": {
+        "d1_mislynch": 16,
+        "d1_elim": 24,
+        "d1_rate": 0.667,
+        "d2_mislynch": 16,
+        "d2_elim": 29,
+        "d2_rate": 0.552
+      },
+      "nova-lite": {
+        "d1_mislynch": 18,
+        "d1_elim": 24,
+        "d1_rate": 0.75,
+        "d2_mislynch": 14,
+        "d2_elim": 34,
+        "d2_rate": 0.412
+      },
+      "qwen3-32b": {
+        "d1_mislynch": 14,
+        "d1_elim": 24,
+        "d1_rate": 0.583,
+        "d2_mislynch": 16,
+        "d2_elim": 29,
+        "d2_rate": 0.552
+      },
+      "qwen3-80b": {
+        "d1_mislynch": 11,
+        "d1_elim": 24,
+        "d1_rate": 0.458,
+        "d2_mislynch": 12,
+        "d2_elim": 27,
+        "d2_rate": 0.444
+      }
+    }
+  },
+  "auto_sabotage": {
+    "games_with_powerrole_lynched": 58,
+    "seer_lynched": 41,
+    "healer_lynched": 29,
+    "rate_games": 0.537,
+    "villager_votes_to_lynch_powerrole": {
+      "gemma-4-31b": 34,
+      "qwen3-32b": 32,
+      "gpt-oss-120b": 32,
+      "llama-3.3-70b": 32,
+      "mistral-nemo": 32,
+      "qwen3-80b": 30,
+      "gpt-oss-20b": 30,
+      "glm-4.5-air": 27,
+      "nova-lite": 23
+    }
+  },
+  "persuasion": {
+    "lean_fill": {
+      "speak_total": 5826,
+      "speak_with_lean": 4605
+    },
+    "advocacy_success": {
+      "glm-4.5-air": {
+        "turns": 539,
+        "hits": 337,
+        "hit_rate": 0.625
+      },
+      "gemma-4-31b": {
+        "turns": 619,
+        "hits": 374,
+        "hit_rate": 0.604
+      },
+      "qwen3-80b": {
+        "turns": 568,
+        "hits": 321,
+        "hit_rate": 0.565
+      },
+      "llama-3.3-70b": {
+        "turns": 644,
+        "hits": 351,
+        "hit_rate": 0.545
+      },
+      "mistral-nemo": {
+        "turns": 357,
+        "hits": 187,
+        "hit_rate": 0.524
+      },
+      "qwen3-32b": {
+        "turns": 586,
+        "hits": 303,
+        "hit_rate": 0.517
+      },
+      "gpt-oss-120b": {
+        "turns": 517,
+        "hits": 266,
+        "hit_rate": 0.515
+      },
+      "gpt-oss-20b": {
+        "turns": 460,
+        "hits": 217,
+        "hit_rate": 0.472
+      },
+      "nova-lite": {
+        "turns": 315,
+        "hits": 136,
+        "hit_rate": 0.432
+      }
+    }
+  },
+  "power_roles": {
+    "seer": {
+      "gemma-4-31b": {
+        "games": 6,
+        "investigations": 11,
+        "wolf_finds": 8,
+        "survived_to_end": 2,
+        "vil_wins": 6,
+        "wolf_find_rate": 0.727,
+        "survival_rate": 0.333,
+        "vil_wr_with_seer": 1.0
+      },
+      "glm-4.5-air": {
+        "games": 14,
+        "investigations": 25,
+        "wolf_finds": 8,
+        "survived_to_end": 3,
+        "vil_wins": 6,
+        "wolf_find_rate": 0.32,
+        "survival_rate": 0.214,
+        "vil_wr_with_seer": 0.429
+      },
+      "gpt-oss-120b": {
+        "games": 18,
+        "investigations": 32,
+        "wolf_finds": 11,
+        "survived_to_end": 5,
+        "vil_wins": 8,
+        "wolf_find_rate": 0.344,
+        "survival_rate": 0.278,
+        "vil_wr_with_seer": 0.444
+      },
+      "gpt-oss-20b": {
+        "games": 13,
+        "investigations": 15,
+        "wolf_finds": 4,
+        "survived_to_end": 2,
+        "vil_wins": 9,
+        "wolf_find_rate": 0.267,
+        "survival_rate": 0.154,
+        "vil_wr_with_seer": 0.692
+      },
+      "llama-3.3-70b": {
+        "games": 19,
+        "investigations": 43,
+        "wolf_finds": 13,
+        "survived_to_end": 11,
+        "vil_wins": 9,
+        "wolf_find_rate": 0.302,
+        "survival_rate": 0.579,
+        "vil_wr_with_seer": 0.474
+      },
+      "mistral-nemo": {
+        "games": 9,
+        "investigations": 14,
+        "wolf_finds": 4,
+        "survived_to_end": 3,
+        "vil_wins": 4,
+        "wolf_find_rate": 0.286,
+        "survival_rate": 0.333,
+        "vil_wr_with_seer": 0.444
+      },
+      "nova-lite": {
+        "games": 8,
+        "investigations": 11,
+        "wolf_finds": 1,
+        "survived_to_end": 1,
+        "vil_wins": 3,
+        "wolf_find_rate": 0.091,
+        "survival_rate": 0.125,
+        "vil_wr_with_seer": 0.375
+      },
+      "qwen3-32b": {
+        "games": 11,
+        "investigations": 14,
+        "wolf_finds": 6,
+        "survived_to_end": 3,
+        "vil_wins": 6,
+        "wolf_find_rate": 0.429,
+        "survival_rate": 0.273,
+        "vil_wr_with_seer": 0.545
+      },
+      "qwen3-80b": {
+        "games": 10,
+        "investigations": 15,
+        "wolf_finds": 4,
+        "survived_to_end": 1,
+        "vil_wins": 8,
+        "wolf_find_rate": 0.267,
+        "survival_rate": 0.1,
+        "vil_wr_with_seer": 0.8
+      }
+    },
+    "healer": {
+      "gemma-4-31b": {
+        "games": 6,
+        "protects": 14,
+        "saves": 3,
+        "self_protect": 11,
+        "vil_wins": 3,
+        "save_rate_per_protect": 0.214,
+        "self_protect_rate": 0.786,
+        "vil_wr_with_healer": 0.5
+      },
+      "glm-4.5-air": {
+        "games": 13,
+        "protects": 34,
+        "saves": 10,
+        "self_protect": 22,
+        "vil_wins": 8,
+        "save_rate_per_protect": 0.294,
+        "self_protect_rate": 0.647,
+        "vil_wr_with_healer": 0.615
+      },
+      "gpt-oss-120b": {
+        "games": 12,
+        "protects": 30,
+        "saves": 8,
+        "self_protect": 21,
+        "vil_wins": 7,
+        "save_rate_per_protect": 0.267,
+        "self_protect_rate": 0.7,
+        "vil_wr_with_healer": 0.583
+      },
+      "gpt-oss-20b": {
+        "games": 14,
+        "protects": 28,
+        "saves": 8,
+        "self_protect": 11,
+        "vil_wins": 5,
+        "save_rate_per_protect": 0.286,
+        "self_protect_rate": 0.393,
+        "vil_wr_with_healer": 0.357
+      },
+      "llama-3.3-70b": {
+        "games": 9,
+        "protects": 28,
+        "saves": 2,
+        "self_protect": 13,
+        "vil_wins": 6,
+        "save_rate_per_protect": 0.071,
+        "self_protect_rate": 0.464,
+        "vil_wr_with_healer": 0.667
+      },
+      "mistral-nemo": {
+        "games": 7,
+        "protects": 16,
+        "saves": 2,
+        "self_protect": 7,
+        "vil_wins": 6,
+        "save_rate_per_protect": 0.125,
+        "self_protect_rate": 0.438,
+        "vil_wr_with_healer": 0.857
+      },
+      "nova-lite": {
+        "games": 12,
+        "protects": 23,
+        "saves": 2,
+        "self_protect": 1,
+        "vil_wins": 4,
+        "save_rate_per_protect": 0.087,
+        "self_protect_rate": 0.043,
+        "vil_wr_with_healer": 0.333
+      },
+      "qwen3-32b": {
+        "games": 13,
+        "protects": 28,
+        "saves": 7,
+        "self_protect": 14,
+        "vil_wins": 7,
+        "save_rate_per_protect": 0.25,
+        "self_protect_rate": 0.5,
+        "vil_wr_with_healer": 0.538
+      },
+      "qwen3-80b": {
+        "games": 22,
+        "protects": 55,
+        "saves": 20,
+        "self_protect": 43,
+        "vil_wins": 13,
+        "save_rate_per_protect": 0.364,
+        "self_protect_rate": 0.782,
+        "vil_wr_with_healer": 0.591
+      }
+    },
+    "seer_claim": {
+      "games_with_seer": 108,
+      "seer_claimed": 46,
+      "claim_rate": 0.426
+    },
+    "healer_team": {
+      "total_saves": 62,
+      "total_protects": 256,
+      "save_rate": 0.242
+    },
+    "seer_survival_vs_village_win": {
+      "survived": [
+        26,
+        31,
+        0.839
+      ],
+      "died": [
+        33,
+        77,
+        0.429
+      ]
+    }
+  },
+  "cost": {
+    "total_season_cost_usd": 9.1475,
+    "cost_per_game_mean_usd": 0.0847,
+    "per_model": {
+      "llama-3.3-70b": {
+        "total_cost_usd": 3.5784,
+        "games": 108,
+        "cost_per_game_usd": 0.03313,
+        "calls": 1141,
+        "input_tokens": 5480884,
+        "output_tokens": 242537,
+        "overall_rating": 1556.0,
+        "rating_above_1500_per_usd": 15.6
+      },
+      "glm-4.5-air": {
+        "total_cost_usd": 1.122,
+        "games": 108,
+        "cost_per_game_usd": 0.01039,
+        "calls": 1130,
+        "input_tokens": 5268346,
+        "output_tokens": 872479,
+        "overall_rating": 1530.0,
+        "rating_above_1500_per_usd": 26.8
+      },
+      "qwen3-80b": {
+        "total_cost_usd": 0.6354,
+        "games": 108,
+        "cost_per_game_usd": 0.00588,
+        "calls": 913,
+        "input_tokens": 4094927,
+        "output_tokens": 302720,
+        "overall_rating": 1504.0,
+        "rating_above_1500_per_usd": 6.8
+      },
+      "gpt-oss-20b": {
+        "total_cost_usd": 0.2219,
+        "games": 108,
+        "cost_per_game_usd": 0.00205,
+        "calls": 910,
+        "input_tokens": 3817400,
+        "output_tokens": 767187,
+        "overall_rating": 1323.0,
+        "rating_above_1500_per_usd": -795.8
+      },
+      "mistral-nemo": {
+        "total_cost_usd": 0.1099,
+        "games": 108,
+        "cost_per_game_usd": 0.00102,
+        "calls": 935,
+        "input_tokens": 4223753,
+        "output_tokens": 142943,
+        "overall_rating": 1556.0,
+        "rating_above_1500_per_usd": 509.7
+      },
+      "nova-lite": {
+        "total_cost_usd": 0.3332,
+        "games": 108,
+        "cost_per_game_usd": 0.00309,
+        "calls": 1045,
+        "input_tokens": 4845000,
+        "output_tokens": 177261,
+        "overall_rating": 1504.0,
+        "rating_above_1500_per_usd": 12.9
+      },
+      "gemma-4-31b": {
+        "total_cost_usd": 0.7477,
+        "games": 108,
+        "cost_per_game_usd": 0.00692,
+        "calls": 999,
+        "input_tokens": 4604608,
+        "output_tokens": 259463,
+        "overall_rating": 1634.0,
+        "rating_above_1500_per_usd": 178.6
+      },
+      "qwen3-32b": {
+        "total_cost_usd": 0.6633,
+        "games": 108,
+        "cost_per_game_usd": 0.00614,
+        "calls": 1057,
+        "input_tokens": 4651040,
+        "output_tokens": 1037956,
+        "overall_rating": 1530.0,
+        "rating_above_1500_per_usd": 45.4
+      },
+      "gpt-oss-120b": {
+        "total_cost_usd": 1.7357,
+        "games": 108,
+        "cost_per_game_usd": 0.01607,
+        "calls": 922,
+        "input_tokens": 3772546,
+        "output_tokens": 553685,
+        "overall_rating": 1375.0,
+        "rating_above_1500_per_usd": -72.0
+      }
+    }
+  },
+  "validity": {
+    "void_games": 0,
+    "seat_win_rate": {
+      "0": [
+        55,
+        108,
+        0.509
+      ],
+      "1": [
+        58,
+        108,
+        0.537
+      ],
+      "2": [
+        51,
+        108,
+        0.472
+      ],
+      "3": [
+        53,
+        108,
+        0.491
+      ],
+      "4": [
+        58,
+        108,
+        0.537
+      ],
+      "5": [
+        58,
+        108,
+        0.537
+      ],
+      "6": [
+        59,
+        108,
+        0.546
+      ],
+      "7": [
+        56,
+        108,
+        0.519
+      ],
+      "8": [
+        63,
+        108,
+        0.583
+      ]
+    },
+    "seat_d1_elim_rate": {
+      "0": [
+        15,
+        108,
+        0.139
+      ],
+      "1": [
+        23,
+        108,
+        0.213
+      ],
+      "2": [
+        20,
+        108,
+        0.185
+      ],
+      "3": [
+        13,
+        108,
+        0.12
+      ],
+      "4": [
+        10,
+        108,
+        0.093
+      ],
+      "5": [
+        12,
+        108,
+        0.111
+      ],
+      "6": [
+        4,
+        108,
+        0.037
+      ],
+      "7": [
+        6,
+        108,
+        0.056
+      ],
+      "8": [
+        5,
+        108,
+        0.046
+      ]
+    },
+    "seat_role_counts": {
+      "0": {
+        "werewolf": 32,
+        "healer": 13,
+        "villager": 50,
+        "seer": 13
+      },
+      "1": {
+        "villager": 63,
+        "seer": 14,
+        "werewolf": 23,
+        "healer": 8
+      },
+      "2": {
+        "werewolf": 26,
+        "villager": 54,
+        "healer": 15,
+        "seer": 13
+      },
+      "3": {
+        "seer": 11,
+        "villager": 66,
+        "healer": 11,
+        "werewolf": 20
+      },
+      "4": {
+        "villager": 53,
+        "healer": 14,
+        "werewolf": 25,
+        "seer": 16
+      },
+      "5": {
+        "villager": 58,
+        "werewolf": 19,
+        "seer": 13,
+        "healer": 18
+      },
+      "6": {
+        "villager": 68,
+        "seer": 9,
+        "healer": 9,
+        "werewolf": 22
+      },
+      "7": {
+        "healer": 13,
+        "werewolf": 21,
+        "villager": 63,
+        "seer": 11
+      },
+      "8": {
+        "villager": 65,
+        "seer": 8,
+        "werewolf": 28,
+        "healer": 7
+      }
+    },
+    "seat_win_rate_spread": {
+      "min": 0.472,
+      "max": 0.583,
+      "mean": 0.526,
+      "stdev": 0.031
+    }
+  }
+}

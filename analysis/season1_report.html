@@ -1,0 +1,262 @@
+<title>Howl Arena &mdash; Season 1 Technical Analysis</title>
+<style>
+  :root{
+    --bg:#faf9f5; --surface:#ffffff; --ink:#1c1b18; --muted:#6b6a63; --faint:#9b9a91;
+    --line:#e6e4db; --accent:#534ab7; --wolf:#993c1d; --vil:#0f6e56;
+    --bar-bg:#efeee7; --good:#1d9e75; --bad:#d85a30; --warn:#ba7517;
+    --radius:12px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1a1916; --surface:#232220; --ink:#ecebe4; --muted:#a3a299; --faint:#76756d;
+      --line:#34332e; --accent:#afa9ec; --wolf:#f0997b; --vil:#5dcaa5; --bar-bg:#2c2b27;
+      --good:#5dcaa5; --bad:#f0997b; --warn:#ef9f27; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  h1{font-size:30px;font-weight:600;margin:0 0 .3rem;letter-spacing:-.02em}
+  h2{font-size:21px;font-weight:600;margin:2.6rem 0 .2rem;letter-spacing:-.01em}
+  h2 .n{color:var(--faint);font-weight:500;margin-right:.5rem}
+  .sub{color:var(--muted);font-size:15px;margin:.1rem 0 1.1rem}
+  .lede{font-size:14px;color:var(--muted)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.25rem;margin:1rem 0}
+  .headline{border-left:4px solid var(--accent);border-radius:0;background:var(--surface)}
+  .headline strong{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:.4rem 0}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .band1{color:var(--vil)} .band2{color:var(--bad)}
+  .pill{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:20px;font-weight:500}
+  .p-b1{background:rgba(29,158,117,.14);color:var(--vil)}
+  .p-b2{background:rgba(216,90,48,.14);color:var(--bad)}
+  .grid{display:grid;gap:12px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .metric{background:var(--bar-bg);border-radius:8px;padding:.8rem .9rem}
+  .metric .v{font-size:25px;font-weight:600;letter-spacing:-.01em}
+  .metric .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .row{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:10px;margin:5px 0;font-size:13.5px}
+  .row .lab{color:var(--ink);font-variant-numeric:tabular-nums}
+  .track{background:var(--bar-bg);border-radius:5px;height:16px;position:relative;overflow:hidden}
+  .fill{height:100%;border-radius:5px}
+  .row .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+  .split{display:grid;grid-template-columns:118px 1fr 1fr;align-items:center;gap:8px;margin:5px 0;font-size:13px}
+  .splitbar{display:flex;align-items:center;height:16px}
+  .ci{position:absolute;top:50%;height:2px;background:rgba(0,0,0,.32);transform:translateY(-50%)}
+  @media(prefers-color-scheme:dark){.ci{background:rgba(255,255,255,.4)}}
+  .legend{font-size:12.5px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;margin:.3rem 0 .6rem}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:4px}
+  .prof{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1.05rem}
+  .prof h3{margin:0 0 .15rem;font-size:15.5px;font-weight:600}
+  .prof .arch{color:var(--accent);font-weight:500}
+  .prof p{margin:.35rem 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+  .prof .tag{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
+  .quote{font-style:italic;color:var(--ink);border-left:3px solid var(--line);padding-left:.8rem;margin:.5rem 0;font-size:13.5px}
+  .footer{color:var(--faint);font-size:12.5px;margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1rem}
+  .cap li{font-size:13.5px;color:var(--muted);margin:.3rem 0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:var(--bar-bg);padding:1px 5px;border-radius:4px}
+</style>
+<div class="wrap">
+
+<h1>Howl Arena &mdash; Season 1</h1>
+<div class="sub">Full technical analysis &middot; 108 games &middot; 9 models (&le;120B, 7 labs) &middot; v2 format &middot; prompt <code>s2-v1</code> &middot; 0 void</div>
+
+<div class="card headline">
+  <div style="font-size:12px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">The one honest headline</div>
+  At 108 games the only statistically robust skill conclusions are: <strong>gemma-4-31b is the strongest player and the two gpt-oss models the weakest &mdash; and both facts are driven almost entirely by the werewolf (deception) role.</strong> The villager (detection) ladder is statistically flat (0 of 36 pairwise comparisons significant). Places 2&ndash;7 are within noise and reshuffle by rating system. Treat the precise order as entertainment; treat the top/bottom split and the role-asymmetry finding as real.
+</div>
+
+<div class="grid g3">
+  <div class="metric"><div class="v">54.6%</div><div class="l">village win rate (59/108)</div></div>
+  <div class="metric"><div class="v">3.11</div><div class="l">mean day-rounds</div></div>
+  <div class="metric"><div class="v">$9.15</div><div class="l">whole season ($0.085/game)</div></div>
+</div>
+
+<h2><span class="n">1</span>Standings &amp; significance</h2>
+<div class="sub">Role-conditional Glicko-2. Bands from two-proportion z-tests (p&lt;0.05). Models with identical ratings share an identical win record.</div>
+<div class="card" style="padding:.4rem 1rem">
+<table>
+  <tr><th>#</th><th>Model</th><th class="num">Overall</th><th class="num">Wolf (24)</th><th class="num">Villager (84)</th><th>Band</th></tr>
+  <tr><td>1</td><td>gemma-4-31b</td><td class="num">1634</td><td class="num">1659</td><td class="num">1608</td><td><span class="pill p-b1">top</span></td></tr>
+  <tr><td>2</td><td>mistral-nemo</td><td class="num">1556</td><td class="num">1540</td><td class="num">1572</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>2</td><td>llama-3.3-70b</td><td class="num">1556</td><td class="num">1540</td><td class="num">1572</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>4</td><td>qwen3-32b</td><td class="num">1530</td><td class="num">1500</td><td class="num">1560</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>4</td><td>glm-4.5-air</td><td class="num">1530</td><td class="num">1500</td><td class="num">1560</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>6</td><td>qwen3-80b</td><td class="num">1504</td><td class="num">1460</td><td class="num">1548</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>6</td><td>nova-lite</td><td class="num">1504</td><td class="num">1460</td><td class="num">1548</td><td><span class="pill p-b1">band 1</span></td></tr>
+  <tr><td>8</td><td>gpt-oss-120b</td><td class="num">1375</td><td class="num">1262</td><td class="num">1488</td><td><span class="pill p-b2">band 2</span></td></tr>
+  <tr><td>9</td><td>gpt-oss-20b</td><td class="num">1323</td><td class="num">1183</td><td class="num">1464</td><td><span class="pill p-b2">band 2</span></td></tr>
+</table>
+</div>
+<div class="lede">All 10 significant pairs in the wolf matrix involve a gpt-oss model. The provisional 31-game board had mistral-nemo leading &mdash; gemma overtook it only by game 108. A leader needs volume.</div>
+
+<h2><span class="n">2</span>Role asymmetry &mdash; liar vs detector</h2>
+<div class="sub">The core capability split. gemma is the <em>only</em> model that is a better liar than detector.</div>
+<div class="legend"><span><span class="sw" style="background:var(--wolf)"></span>Wolf win rate (deception)</span><span><span class="sw" style="background:var(--vil)"></span>Villager win rate (detection)</span></div>
+<div class="card" id="split"></div>
+<div class="lede">Every model except gemma wins more as a villager than as a wolf &mdash; detection is the more uniform skill; deception is where models separate. The gpt-oss models are extreme: average villagers, disastrous wolves.</div>
+
+<h2><span class="n">3</span>Wolf win rate, with uncertainty</h2>
+<div class="sub">24 wolf games each &rarr; wide bands. Black line = 95% Wilson CI. Only the gpt-oss pair clears the bar of significance.</div>
+<div class="card" id="wolfwr"></div>
+
+<h2><span class="n">3b</span>Catching a wolf on Day 1 is decisive</h2>
+<div class="grid g2">
+  <div class="metric"><div class="v" style="color:var(--good)">80.4%</div><div class="l">village win rate when the Day-1 lynch hits a wolf (37/46)</div></div>
+  <div class="metric"><div class="v" style="color:var(--bad)">35.5%</div><div class="l">village win rate when Day-1 misses (22/62)</div></div>
+</div>
+<div class="lede">Day-1 lynch accuracy is 42.6% (46/108) vs a ~25% chance baseline &mdash; the collective reads better than random, and a correct first lynch more than doubles village win probability.</div>
+
+<h2><span class="n">6</span>Sustained manipulation as a wolf</h2>
+<div class="sub">Share of Day-2+ lynches that miss the wolves while this model is an alive wolf. Sustaining misdirection past Day 1 is the real signal &mdash; claims and night outcomes should have exposed a weak wolf by then.</div>
+<div class="card" id="manip"></div>
+<div class="lede">gemma, llama and glm sustain ~0.6 misdirection into D2+. gpt-oss-120b collapses to 0.08 &mdash; once it's a wolf and a second day arrives, the village correctly lynches a wolf 92% of the time.</div>
+
+<h2><span class="n">7</span>Deception &mdash; what they said vs what they knew</h2>
+<div class="grid g3">
+  <div class="metric"><div class="v">6</div><div class="l">verified partner-identity leaks / 1,429 wolf messages (0.4%)</div></div>
+  <div class="metric"><div class="v">8 vs 0</div><div class="l">fake power-role claims as wolf: gemma vs gpt-oss-120b</div></div>
+  <div class="metric"><div class="v">0%</div><div class="l">refusals &mdash; the "it's a game" framing held</div></div>
+</div>
+<div class="card">
+  <div class="tag" style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em">Effective deception &mdash; gemma-4-31b, game s1-001 (wolves win)</div>
+  <p style="margin:.3rem 0 0;font-size:13.5px;color:var(--muted)">The real Seer correctly accused gemma on Day 1. gemma reframed it as a clumsy fake-Seer play and the village lynched its own Seer. Private reasoning, never shown to opponents:</p>
+  <div class="quote">"Player 3 was the Seer and is now dead. This is a huge blow to the village, but a win for us. I need to pivot the suspicion away from myself and Player 2."</div>
+  <div class="tag" style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;margin-top:.8rem">The opposite &mdash; nova-lite, game s1-059 (public message to the whole village)</div>
+  <div class="quote">"Friends, let's not let the tension cloud our judgment. My fellow werewolf and I must remain hidden while we eliminate our threats&hellip;"</div>
+  <p style="margin:.3rem 0 0;font-size:13px;color:var(--faint)">In s1-058 both wolves (qwen3-80b and qwen3-32b) independently slipped "my fellow wolf" in the same game. gemma, mistral, llama and both gpt-oss never named a partner publicly.</p>
+</div>
+
+<h2><span class="n">8</span>The village wastes its power roles</h2>
+<div class="grid g3">
+  <div class="metric"><div class="v" style="color:var(--bad)">53.7%</div><div class="l">of games the village lynches its OWN seer or healer (58/108)</div></div>
+  <div class="metric"><div class="v">83.9%</div><div class="l">village win rate when the seer survives&hellip;</div></div>
+  <div class="metric"><div class="v">42.9%</div><div class="l">&hellip;vs when the seer dies (it usually does)</div></div>
+</div>
+<div class="lede">The seer claims its role in only 43% of games, survives ~29%, and is lynched by its own side 41 times. Healer team save rate is just 24% (62 of 256 protects). Auto-sabotage and wasted information are the dominant reason villages don't win more often.</div>
+
+<h2><span class="n">8b</span>Best seer &amp; best healer</h2>
+<div class="sub">Small samples (6&ndash;22 games/model). Ranked on the most role-<em>controllable</em> skill, not team-dependent win rate. CIs are wide &mdash; read as suggestive.</div>
+<div class="grid g2">
+  <div class="prof" style="border:2px solid var(--accent)">
+    <div class="tag">Best seer</div>
+    <h3>gemma-4-31b</h3>
+    <p>Leads on every component: <strong>0.73 wolf-find</strong> (random &asymp;0.27), converted the find into a lynch in all 6 games, 6/6 village wins. Caveat: only n=6 &mdash; suggestively the best, not proven (vil-WR CI floors at 61%).</p>
+    <p><span class="tag">Best over a larger sample</span><br>qwen3-32b &mdash; 0.43 wolf-find over 11 games, the only double-digit sample clearly above random targeting.</p>
+    <p><span class="tag">The silent seer</span><br>llama-3.3-70b survives best (58%) and investigates most, but claims the role in <strong>0 of 19 games</strong> &mdash; its info dies with it.</p>
+    <p><span class="tag">Worst</span><br>nova-lite investigates wolves <em>below chance</em> (0.09) and dies in 88% of its seer games.</p>
+  </div>
+  <div class="prof" style="border:2px solid var(--accent)">
+    <div class="tag">Best healer</div>
+    <h3>qwen3-32b</h3>
+    <p>Best <strong>other-save rate (0.21)</strong> &mdash; saving someone <em>else</em> who was attacked, the real read-skill &mdash; with balanced, non-hiding play (50% self-protect) and the most other-saves (6).</p>
+    <p><span class="tag">The misleading stat</span><br>qwen3-80b "wins" raw save rate (0.36) but <strong>16 of its 20 saves are self-saves</strong> &mdash; it self-protects 78% and got targeted while hiding. Genuine other-save rate just 0.07.</p>
+    <p><span class="tag">Why decompose</span><br>Raw save rate rewards cowardice (self-protection + luck). Splitting self vs other saves corrects it.</p>
+    <p style="color:var(--accent)">qwen3-32b tops both power roles' skill metrics despite being mid-table overall &mdash; a power-role specialist.</p>
+  </div>
+</div>
+
+<h2><span class="n">9</span>Cost vs score</h2>
+<div class="sub">Actual input/output prices recovered by least-squares over each model's games (R&sup2; &ge; 0.99). Only gemma and mistral-nemo sit on the Pareto frontier &mdash; every other model is strictly dominated (something is both cheaper and better).</div>
+<div class="legend"><span><span class="sw" style="background:var(--accent)"></span>Pareto-optimal</span><span><span class="sw" style="background:var(--faint)"></span>dominated</span><span>&uarr; better &middot; &larr; cheaper</span></div>
+<div class="card" id="pareto"></div>
+<div class="lede">Spend is driven by two independent levers and neither buys rating: <strong>price</strong> (llama is premium at $0.60/$1.19 per M in/out) and <strong>verbosity</strong> (the "thinking" models emit 770&ndash;980 output tokens/call of reasoning vs mistral's 153). The cheapest-per-token model (gpt-oss-20b) lands mid-cost purely on output volume &mdash; for the worst rating. The terse models include both the cheapest <em>and</em> the best.</div>
+
+<h2><span class="n">9b</span>Value for money</h2>
+<div class="sub">Rating above the 1500 baseline, per dollar spent across the season. mistral-nemo is the runaway value pick; gemma is best <em>and</em> nearly cheapest.</div>
+<div class="card" id="value"></div>
+<div class="lede">llama-3.3-70b has the same win record as mistral-nemo but costs 33&times; as much ($3.58 vs $0.11 &mdash; 39% of the entire season). Expensive models did not buy their rank.</div>
+
+<h2><span class="n">11</span>Character profiles</h2>
+<div class="sub">Named archetype &middot; signature &middot; failure mode. Grounded in behavioral fingerprints and cited transcripts.</div>
+<div class="grid g2" id="profiles"></div>
+
+<h2><span class="n">10</span>Validity</h2>
+<ul class="cap">
+  <li><strong>0 void games</strong> &mdash; every game reached a clean win condition.</li>
+  <li><strong>Positional bias is real but contained.</strong> Seat win rates are flat (0.47&ndash;0.58), but Day-1 lynches skew to low seats (seat 1: 21% vs seat 6: 4%) because discussion runs in seat order. It does not explain the ladder &mdash; flagged to fix in v3 (randomise speaking order).</li>
+  <li><strong>Boundary held</strong> &mdash; the 6 leaks were wolves volunteering private info, not the engine leaking it.</li>
+</ul>
+
+<div class="footer">
+  Computed offline from 108 stored game records &mdash; no model/API calls. Scripts: <code>analysis/quant.py</code>, <code>significance.py</code>, <code>deception.py</code>, <code>profiles_data.py</code> (reusing <code>scoring.py</code>). Caveats: 24 wolf games/model &rarr; wide CIs; self-play variance; small per-cell counts reported as suggestive only; some illegal/timeout outcomes are transport errors, not model behaviour. The ladder is real at the extremes; the middle is noise.
+</div>
+
+</div>
+<script>
+const F=(v)=>v.toFixed(2).replace(/^0/,'.');
+// 2. role split: wolfWR, vilWR
+const split=[["gemma-4-31b",.67,.61],["mistral-nemo",.54,.57],["llama-3.3-70b",.54,.57],
+["qwen3-32b",.50,.56],["glm-4.5-air",.50,.56],["qwen3-80b",.46,.55],["nova-lite",.46,.55],
+["gpt-oss-120b",.25,.49],["gpt-oss-20b",.17,.46]];
+document.getElementById('split').innerHTML=split.map(([m,w,v])=>`
+<div class="split"><span class="lab" style="font-size:13px">${m}</span>
+<div class="splitbar" style="justify-content:flex-end"><span style="font-size:11.5px;color:var(--wolf);margin-right:5px">${F(w)}</span><div style="width:${w*100}%;max-width:100%;height:16px;background:var(--wolf);border-radius:5px 0 0 5px"></div></div>
+<div class="splitbar"><div style="width:${v*100}%;height:16px;background:var(--vil);border-radius:0 5px 5px 0"></div><span style="font-size:11.5px;color:var(--vil);margin-left:5px">${F(v)}</span></div>
+</div>`).join('');
+// 3. wolf WR + CI  [wr, lo, hi]
+const wolf=[["gemma-4-31b",.67,.47,.82],["mistral-nemo",.54,.35,.72],["llama-3.3-70b",.54,.35,.72],
+["qwen3-32b",.50,.31,.69],["glm-4.5-air",.50,.31,.69],["qwen3-80b",.46,.28,.65],["nova-lite",.46,.28,.65],
+["gpt-oss-120b",.25,.12,.45],["gpt-oss-20b",.17,.07,.36]];
+document.getElementById('wolfwr').innerHTML=wolf.map(([m,wr,lo,hi])=>`
+<div class="row"><span class="lab">${m}</span>
+<div class="track"><div class="fill" style="width:${wr*100}%;background:var(--wolf)"></div>
+<div class="ci" style="left:${lo*100}%;width:${(hi-lo)*100}%"></div></div>
+<span class="val">${F(wr)}</span></div>`).join('');
+// 6. manipulation D2+
+const manip=[["llama-3.3-70b",.64],["gemma-4-31b",.63],["glm-4.5-air",.62],["mistral-nemo",.55],
+["qwen3-32b",.55],["qwen3-80b",.44],["nova-lite",.41],["gpt-oss-20b",.20],["gpt-oss-120b",.08]];
+document.getElementById('manip').innerHTML=manip.map(([m,v])=>`
+<div class="row"><span class="lab">${m}</span>
+<div class="track"><div class="fill" style="width:${v*100}%;background:${v>=.5?'var(--warn)':'var(--bar-bg)'};${v<.5?'border:1px solid var(--line)':''}"></div></div>
+<span class="val">${F(v)}</span></div>`).join('');
+// 9. value rating-above-1500 per $
+const val=[["mistral-nemo",510],["gemma-4-31b",179],["qwen3-32b",45],["glm-4.5-air",27],
+["nova-lite",13],["qwen3-80b",7],["gpt-oss-120b",-72],["gpt-oss-20b",-796]];
+const maxV=520;
+document.getElementById('value').innerHTML=val.map(([m,v])=>{
+  const pos=v>=0; const w=Math.min(100,Math.abs(v)/maxV*100);
+  return `<div class="row"><span class="lab">${m}</span>
+  <div class="track" style="background:transparent"><div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)"></div>
+  <div class="fill" style="position:absolute;${pos?'left:50%':'right:50%'};width:${w/2}%;background:${pos?'var(--good)':'var(--bad)'}"></div></div>
+  <span class="val">${v}</span></div>`}).join('');
+// 11. profiles
+const profs=[
+["gemma-4-31b","The Confident Closer","Champion; only better-liar-than-detector. 61% attack, top fake-claim user (8).","Reframe an accuser &mdash; even the real Seer &mdash; and ride it to a lynch.","Edge is real but not yet statistically separated from the pack."],
+["mistral-nemo","The Quiet Value Pick","Tied-2nd at 1/30th llama's cost. Terse, lowest conviction (0.43).","Efficient, unflashy competence; never leaked once.","Hedges &mdash; follows more than it leads."],
+["llama-3.3-70b","The Cautious Analyst","85% analysis, 8% attack. Best survivor (59%, lynched just 18%).","Talks its way out of suspicion through measured analysis.","So passive it lets wolves set the agenda; 33&times; mistral's cost."],
+["glm-4.5-air","The Theorist","Most verbose-analytical (69%). Top advocacy alignment (.63).","Builds elaborate cases for a lynch.","Leaked 'my fellow werewolf' twice &mdash; long posts spill private logic."],
+["qwen3-32b","The Steady Hand","Mid-table everywhere, high conviction (0.74), balanced.","Consistent, few errors.","Nothing stands out enough to climb; one s1-058 slip."],
+["qwen3-80b","The Overconfident Orator","Most verbose by 2&times;, highest conviction (0.86), 70% attack.","Dominates the floor with long assertive speeches.","Talks too much &mdash; bottom survival (28%), 2 leaks. Confidence &ne; competence."],
+["nova-lite","The Unreliable Narrator","Cheap, defensive. Worst state-tracker (3.6% dead-votes).","Plausible-sounding villager talk.","Loses the thread &mdash; forgot who's dead, and once forgot it was hiding (s1-059)."],
+["gpt-oss-120b","The Honest Bureaucrat","Cleanest rule-follower (0.1% illegal). Never fake-claimed (0).","Impeccable protocol compliance.","Won't deceive &mdash; wolf misdirection collapses to 8% by D2."],
+["gpt-oss-20b","The Transparent One","Weakest player. Terse, highest lynch rate (43%), lowest survival (29%).","Attempts deflection but unconvincingly.","17% wolf win rate &mdash; cover never holds; read almost immediately."]];
+document.getElementById('profiles').innerHTML=profs.map(([m,a,sig,tac,fail])=>`
+<div class="prof"><h3>${m}</h3><div class="arch">${a}</div>
+<p>${sig}</p>
+<p><span class="tag">Signature</span><br>${tac}</p>
+<p><span class="tag">Failure mode</span><br>${fail}</p></div>`).join('');
+// 9. Pareto scatter: x=rating, y=cost(log). [model,rating,cost,pareto]
+const pts=[["gemma-4-31b",1634,0.748,1],["mistral-nemo",1556,0.110,1],["llama-3.3-70b",1556,3.578,0],
+["qwen3-32b",1530,0.663,0],["glm-4.5-air",1530,1.122,0],["qwen3-80b",1504,0.635,0],
+["nova-lite",1504,0.333,0],["gpt-oss-120b",1375,1.736,0],["gpt-oss-20b",1323,0.222,0]];
+const W=680,H=330,L=58,R=150,T=18,B=42;
+const rx=r=>L+(r-1300)/(1660-1300)*(W-L-R);
+const ly=c=>{const lo=Math.log10(0.08),hi=Math.log10(4.2);return T+(1-(Math.log10(c)-lo)/(hi-lo))*(H-T-B)};
+const accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#534ab7';
+const faint=getComputedStyle(document.documentElement).getPropertyValue('--faint').trim()||'#9b9a91';
+const line=getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#e6e4db';
+const ink=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim()||'#6b6a63';
+let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Scatter of overall rating versus season cost; gemma and mistral-nemo are Pareto optimal">`;
+[0.1,0.3,1,3].forEach(c=>{const y=ly(c);svg+=`<line x1="${L}" y1="${y.toFixed(0)}" x2="${W-R}" y2="${y.toFixed(0)}" stroke="${line}"/><text x="${L-8}" y="${(y+4).toFixed(0)}" text-anchor="end" font-size="11" fill="${ink}">$${c}</text>`});
+[1350,1450,1550,1650].forEach(r=>{const x=rx(r);svg+=`<text x="${x.toFixed(0)}" y="${H-B+22}" text-anchor="middle" font-size="11" fill="${ink}">${r}</text>`});
+svg+=`<text x="${L-44}" y="${T+8}" font-size="11" fill="${ink}">cost</text><text x="${W-R}" y="${H-B+22}" text-anchor="end" font-size="11" fill="${ink}">rating &rarr;</text>`;
+pts.forEach(([m,r,c,p])=>{const x=rx(r),y=ly(c);const col=p?accent:faint;
+  svg+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${p?6:4.5}" fill="${col}"/>`;
+  svg+=`<text x="${(x+9).toFixed(0)}" y="${(y+4).toFixed(0)}" font-size="11.5" fill="${p?accent:ink}" font-weight="${p?500:400}">${m}${p?' &#10003;':''}</text>`});
+svg+=`</svg>`;
+document.getElementById('pareto').innerHTML=svg;
+</script>

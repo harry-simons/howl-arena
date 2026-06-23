@@ -1,0 +1,229 @@
+{
+  "gemma-4-31b": {
+    "avg_msg_chars": 583.0,
+    "stance_pct": {
+      "analysis": 0.318,
+      "defense": 0.068,
+      "attack": 0.614
+    },
+    "avg_lean_confidence": 0.697,
+    "wolf_falseclaim_seer_rate": 0.0435,
+    "wolf_falseclaim_seer_n": 8,
+    "wolf_falseclaim_heal_n": 3,
+    "death_mix": {
+      "survived": 49,
+      "killed_night": 36,
+      "lynched_day": 23,
+      "games": 108,
+      "survival_rate": 0.454,
+      "lynch_rate": 0.213,
+      "night_kill_rate": 0.333
+    },
+    "seer_claim_when_seer": [
+      4,
+      6
+    ]
+  },
+  "glm-4.5-air": {
+    "avg_msg_chars": 668.0,
+    "stance_pct": {
+      "analysis": 0.689,
+      "attack": 0.249,
+      "defense": 0.062
+    },
+    "avg_lean_confidence": 0.627,
+    "wolf_falseclaim_seer_rate": 0.0345,
+    "wolf_falseclaim_seer_n": 6,
+    "wolf_falseclaim_heal_n": 4,
+    "death_mix": {
+      "survived": 47,
+      "killed_night": 33,
+      "lynched_day": 28,
+      "games": 108,
+      "survival_rate": 0.435,
+      "lynch_rate": 0.259,
+      "night_kill_rate": 0.306
+    },
+    "seer_claim_when_seer": [
+      13,
+      14
+    ]
+  },
+  "gpt-oss-120b": {
+    "avg_msg_chars": 491.0,
+    "stance_pct": {
+      "analysis": 0.488,
+      "attack": 0.483,
+      "defense": 0.028,
+      "pass": 0.002
+    },
+    "avg_lean_confidence": 0.584,
+    "wolf_falseclaim_seer_rate": 0.0,
+    "wolf_falseclaim_seer_n": 0,
+    "wolf_falseclaim_heal_n": 1,
+    "death_mix": {
+      "survived": 43,
+      "killed_night": 23,
+      "lynched_day": 42,
+      "games": 108,
+      "survival_rate": 0.398,
+      "lynch_rate": 0.389,
+      "night_kill_rate": 0.213
+    },
+    "seer_claim_when_seer": [
+      22,
+      18
+    ]
+  },
+  "gpt-oss-20b": {
+    "avg_msg_chars": 385.0,
+    "stance_pct": {
+      "analysis": 0.323,
+      "attack": 0.605,
+      "defense": 0.073
+    },
+    "avg_lean_confidence": 0.589,
+    "wolf_falseclaim_seer_rate": 0.0077,
+    "wolf_falseclaim_seer_n": 1,
+    "wolf_falseclaim_heal_n": 0,
+    "death_mix": {
+      "survived": 31,
+      "killed_night": 31,
+      "lynched_day": 46,
+      "games": 108,
+      "survival_rate": 0.287,
+      "lynch_rate": 0.426,
+      "night_kill_rate": 0.287
+    },
+    "seer_claim_when_seer": [
+      10,
+      13
+    ]
+  },
+  "llama-3.3-70b": {
+    "avg_msg_chars": 526.0,
+    "stance_pct": {
+      "analysis": 0.853,
+      "defense": 0.067,
+      "attack": 0.08
+    },
+    "avg_lean_confidence": 0.604,
+    "wolf_falseclaim_seer_rate": 0.0265,
+    "wolf_falseclaim_seer_n": 5,
+    "wolf_falseclaim_heal_n": 1,
+    "death_mix": {
+      "survived": 64,
+      "killed_night": 25,
+      "lynched_day": 19,
+      "games": 108,
+      "survival_rate": 0.593,
+      "lynch_rate": 0.176,
+      "night_kill_rate": 0.231
+    },
+    "seer_claim_when_seer": [
+      0,
+      19
+    ]
+  },
+  "mistral-nemo": {
+    "avg_msg_chars": 429.0,
+    "stance_pct": {
+      "analysis": 0.589,
+      "attack": 0.325,
+      "defense": 0.086
+    },
+    "avg_lean_confidence": 0.429,
+    "wolf_falseclaim_seer_rate": 0.0375,
+    "wolf_falseclaim_seer_n": 6,
+    "wolf_falseclaim_heal_n": 3,
+    "death_mix": {
+      "survived": 48,
+      "killed_night": 25,
+      "lynched_day": 35,
+      "games": 108,
+      "survival_rate": 0.444,
+      "lynch_rate": 0.324,
+      "night_kill_rate": 0.231
+    },
+    "seer_claim_when_seer": [
+      12,
+      9
+    ]
+  },
+  "nova-lite": {
+    "avg_msg_chars": 527.0,
+    "stance_pct": {
+      "analysis": 0.762,
+      "defense": 0.13,
+      "attack": 0.107,
+      "pass": 0.001
+    },
+    "avg_lean_confidence": 0.583,
+    "wolf_falseclaim_seer_rate": 0.0115,
+    "wolf_falseclaim_seer_n": 2,
+    "wolf_falseclaim_heal_n": 7,
+    "death_mix": {
+      "survived": 52,
+      "killed_night": 24,
+      "lynched_day": 32,
+      "games": 108,
+      "survival_rate": 0.481,
+      "lynch_rate": 0.296,
+      "night_kill_rate": 0.222
+    },
+    "seer_claim_when_seer": [
+      5,
+      8
+    ]
+  },
+  "qwen3-32b": {
+    "avg_msg_chars": 513.0,
+    "stance_pct": {
+      "analysis": 0.54,
+      "attack": 0.331,
+      "defense": 0.129
+    },
+    "avg_lean_confidence": 0.735,
+    "wolf_falseclaim_seer_rate": 0.039,
+    "wolf_falseclaim_seer_n": 6,
+    "wolf_falseclaim_heal_n": 1,
+    "death_mix": {
+      "survived": 47,
+      "killed_night": 25,
+      "lynched_day": 36,
+      "games": 108,
+      "survival_rate": 0.435,
+      "lynch_rate": 0.333,
+      "night_kill_rate": 0.231
+    },
+    "seer_claim_when_seer": [
+      13,
+      11
+    ]
+  },
+  "qwen3-80b": {
+    "avg_msg_chars": 894.0,
+    "stance_pct": {
+      "analysis": 0.246,
+      "attack": 0.701,
+      "defense": 0.053
+    },
+    "avg_lean_confidence": 0.856,
+    "wolf_falseclaim_seer_rate": 0.0064,
+    "wolf_falseclaim_seer_n": 1,
+    "wolf_falseclaim_heal_n": 3,
+    "death_mix": {
+      "survived": 30,
+      "killed_night": 40,
+      "lynched_day": 38,
+      "games": 108,
+      "survival_rate": 0.278,
+      "lynch_rate": 0.352,
+      "night_kill_rate": 0.37
+    },
+    "seer_claim_when_seer": [
+      15,
+      10
+    ]
+  }
+}

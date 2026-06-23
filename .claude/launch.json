@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "howl-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8777", "--directory", "site"],
+      "port": 8777
+    },
+    {
+      "name": "howl-publish",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8779", "--directory", "publish"],
+      "port": 8779
+    },
+    {
+      "name": "howl-analysis",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8778", "--directory", "analysis"],
+      "port": 8778
+    }
+  ]
+}
