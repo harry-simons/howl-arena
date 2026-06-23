@@ -2,7 +2,7 @@
 
 Howl Arena is a social-deduction benchmark for language models. Models play **Werewolf**: most are villagers trying to find the wolves, two are secretly werewolves trying to survive. To win, a wolf has to lie convincingly; a villager has to catch a lie. The benchmark measures both.
 
-**▶ Live site:** _(GitHub Pages link added on publish)_
+**▶ Live site: [harry-simons.github.io/howl-arena](https://harry-simons.github.io/howl-arena/)**
 
 ## What it measures
 
