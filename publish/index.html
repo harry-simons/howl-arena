@@ -145,6 +145,14 @@
     border-radius:9px; padding:6px 15px; cursor:pointer; font:inherit; }
   .close:hover { border-color: var(--gold); }
   /* analysis */
+  .scatter-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin:12px 0 6px; }
+  .scatter { width:100%; height:auto; background:var(--panel); border:1px solid var(--line); border-radius:10px; }
+  .sc-tick { fill:var(--muted); font:10px var(--sans); }
+  .sc-lab { fill:var(--cream); font:10px var(--sans); }
+  .sc-axis { fill:var(--gold-soft); font:11px var(--sans); letter-spacing:.04em; }
+  .sc-title { fill:var(--gold-soft); font:600 12px var(--sans); }
+  .sc-legend { display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin:2px 0 4px; }
+  .sc-legend i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:middle; }
   .an-sec { margin: 26px 0 10px; }
   .an-sec h3 { font-family:var(--serif); font-size:17px; color:var(--gold-soft);
     letter-spacing:.04em; margin-bottom:6px; }
@@ -212,7 +220,9 @@
       <button class="tab active" data-view="leaderboard">Leaderboard</button>
       <button class="tab" data-view="analysis">Analysis</button>
       <button class="tab" data-view="replays">Replays</button>
+      <button class="tab" data-view="career">Career</button>
     </div>
+    <select id="season"></select>
   </div>
 
   <p class="note" id="note"></p>
@@ -227,6 +237,7 @@
     <div id="game-list" class="games"></div>
     <div id="replay"></div>
   </section>
+  <section class="view" id="view-career"><div class="card" id="career"></div></section>
 </div>
 
 <script src="data/results.js"></script>
@@ -257,7 +268,10 @@
   }
 
   const seasons = D.seasons.slice();
-  const current = seasons[seasons.length-1].id;
+  let current = seasons[seasons.length-1].id;
+  const sel = $("#season");
+  seasons.forEach(s => { const o=el("option"); o.value=s.id; o.textContent=`${s.id} · ${s.games} game(s) · ${s.prompt_version||"?"}`; sel.appendChild(o); });
+  sel.value = current;
 
   let view = "leaderboard";
   document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
@@ -268,6 +282,7 @@
     if (view!=="replays") setPhase("night");
     render();
   });
+  sel.onchange = () => { current = sel.value; render(); };
 
   // ---- leaderboard ----
   let sortKey = "overall", sortDir = -1;
@@ -390,11 +405,86 @@
       c.onclick=()=>openReplay(g); $("#game-list").appendChild(c); });
   }
 
+  // ---- scatter plot (self-contained SVG, no libs) ----
+  // pts: [{x,y,label,color,ring}]  o: {w,h,xlabel,ylabel,xmin/xmax/ymin/ymax,logx,diagonal,fmtx,fmty,title,nolabels,padR}
+  function scatterSVG(pts, o) {
+    o = o || {}; const W = o.w||540, H = o.h||300;
+    const P = { l:58, r:(o.padR!=null?o.padR:96), t:(o.title?34:16), b:46 };
+    const lx = !!o.logx, f = lx ? Math.log10 : (v=>v);
+    const xs = pts.map(p=>p.x), ys = pts.map(p=>p.y);
+    let x0, x1, y0, y1;
+    if (lx) {  // pad in LOG space so the min never goes <= 0 (would be NaN)
+      const lo = Math.min(...xs), hi = Math.max(...xs);
+      x0 = o.xmin!=null ? o.xmin : Math.pow(10, Math.log10(lo) - 0.15);
+      x1 = o.xmax!=null ? o.xmax : Math.pow(10, Math.log10(hi) + 0.15);
+    } else {
+      const lo = Math.min(...xs), hi = Math.max(...xs), e = ((hi-lo)||Math.abs(hi)||1)*0.09;
+      x0 = o.xmin!=null ? o.xmin : lo - e; x1 = o.xmax!=null ? o.xmax : hi + e;
+    }
+    { const lo = Math.min(...ys), hi = Math.max(...ys), e = ((hi-lo)||Math.abs(hi)||1)*0.11;
+      y0 = o.ymin!=null ? o.ymin : lo - e; y1 = o.ymax!=null ? o.ymax : hi + e; }
+    const X = v => P.l + ((f(v)-f(x0))/((f(x1)-f(x0))||1))*(W-P.l-P.r);
+    const Y = v => H-P.b - (((v)-y0)/((y1-y0)||1))*(H-P.t-P.b);
+    const fx = o.fmtx||(v=>Math.round(v*100)/100), fy = o.fmty||(v=>Math.round(v*100)/100);
+    let s = `<svg viewBox="0 0 ${W} ${H}" class="scatter" preserveAspectRatio="xMidYMid meet">`;
+    if (o.title) s += `<text x="${P.l}" y="20" class="sc-title">${o.title}</text>`;
+    // axes
+    s += `<line x1="${P.l}" y1="${H-P.b}" x2="${W-P.r}" y2="${H-P.b}" stroke="var(--line)"/>`;
+    s += `<line x1="${P.l}" y1="${P.t}" x2="${P.l}" y2="${H-P.b}" stroke="var(--line)"/>`;
+    const NT = 4;
+    for (let i=0;i<=NT;i++) {
+      const vx = lx ? Math.pow(10, f(x0)+(f(x1)-f(x0))*i/NT) : x0+(x1-x0)*i/NT;
+      const px = X(vx);
+      s += `<text x="${px}" y="${H-P.b+15}" class="sc-tick" text-anchor="middle">${fx(vx)}</text>`;
+      const vy = y0+(y1-y0)*i/NT, py = Y(vy);
+      s += `<text x="${P.l-7}" y="${py+3}" class="sc-tick" text-anchor="end">${fy(vy)}</text>`;
+    }
+    if (o.diagonal) { const a=Math.max(x0,y0), b=Math.min(x1,y1);
+      if (b>a) s += `<line x1="${X(a)}" y1="${Y(a)}" x2="${X(b)}" y2="${Y(b)}" stroke="var(--dim)" stroke-dasharray="3 3"/>`; }
+    // resolve pixel positions, spreading COINCIDENT points into a small ring so
+    // none hides behind another (role ratings collapse onto a few discrete values,
+    // so replicas land on the same spot — the stacking IS the noise-floor signal).
+    const Pp = pts.map(p => ({ p, cx:X(p.x), cy:Y(p.y) }));
+    const grp = {};
+    Pp.forEach(o2 => { const k = Math.round(o2.cx/6)+","+Math.round(o2.cy/6); (grp[k]=grp[k]||[]).push(o2); });
+    Object.values(grp).forEach(g => { if (g.length>1) { const R=7;
+      g.forEach((o2,i) => { const a=2*Math.PI*i/g.length - Math.PI/2; o2.cx+=R*Math.cos(a); o2.cy+=R*Math.sin(a); }); } });
+    Pp.forEach(({p,cx,cy}) => {
+      const r=p.r||5, col=p.color||'var(--gold)';
+      if (p.ring) s += `<circle cx="${cx}" cy="${cy}" r="${r+3}" fill="none" stroke="var(--gold)" stroke-width="1.4"/>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}" fill-opacity="0.85" stroke="var(--night)" stroke-width="0.9"><title>${p.label||''}</title></circle>`;
+    });
+    // labels: place to the right of each point, then de-overlap vertically
+    // (only nudge labels that actually collide both horizontally and vertically).
+    if (!o.nolabels) {
+      const L = Pp.filter(o2=>o2.p.label).map(({p,cx,cy})=>{ const r=p.r||5;
+        return { t:p.label, px:cx+r, x:cx+r+4, y:cy+3, w:p.label.length*5.7, py:cy }; });
+      L.sort((a,b)=>a.y-b.y);
+      for (let i=0;i<L.length;i++) for (let j=0;j<i;j++)
+        if (Math.abs(L[i].y-L[j].y)<12 && L[i].x < L[j].x+L[j].w && L[j].x < L[i].x+L[i].w)
+          L[i].y = L[j].y + 12;
+      L.forEach(l => {
+        if (Math.abs(l.y-3-l.py) > 7)  // moved: draw a thin leader from point to label
+          s += `<line x1="${l.px}" y1="${l.py}" x2="${l.x-2}" y2="${l.y-3}" stroke="var(--line)"/>`;
+        s += `<text x="${l.x}" y="${l.y}" class="sc-lab">${l.t}</text>`;
+      });
+    }
+    s += `<text x="${(P.l+W-P.r)/2}" y="${H-5}" class="sc-axis" text-anchor="middle">${o.xlabel||''}</text>`;
+    s += `<text transform="translate(15,${(P.t+H-P.b)/2}) rotate(-90)" class="sc-axis" text-anchor="middle">${o.ylabel||''}</text>`;
+    return s + `</svg>`;
+  }
+  const QCOL = { bf16:"var(--village)", fp8:"var(--gold)", fp4:"var(--wolf)" };
+  const quantLegend = () => `<div class="sc-legend">`
+    + `<span><i style="background:var(--village)"></i>bf16</span>`
+    + `<span><i style="background:var(--gold)"></i>fp8</span>`
+    + `<span><i style="background:var(--wolf)"></i>fp4</span></div>`;
+
   // ---- analysis ----
   function renderAnalysis() {
     const A = (D.analysis||{})[current];
     const root = $("#analysis");
     if (!A) { root.innerHTML = `<div class="empty">No technical analysis published for this season yet.</div>`; return; }
+    if (A.kind === "quant") return renderQuantAnalysis(A, root);
     const N = A.narrative;
     const sec = (title, lead) => `<div class="an-sec"><h3>${title}</h3>${lead?`<div class="lead">${lead}</div>`:""}</div>`;
     const barRow = (model, frac, color, label) =>
@@ -421,6 +511,15 @@
         <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px"><span class="sub">${pct(r.wolf_wr)}</span><div class="minibar" style="width:${r.wolf_wr*100}%;background:var(--wolf)"></div></div>
         <div style="display:flex;align-items:center;gap:6px"><div class="minibar" style="width:${r.vil_wr*100}%;background:var(--village)"></div><span class="sub">${pct(r.vil_wr)}</span></div></div>`).join("");
     h += `<div class="sub" style="margin-top:6px"><span style="color:var(--wolf)">&#9632;</span> wolf win rate &nbsp; <span style="color:var(--village)">&#9632;</span> villager win rate</div>`;
+    if (A.scatter_models) {
+      h += `<div class="scatter-grid" style="grid-template-columns:1fr">` + scatterSVG(
+        A.scatter_models.map(m=>({x:m.villager, y:m.wolf, label:m.model,
+          color:m.model==="gemma-4-31b"?"var(--gold)":"var(--seer)"})),
+        { w:600, h:340, title:"Deception vs detection (rating)", xlabel:"villager rating — detection",
+          ylabel:"wolf rating — deception", diagonal:true, padR:110,
+          fmtx:v=>Math.round(v), fmty:v=>Math.round(v) }) + `</div>`;
+      h += `<div class="sub">The dashed line is equal skill in both roles. Points above it lie better than they detect; only gemma sits clearly above. Almost everyone clusters below: better villagers than wolves.</div>`;
+    }
 
     // win dynamics
     h += sec("Catching a wolf on day one decides games", N.win_dynamics);
@@ -451,6 +550,15 @@
     h += `<table class="an-table"><thead><tr><th>Model</th><th class="num">$ total</th><th class="num">$/game</th><th class="num">Rating</th><th>Frontier</th></tr></thead><tbody>`
       + A.cost.map(c => `<tr><td>${c.model}</td><td class="num">$${c.total.toFixed(3)}</td><td class="num">$${c.per_game.toFixed(4)}</td><td class="num">${Math.round(c.rating)}</td>
         <td>${c.pareto ? `<span style="color:var(--gold)">&#9733; optimal</span>` : `<span class="sub">dominated</span>`}</td></tr>`).join("") + `</tbody></table>`;
+    if (A.scatter_models) {
+      h += `<div class="scatter-grid" style="grid-template-columns:1fr">` + scatterSVG(
+        A.scatter_models.filter(m=>m.cost_per_game).map(m=>({x:m.cost_per_game, y:m.overall,
+          label:m.model, ring:m.pareto, color:"var(--gold)"})),
+        { w:600, h:340, title:"Value: cost vs skill", xlabel:"$ per game (log scale)",
+          ylabel:"overall rating", logx:true, padR:110,
+          fmtx:v=>"$"+v.toFixed(3), fmty:v=>Math.round(v) }) + `</div>`;
+      h += `<div class="sub">Ringed points sit on the cost-to-skill frontier: nothing is both cheaper and better. gemma (dearest of the cheap) and mistral-nemo (cheapest of all) anchor it; the pricier models buy no rating.</div>`;
+    }
 
     // decision metrics
     h += sec("Decision metrics: vote accuracy &amp; survival", N.decision);
@@ -474,15 +582,127 @@
     root.innerHTML = h;
   }
 
+  // ---- analysis: Season 2 quantisation study (kind === "quant") ----
+  function renderQuantAnalysis(A, root) {
+    const N = A.narrative;
+    const sec = (title, lead) => `<div class="an-sec"><h3>${title}</h3>${lead?`<div class="lead">${lead}</div>`:""}</div>`;
+    const qcolor = q => q==="bf16" ? "var(--village)" : q==="fp8" ? "var(--gold)" : "var(--wolf)";
+    let h = "";
+
+    h += `<div class="story show" style="margin-bottom:18px">${N.headline.replace(/^([^.]+\.)/, "<b>$1</b>")}</div>`;
+    h += `<div class="an-cards">` + A.metrics.map(m =>
+      `<div class="an-stat"><div class="v">${m.value}</div><div class="l">${m.label}</div><div class="n">${m.note}</div></div>`).join("") + `</div>`;
+
+    // average player per precision (the headline comparison)
+    h += sec("Average player by precision", N.average);
+    h += `<table class="an-table"><thead><tr><th>Precision</th><th class="num">Overall</th><th class="num">Wolf</th><th class="num">Villager</th><th class="num">Wolf WR</th><th class="num">Village WR</th><th class="num">Bad turns</th></tr></thead><tbody>`
+      + A.quant_summary.map(r => `<tr>
+        <td><span style="color:${qcolor(r.quant)};font-weight:600">${r.quant}</span></td>
+        <td class="num"><b>${r.overall}</b></td>
+        <td class="num">${r.wolf} <span class="sub">&plusmn;${r.wolf_rd}</span></td>
+        <td class="num">${r.villager} <span class="sub">&plusmn;${r.villager_rd}</span></td>
+        <td class="num">${pct(r.wolf_wr)}</td>
+        <td class="num">${pct(r.village_wr)}</td>
+        <td class="num">${r.bad_pct}%</td></tr>`).join("") + `</tbody></table>`;
+    h += `<div class="sub" style="margin-top:6px">Each precision's three identical routes pooled into one rating (role-conditional Glicko-2, &plusmn;RD). bf16 and fp8 are level; only fp4 dips, mostly as a wolf.</div>`;
+
+    // quality by precision (the headline)
+    h += sec("Serving quality by precision", N.quality);
+    h += `<table class="an-table"><thead><tr><th>Precision</th><th class="num">Actions</th><th class="num">Malformed</th><th class="num">Illegal</th><th class="num">Dead-vote</th><th class="num">Replica band (illegal)</th></tr></thead><tbody>`
+      + A.quality_rows.map(r => `<tr>
+        <td><span style="color:${qcolor(r.quant)};font-weight:600">${r.quant}</span></td>
+        <td class="num">${r.actions.toLocaleString()}</td>
+        <td class="num">${r.malformed_pct}%</td>
+        <td class="num"><b>${r.illegal_pct}%</b></td>
+        <td class="num">${r.dead_vote_pct}%</td>
+        <td class="num sub">${r.nf_lo}&ndash;${r.nf_hi}%</td></tr>`).join("") + `</tbody></table>`;
+    h += `<div class="sub" style="margin-top:6px">Illegal turns rise from bf16 to fp4, but the "replica band" is the spread across three identical routes at that precision: the bf16-to-quantised step clears it, fp8-vs-fp4 does not.</div>`;
+
+    // within-host clean test
+    h += sec("The clean test: one host, two quants", N.within_host);
+    const w = A.within;
+    h += `<div class="callout">
+      <div class="c"><div class="sub">DeepInfra &middot; fp8</div><div class="big" style="color:var(--gold)">${w.fp8_bad}%</div><div class="sub">bad turns (${w.fp8_n.toLocaleString()} actions)</div></div>
+      <div class="c"><div class="sub">DeepInfra &middot; fp4</div><div class="big" style="color:var(--wolf)">${w.fp4_bad}%</div><div class="sub">bad turns (${w.fp4_n.toLocaleString()} actions)</div></div>
+      <div class="c"><div class="sub">Difference</div><div class="big">${(w.fp4_bad-w.fp8_bad).toFixed(2)} pp</div><div class="sub">precision 8&rarr;4 bits: no real effect</div></div></div>`;
+    h += `<div class="lead" style="margin-top:10px">${N.confound}</div>`;
+
+    // cost per effective turn (the discussion)
+    h += sec("Cost per effective turn", N.cost);
+    h += `<table class="an-table"><thead><tr><th>Precision</th><th class="num">$/M tokens</th><th class="num">$/effective turn</th><th class="num">$/appearance</th><th class="num">Turns/appearance</th><th class="num">Survival</th></tr></thead><tbody>`
+      + A.cost_rows.map(r => `<tr>
+        <td><span style="color:${QCOL[r.quant]};font-weight:600">${r.quant}</span></td>
+        <td class="num">$${r.eff_usd_per_m.toFixed(3)}</td>
+        <td class="num"><b>$${r.usd_per_effective.toFixed(5)}</b></td>
+        <td class="num">$${r.usd_per_appearance.toFixed(5)}</td>
+        <td class="num">${r.turns_per_appearance}</td>
+        <td class="num">${r.survival_pct}%</td></tr>`).join("") + `</tbody></table>`;
+    h += `<div class="sub" style="margin-top:6px">fp4 is cheapest per effective (legal) turn, but priciest per appearance: its seats simply played more turns. More turns, not better ones.</div>`;
+
+    // scatter views (Harry's request)
+    h += sec("Two-axis views", "The replica routes cluster by precision; the spread within a cluster is the noise floor, the gap between clusters is the candidate signal.");
+    h += quantLegend();
+    const R = A.routes.map(r => ({ ...r, color: QCOL[r.quant], label: r.route }));
+    h += `<div class="scatter-grid">`;
+    h += scatterSVG(R.map(r=>({x:r.eff_usd_per_m, y:r.illegal_pct, color:r.color, label:r.route})),
+      { title:"Cost vs quality", xlabel:"$ per million tokens", ylabel:"illegal turns %",
+        nolabels:true, padR:24, fmtx:v=>"$"+v.toFixed(3), fmty:v=>v.toFixed(1)+"%" });
+    h += scatterSVG(R.map(r=>({x:r.villager, y:r.wolf, color:r.color, label:r.route})),
+      { title:"Wolf vs villager rating", xlabel:"villager rating", ylabel:"wolf rating",
+        diagonal:true, nolabels:true, padR:24, fmtx:v=>Math.round(v), fmty:v=>Math.round(v) });
+    h += scatterSVG(R.map(r=>({x:r.turns_per_appearance, y:r.usd_per_appearance, color:r.color, label:r.route})),
+      { title:"More turns, more cost", xlabel:"turns per appearance", ylabel:"$ per appearance",
+        nolabels:true, padR:24, fmtx:v=>v.toFixed(1), fmty:v=>"$"+v.toFixed(4) });
+    h += `</div>`;
+
+    // noise floor
+    h += sec("The noise floor: why the ladder is not the story", N.noise);
+    h += `<div class="band-row"><span class="band-lab">Rating drift</span>` + A.noise_rows.map(r =>
+      `<span class="bandpill top">${r.quant}: &plusmn;${r.rating_spread} pts</span>`).join("") + `</div>`;
+    h += `<div class="sub" style="margin-top:6px">Spread in overall rating across the three identical routes at each precision, from chance alone.</div>`;
+
+    // per-route detail
+    h += sec("Every route", "");
+    h += `<table class="an-table"><thead><tr><th>Route</th><th>Quant</th><th class="num">Actions</th><th class="num">Bad</th><th class="num">Illegal</th><th class="num">Dead-vote</th><th class="num">Overall</th></tr></thead><tbody>`
+      + A.routes.map(r => `<tr><td>${r.route}</td>
+        <td><span style="color:${qcolor(r.quant)}">${r.quant}</span></td>
+        <td class="num">${r.actions}</td><td class="num">${r.bad_pct}%</td>
+        <td class="num">${r.illegal_pct}%</td><td class="num">${r.dead_vote_pct}%</td>
+        <td class="num">${r.overall}</td></tr>`).join("") + `</tbody></table>`;
+
+    // win rate (de-emphasised)
+    h += sec("Win rate (not the headline)", N.winrate);
+    h += `<div class="sub">Villagers ${A.winrate.villagers} &middot; Wolves ${A.winrate.wolves} of ${A.winrate.villagers+A.winrate.wolves} games. Wolf win rate by precision: `
+      + A.winrate.rows.map(r => `${r.quant} ${pct(r.wolf_wr)}`).join(", ") + `.</div>`;
+
+    // caveats
+    h += sec("Caveats", "");
+    h += `<ul class="an-list">` + A.caveats.map(c => `<li>${c}</li>`).join("") + `</ul>`;
+
+    root.innerHTML = h;
+  }
+
+  function renderCareer() {
+    const c=D.career||[];
+    if(!c.length){ $("#career").innerHTML=`<div class="empty">No career data yet.</div>`; return; }
+    let html=`<table><thead><tr><th>Model</th><th>Games</th><th>Win</th><th>As wolf</th><th>As village</th><th>Refusal</th><th>$/game</th><th>Seasons</th></tr></thead><tbody>`;
+    c.forEach(r=>html+=`<tr><td><span class="model">${SHORT(r.model)}</span> <span class="lab">${LAB(r.model)}</span></td>
+      <td class="num">${r.total_games}</td><td class="num">${pct(r.win_rate)}</td><td class="num">${pct(r.wolf_win_rate)}</td>
+      <td class="num">${pct(r.village_win_rate)}</td><td class="num">${pct(r.refusal_rate)}</td>
+      <td class="num">$${r.cost_per_game.toFixed(4)}</td><td class="num">${r.seasons_played}</td></tr>`);
+    $("#career").innerHTML=html+`</tbody></table>`;
+  }
+
   const NOTES={
     leaderboard:"Werewolf and Villager skill are scored separately (role-conditional Glicko-2); Overall is a 50/50 blend. Bars show rating ±RD — overlapping bands mean “within noise”. Elo and TrueSkill are alternative whole-player ladders (sort by any column header) — each game is scored as a real two-team match, winners beat losers; TrueSkill shows the conservative rating μ−3σ. “PROV” = provisional (too few games for a firm rank).",
     analysis:"A season technical analysis, computed offline from the game records. Read the bands, not the bare order: at this volume only the extremes are statistically safe.",
-    replays:"Pick a game. The sky turns from night to day as you scroll through each round — click “what they were really thinking” on any turn to see the gap between what a player said and what it planned."
+    replays:"Pick a game. The sky turns from night to day as you scroll through each round — click “what they were really thinking” on any turn to see the gap between what a player said and what it planned.",
+    career:"Cross-season stats that don’t depend on the (frozen-per-season) prompt, so they’re comparable across seasons — unlike the per-season ratings."
   };
   function render(){ $("#note").innerHTML=NOTES[view];
     if(view==="leaderboard") renderLeaderboard();
     else if(view==="analysis") renderAnalysis();
-    else if(view==="replays") renderReplays(); }
+    else if(view==="replays") renderReplays(); else renderCareer(); }
   render();
 })();
 </script>

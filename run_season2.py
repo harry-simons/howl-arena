@@ -47,11 +47,11 @@ CONCURRENCY = 1        # ONE at a time. A 4-wide burst probe 429'd zero times, b
                        # No 429s — providers just slow responses under concurrent
                        # load from one account (the S1 lesson). Lower concurrency =
                        # faster per call + far fewer abandons, even with no overlap.
-GAME_TIMEOUT = 2400    # seconds (40 min) per game before the watchdog abandons it.
-                       # Raised 1200->1800->2400: at concurrency 1 a ~79-call game
-                       # runs serially and rate-limit backoff stretches it. Runs are
-                       # stable but slow, so the cap is set generously to abandon only
-                       # genuinely STUCK games, never slow-but-progressing ones.
+GAME_TIMEOUT = 4800    # seconds (80 min) per game before the watchdog abandons it.
+                       # Raised 1200->1800->2400->4800: hosts are just slow-moving
+                       # right now (not stuck), so the cap is set very generously to
+                       # abandon ONLY genuinely hung games, never slow-but-progressing
+                       # ones. Per-call timeout (30s) still kills a truly dead call fast.
 MAX_ATTEMPTS = 3       # retry passes for games that time out / abandon.
 # Per-call transport tuning for flaky/rate-limiting hosts (e.g. WandB 429s after a
 # handful of calls). More retries with exponential backoff lets a 429'd call WAIT

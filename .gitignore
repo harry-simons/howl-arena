@@ -20,6 +20,3 @@ Thumbs.db
 
 # Local Claude Code scaffolding (keep launch.json, drop machine-local settings)
 .claude/settings.local.json
-
-# In-progress Season 2 — not part of the published benchmark yet
-games/season-2/

@@ -143,8 +143,174 @@ LAB = {
 }
 
 
+def _build_season2():
+    """Reshape analysis/out/season2.json (the quantisation study) for the site.
+
+    Different kind of experiment from S1 (one model, nine precision routes), so
+    it carries kind='quant' and its own sections; the site renders it separately.
+    """
+    s2 = _load("season2.json")
+    if not s2:
+        return None
+    pq = s2["per_quant"]
+    total_actions = sum(pq[q]["actions"] for q in ("bf16", "fp8", "fp4"))
+    wins = s2["wins"]
+    nwolf, nvil = wins.get("werewolves", 0), wins.get("villagers", 0)
+    wi = s2["within_host"]
+
+    qr = s2.get("quant_ratings", {})
+    quant_summary = [{
+        "quant": q,
+        "overall": qr.get(q, {}).get("overall"),
+        "wolf": qr.get(q, {}).get("wolf", {}).get("rating"),
+        "wolf_rd": qr.get(q, {}).get("wolf", {}).get("rd"),
+        "villager": qr.get(q, {}).get("villager", {}).get("rating"),
+        "villager_rd": qr.get(q, {}).get("villager", {}).get("rd"),
+        "wolf_wr": pq[q]["wolf_wr"],
+        "village_wr": pq[q]["village_wr"],
+        "bad_pct": pq[q]["bad_pct"],
+    } for q in ("bf16", "fp8", "fp4")]
+
+    quality_rows = [{
+        "quant": q,
+        "actions": pq[q]["actions"],
+        "malformed_pct": pq[q]["malformed_pct"],
+        "illegal_pct": pq[q]["illegal_pct"],
+        "dead_vote_pct": pq[q]["dead_vote_pct"],
+        "bad_pct": pq[q]["bad_pct"],
+        "nf_lo": pq[q]["noise_floor"]["illegal_pct_range"][0],
+        "nf_hi": pq[q]["noise_floor"]["illegal_pct_range"][1],
+    } for q in ("bf16", "fp8", "fp4")]
+
+    noise_rows = [{
+        "quant": q,
+        "rating_spread": pq[q]["noise_floor"]["overall_rating_spread"],
+        "illegal_lo": pq[q]["noise_floor"]["illegal_pct_range"][0],
+        "illegal_hi": pq[q]["noise_floor"]["illegal_pct_range"][1],
+    } for q in ("bf16", "fp8", "fp4")]
+
+    qorder = {"bf16": 0, "fp8": 1, "fp4": 2}
+    routes = sorted(s2["routes"].items(), key=lambda kv: (qorder[kv[1]["quant"]], kv[0]))
+    route_rows = [{
+        "route": label.split("@")[1], "quant": d["quant"], "actions": d["actions"],
+        "bad_pct": d["bad_pct"], "illegal_pct": d["illegal_pct"],
+        "dead_vote_pct": d["dead_vote_pct"], "overall": d["overall_rating"],
+        "wolf": d["wolf_rating"], "villager": d["villager_rating"],
+        "eff_usd_per_m": d["eff_usd_per_m"], "usd_per_appearance": d["usd_per_appearance"],
+        "usd_per_effective": d["usd_per_effective"],
+        "turns_per_appearance": d["turns_per_appearance"], "survival_pct": d["survival_pct"],
+    } for label, d in routes]
+
+    # cost / "effective turn" economics by precision (the discussion: is fp4's
+    # cheap rate real once we only count legal turns and normalise by appearance?)
+    cost_rows = [{
+        "quant": q,
+        "eff_usd_per_m": pq[q]["eff_usd_per_m"],
+        "usd_per_effective": pq[q]["usd_per_effective"],
+        "usd_per_appearance": pq[q]["usd_per_appearance"],
+        "turns_per_appearance": pq[q]["turns_per_appearance"],
+        "waste_pct": pq[q]["waste_pct"],
+        "survival_pct": pq[q]["survival_pct"],
+    } for q in ("bf16", "fp8", "fp4")]
+
+    winrate_rows = [{"quant": q, "wolf_wr": pq[q]["wolf_wr"],
+                     "village_wr": pq[q]["village_wr"]} for q in ("bf16", "fp8", "fp4")]
+
+    narrative = {
+        "headline": (
+            "Quantisation did not break the model. Across roughly three thousand "
+            "actions gemma never once emitted malformed output, at any precision. "
+            "The only quality gap is in state-tracking, it is small, and it tracks the "
+            "PROVIDER boundary at least as much as the precision one, so the headline "
+            "is a caution: at this scale, lower quant did not clearly play worse."
+        ),
+        "average": (
+            "The whole study in one table: the three identical routes at each "
+            "precision pooled into a single average player and re-scored, so each row "
+            "is one rating over three times the games. bf16 and fp8 come out level; "
+            "fp4 is the only one that dips, and almost all of the drop is in the wolf "
+            "role. Read it against the RD: the fp4 wolf gap is suggestive, not proven."
+        ),
+        "quality": (
+            "Malformed output was zero at every precision: the model's JSON discipline "
+            "is bulletproof regardless of quant. Where quality differs it shows up as "
+            "ILLEGAL moves, chiefly votes for already-dead players, which is a "
+            "state-tracking failure, not a formatting one. That rate rises from bf16 to "
+            "fp8 to fp4, but read the noise band beside each figure before believing it."
+        ),
+        "within_host": (
+            "The one comparison with no provider confound: the same host (DeepInfra) "
+            "serving fp8 and fp4. Here the precision drop from 8 to 4 bits makes "
+            "essentially no difference. So the big step is full precision versus "
+            "quantised, not fp8 versus fp4."
+        ),
+        "confound": (
+            "The catch: this model is only served at bf16 on Novita and only at fp4 on "
+            "DeepInfra, so 'bf16 is cleaner' and 'Novita is cleaner' cannot be told "
+            "apart. The clean within-host test (above) shows no quant effect, which "
+            "means the provider boundary explains the gap at least as well as precision "
+            "does. We report the gap; we do not claim it is the quant."
+        ),
+        "noise": (
+            "Why the rating ladder is not the story. Three identical routes were run at "
+            "each precision; in self-play their ratings drift apart by up to 205 points "
+            "from chance alone. Any cross-route rank gap smaller than that is noise. "
+            "Only the bf16-versus-quantised quality gap clears its own band."
+        ),
+        "winrate": (
+            "Win rate is not the headline here: nine near-identical players make it "
+            "symmetric and noisy. Villagers took 21 of 36, a mild village tilt in line "
+            "with the format. The small dip in wolf win rate at fp4 sits inside the "
+            "noise floor."
+        ),
+        "cost": (
+            "Per effective turn, fp4 is genuinely the cheapest: its lower token price "
+            "wins even after its slightly higher rate of wasted (illegal) turns, which "
+            "is far too small to flip the saving. The catch is volume, not price. "
+            "Normalised by seat-appearance, fp4 cost the MOST, because its seats played "
+            "about 14% more turns each, having survived to later rounds more often. "
+            "Those extra turns are legal, but in Werewolf more turns is not more value, "
+            "and fp4 rated lower, not higher, so the surplus is quantity, not quality, "
+            "and most likely survival noise over 36 games. The cheap rate is real; the "
+            "higher total is an artefact of how long fp4's seats happened to live."
+        ),
+    }
+
+    return {
+        "kind": "quant",
+        "title": "Season 2 technical analysis",
+        "subtitle": f"{s2['n_games']} games | one model, nine precision routes | computed offline",
+        "narrative": narrative,
+        "quant_summary": quant_summary,
+        "metrics": [
+            {"value": "0", "label": "malformed turns", "note": f"across {total_actions:,} actions, every quant"},
+            {"value": f"${s2['cost_per_game']:.4f}", "label": "cost per game", "note": f"${s2['total_cost']:.2f} for the season"},
+            {"value": f"{nvil}-{nwolf}", "label": "village-wolf wins", "note": "self-play, mild village tilt"},
+            {"value": "205 pts", "label": "replica noise floor", "note": "identical routes drift this far"},
+        ],
+        "quality_rows": quality_rows,
+        "within": {
+            "fp8_bad": wi["DeepInfra_fp8"]["bad_pct"], "fp4_bad": wi["DeepInfra_fp4"]["bad_pct"],
+            "fp8_illegal": wi["DeepInfra_fp8"]["illegal_pct"], "fp4_illegal": wi["DeepInfra_fp4"]["illegal_pct"],
+            "fp8_n": wi["DeepInfra_fp8"]["actions"], "fp4_n": wi["DeepInfra_fp4"]["actions"],
+        },
+        "noise_rows": noise_rows,
+        "routes": route_rows,
+        "cost_rows": cost_rows,
+        "winrate": {"wolves": nwolf, "villagers": nvil, "rows": winrate_rows},
+        "caveats": [
+            "Provider confound. bf16 is served only on Novita and fp4 only on DeepInfra, so a precision effect cannot be separated from a provider effect; the one confound-free test (DeepInfra fp8 vs fp4) shows no quant effect.",
+            "Scale. About 1,000 actions per precision level: enough to see a threefold gap from bf16, not enough to trust sub-percentage-point differences between fp8 and fp4.",
+            "Self-play noise. All nine seats are the same model, so win rate and the rating ladder are symmetric and noisy; the replica routes quantify that floor and it is large.",
+            "State-tracking, not format. The only measurable degradation is illegal moves and dead-player votes; the model's output formatting never failed, so 'worse quant' here means a worse memory of the board, not broken JSON.",
+        ],
+    }
+
+
 def build(season_id: str):
     """Return the analysis blob for a season, or None if not available."""
+    if season_id == "season-2":
+        return _build_season2()
     if season_id != "season-1":
         return None
     quant = _load("quant.json")
@@ -182,6 +348,18 @@ def build(season_id: str):
         "rating": d["overall_rating"], "value": d["value_per_usd"],
         "pareto": d["pareto_optimal"], "out_per_call": d["out_tok_per_call"],
     } for m, d in sorted(cm.items(), key=lambda kv: -kv[1]["total_usd"])]
+
+    # scatter data: one point per model, for the two-axis plots (Harry's request).
+    rat = quant["ratings"]
+    scatter_models = [{
+        "model": m,
+        "wolf": round(rat[m]["wolf"]["rating"]),
+        "villager": round(rat[m]["villager"]["rating"]),
+        "overall": round(rat[m]["overall"]["rating"]),
+        "cost_per_game": cm.get(m, {}).get("cost_per_game"),
+        "pareto": cm.get(m, {}).get("pareto_optimal", False),
+        "lab": LAB.get(m, ""),
+    } for m in order]
 
     # decision: vote accuracy (D2+) + survival (village side)
     va = votes["metric1_vote_accuracy"]["per_model"]
@@ -234,6 +412,7 @@ def build(season_id: str):
             "villager": sig["villager"]["tie_groups"],
         },
         "role_split": role_split,
+        "scatter_models": scatter_models,
         "win_dynamics": dyn,
         "deception": {
             "leaks": dec["summary"]["total_leak_msgs"],
