@@ -485,6 +485,7 @@
     const root = $("#analysis");
     if (!A) { root.innerHTML = `<div class="empty">No technical analysis published for this season yet.</div>`; return; }
     if (A.kind === "quant") return renderQuantAnalysis(A, root);
+    if (A.kind === "prompt") return renderPromptAnalysis(A, root);
     const N = A.narrative;
     const sec = (title, lead) => `<div class="an-sec"><h3>${title}</h3>${lead?`<div class="lead">${lead}</div>`:""}</div>`;
     const barRow = (model, frac, color, label) =>
@@ -674,6 +675,100 @@
     h += sec("Win rate (not the headline)", N.winrate);
     h += `<div class="sub">Villagers ${A.winrate.villagers} &middot; Wolves ${A.winrate.wolves} of ${A.winrate.villagers+A.winrate.wolves} games. Wolf win rate by precision: `
       + A.winrate.rows.map(r => `${r.quant} ${pct(r.wolf_wr)}`).join(", ") + `.</div>`;
+
+    // caveats
+    h += sec("Caveats", "");
+    h += `<ul class="an-list">` + A.caveats.map(c => `<li>${c}</li>`).join("") + `</ul>`;
+
+    root.innerHTML = h;
+  }
+
+  // ---- analysis: Season 3 prompt-engineering study (kind === "prompt") ----
+  function renderPromptAnalysis(A, root) {
+    const N = A.narrative;
+    const sec = (title, lead) => `<div class="an-sec"><h3>${title}</h3>${lead?`<div class="lead">${lead}</div>`:""}</div>`;
+    const VC = { baseline:"var(--sub)", coached:"var(--gold)", cot:"var(--seer)", statetrack:"var(--village)" };
+    const vcol = v => VC[v] || "var(--sub)";
+    const p1 = x => (x==null?"&mdash;":(+x).toFixed(1)+"%");
+    let h = "";
+
+    h += `<div class="story show" style="margin-bottom:18px">${N.headline.replace(/^([^.]+\.)/, "<b>$1</b>")}</div>`;
+    h += `<div class="an-cards">` + A.metrics.map(m =>
+      `<div class="an-stat"><div class="v">${m.value}</div><div class="l">${m.label}</div><div class="n">${m.note}</div></div>`).join("") + `</div>`;
+
+    // the prompts themselves (so the reader knows what we are asking the model to do)
+    const esc = s => (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    const ptxt = "white-space:pre-wrap;font-size:13px;line-height:1.55;background:rgba(0,0,0,.18);padding:10px 13px;border-radius:6px;margin-top:8px";
+    if (A.prompts) {
+      h += sec("What each prompt asks the model to do",
+        "All four share the same base prompt (the rules and win conditions). Three then append a single block of guidance; the baseline gets none. That added block is the entire difference between the variants.");
+      h += `<div style="display:grid;gap:12px">` + A.prompts.map(p => `
+        <div style="border-left:3px solid ${vcol(p.variant)};padding:2px 0 2px 14px">
+          <div style="font-weight:700;color:${vcol(p.variant)};font-size:15px">${p.variant}${p.is_control?` <span class="sub" style="color:var(--sub);font-weight:400">— control</span>`:""}</div>
+          <div class="sub" style="margin-top:3px">${p.gloss}</div>
+          ${p.text ? `<div style="${ptxt}">${esc(p.text)}</div>` : `<div class="sub" style="font-style:italic;margin-top:6px">No added guidance: the frozen prompt, verbatim.</div>`}
+        </div>`).join("") + `</div>`;
+      if (A.base_system) {
+        h += `<details style="margin-top:12px"><summary class="sub" style="cursor:pointer">Show the shared base prompt (identical for every variant)</summary>
+          <div style="${ptxt}">${esc(A.base_system)}</div></details>`;
+      }
+    }
+
+    // pooled-by-variant headline table
+    h += sec("The four prompts, pooled and re-scored", N.variants);
+    h += `<table class="an-table"><thead><tr><th>Prompt</th><th class="num">Win%</th><th class="num">Villager%</th><th class="num">Wolf%</th><th class="num">Dead-vote%</th><th class="num">Illegal%</th><th class="num">Glicko</th><th class="num">Elo</th><th class="num">TrueSkill</th></tr></thead><tbody>`
+      + A.variant_rows.map(r => `<tr${r.variant==="coached"?' style="background:rgba(243,194,76,.07)"':''}>
+        <td><span style="color:${vcol(r.variant)};font-weight:700">${r.variant}</span> <span class="sub">&times;${r.n_replicas}</span></td>
+        <td class="num"><b>${p1(r.win_pct)}</b></td>
+        <td class="num">${p1(r.village_wr)}</td>
+        <td class="num">${p1(r.wolf_wr)}</td>
+        <td class="num"><b>${p1(r.dead_vote_pct)}</b></td>
+        <td class="num">${r.illegal_pct}%</td>
+        <td class="num">${r.overall}${r.overall_prov?' <span class="sub">prov</span>':''}</td>
+        <td class="num">${r.elo}</td>
+        <td class="num">${r.trueskill}</td></tr>`).join("") + `</tbody></table>`;
+    h += `<div class="sub" style="margin-top:6px">Each variant's replicas pooled into one player and re-scored. Coaching (gold) leads every column; the two "thinking" prompts sit on or just above the baseline.</div>`;
+
+    // the directed dead-vote test (the cleanest signal)
+    h += sec("The directed test: does a prompt cut dead-player votes?", N.deadvote);
+    const bb = A.baseline_band, maxd = Math.max(14, ...A.variant_rows.map(r=>r.dead_vote_pct||0));
+    h += `<div class="sub" style="margin-bottom:6px">Share of each variant's votes cast at an already-dead player. The shaded strip is the baseline replica range (${bb.dead_lo}&ndash;${bb.dead_hi}%): a bar must clear it to count as a real effect.</div>`;
+    // baseline band as its own reference row (percentages scale against the bar track)
+    h += `<div class="split2" style="grid-template-columns:118px 1fr 46px">
+      <span class="sub">baseline band</span>
+      <div class="bar" style="margin:0;position:relative">
+        <div style="position:absolute;top:0;bottom:0;left:${100*bb.dead_lo/maxd}%;width:${Math.max(1,100*(bb.dead_hi-bb.dead_lo)/maxd)}%;background:rgba(255,255,255,.10);border-left:1px dashed var(--sub);border-right:1px dashed var(--sub)"></div>
+      </div>
+      <span class="sub" style="text-align:right">${bb.dead_lo}&ndash;${bb.dead_hi}%</span></div>`;
+    h += A.variant_rows.map(r =>
+      `<div class="split2" style="grid-template-columns:118px 1fr 46px">
+        <span style="color:${vcol(r.variant)};font-weight:600">${r.variant}</span>
+        <div class="bar" style="margin:0;position:relative">
+          <div style="position:absolute;top:0;bottom:0;left:${100*bb.dead_lo/maxd}%;width:${Math.max(1,100*(bb.dead_hi-bb.dead_lo)/maxd)}%;background:rgba(255,255,255,.06)"></div>
+          <div class="fill" style="width:${Math.max(2,100*(r.dead_vote_pct||0)/maxd)}%;background:${vcol(r.variant)};position:relative"></div></div>
+        <span class="sub" style="text-align:right">${p1(r.dead_vote_pct)}</span></div>`).join("");
+    h += `<div class="sub" style="margin-top:6px">Only <b style="color:var(--gold)">coached</b> clears the baseline band &mdash; the variant built to fix this (statetrack) helps less than the general primer, and cot not at all. The error is attention, not bookkeeping.</div>`;
+
+    // per-seat scatter: dead-vote vs win, colour by variant (shows the replica spread)
+    if (A.seat_rows) {
+      h += sec("Every seat: the replica spread", "Nine seats, four colours. Identical-prompt replicas scatter widely (the noise floor); the question is whether a colour separates from the pack. Coaching's seats sit low-left (few dead-votes, high Elo).");
+      h += `<div class="scatter-grid" style="grid-template-columns:1fr">` + scatterSVG(
+        A.seat_rows.map(s=>({x:s.dead_vote_pct, y:s.elo, label:s.seat, color:vcol(s.variant)})),
+        { w:600, h:340, title:"Dead-vote rate vs Elo, by seat", xlabel:"dead-vote % (lower is better)",
+          ylabel:"Elo rating", padR:120, fmtx:v=>v.toFixed(0)+"%", fmty:v=>Math.round(v) }) + `</div>`;
+      h += `<div class="sub">` + ["baseline","coached","cot","statetrack"].map(v=>
+        `<span style="color:${vcol(v)}">&#9632;</span> ${v}`).join(" &nbsp; ") + `</div>`;
+    }
+
+    // win rate + noise floor
+    h += sec("Win rate: directional, not yet clear of the noise", N.winrate);
+    h += `<div class="band-row"><span class="band-lab">Baseline band</span>
+      <span class="bandpill top">win ${bb.win_lo}&ndash;${bb.win_hi}%</span>
+      <span class="bandpill top">rating drift &plusmn;${bb.rating_spread} pts</span></div>`;
+    h += `<div class="sub" style="margin-top:6px">${N.noise}</div>`;
+
+    // quality
+    h += sec("Format quality", N.quality);
 
     // caveats
     h += sec("Caveats", "");

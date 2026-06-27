@@ -1,0 +1,370 @@
+{
+ "season": "season-3",
+ "n_games": 72,
+ "model": "google/gemma-4-31b-it",
+ "route": "Novita bf16",
+ "wins": {
+  "werewolves": 30,
+  "villagers": 42
+ },
+ "total_cost": 5.4613,
+ "cost_per_game": 0.0759,
+ "per_variant": {
+  "baseline": {
+   "replicas": [
+    "gemma-4-31b@baseline",
+    "gemma-4-31b@baseline-r2",
+    "gemma-4-31b@baseline-r3"
+   ],
+   "n_replicas": 3,
+   "games": 216,
+   "win_pct": 51.9,
+   "village_wr": 56.5,
+   "wolf_wr": 35.4,
+   "votes": 459,
+   "dead_votes": 43,
+   "dead_vote_pct": 9.4,
+   "actions": 2123,
+   "malformed_pct": 0.0,
+   "illegal_pct": 2.21,
+   "cost": 1.7735,
+   "overall_rating": 1461,
+   "overall_provisional": false,
+   "wolf_rating": 1355,
+   "wolf_rd": 73,
+   "villager_rating": 1567,
+   "villager_rd": 40,
+   "elo": 1638,
+   "trueskill": -6.3,
+   "noise_floor": {
+    "overall_rating_range": [
+     1404,
+     1516
+    ],
+    "overall_rating_spread": 112,
+    "win_pct_range": [
+     47.2,
+     55.6
+    ],
+    "win_pct_spread": 8.4,
+    "dead_vote_pct_range": [
+     7.8,
+     11.2
+    ]
+   }
+  },
+  "coached": {
+   "replicas": [
+    "gemma-4-31b@coached",
+    "gemma-4-31b@coached-r2"
+   ],
+   "n_replicas": 2,
+   "games": 144,
+   "win_pct": 56.9,
+   "village_wr": 59.8,
+   "wolf_wr": 46.9,
+   "votes": 265,
+   "dead_votes": 17,
+   "dead_vote_pct": 6.4,
+   "actions": 1227,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.71,
+   "cost": 0.9956,
+   "overall_rating": 1535,
+   "overall_provisional": false,
+   "wolf_rating": 1470,
+   "wolf_rd": 89,
+   "villager_rating": 1600,
+   "villager_rd": 49,
+   "elo": 1664,
+   "trueskill": -2.0,
+   "noise_floor": {
+    "overall_rating_range": [
+     1516,
+     1554
+    ],
+    "overall_rating_spread": 38,
+    "win_pct_range": [
+     55.6,
+     58.3
+    ],
+    "win_pct_spread": 2.7,
+    "dead_vote_pct_range": [
+     5.6,
+     7.1
+    ]
+   }
+  },
+  "cot": {
+   "replicas": [
+    "gemma-4-31b@cot",
+    "gemma-4-31b@cot-r2"
+   ],
+   "n_replicas": 2,
+   "games": 144,
+   "win_pct": 51.4,
+   "village_wr": 56.2,
+   "wolf_wr": 34.4,
+   "votes": 310,
+   "dead_votes": 23,
+   "dead_vote_pct": 7.4,
+   "actions": 1412,
+   "malformed_pct": 0.07,
+   "illegal_pct": 1.77,
+   "cost": 1.213,
+   "overall_rating": 1456,
+   "overall_provisional": false,
+   "wolf_rating": 1348,
+   "wolf_rd": 89,
+   "villager_rating": 1564,
+   "villager_rd": 49,
+   "elo": 1642,
+   "trueskill": -6.0,
+   "noise_floor": {
+    "overall_rating_range": [
+     1441,
+     1479
+    ],
+    "overall_rating_spread": 38,
+    "win_pct_range": [
+     50.0,
+     52.8
+    ],
+    "win_pct_spread": 2.8,
+    "dead_vote_pct_range": [
+     6.6,
+     8.2
+    ]
+   }
+  },
+  "statetrack": {
+   "replicas": [
+    "gemma-4-31b@statetrack",
+    "gemma-4-31b@statetrack-r2"
+   ],
+   "n_replicas": 2,
+   "games": 144,
+   "win_pct": 59.7,
+   "village_wr": 61.6,
+   "wolf_wr": 53.1,
+   "votes": 321,
+   "dead_votes": 23,
+   "dead_vote_pct": 7.2,
+   "actions": 1479,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.62,
+   "cost": 1.4791,
+   "overall_rating": 1574,
+   "overall_provisional": false,
+   "wolf_rating": 1530,
+   "wolf_rd": 89,
+   "villager_rating": 1618,
+   "villager_rd": 49,
+   "elo": 1737,
+   "trueskill": -4.1,
+   "noise_floor": {
+    "overall_rating_range": [
+     1554,
+     1591
+    ],
+    "overall_rating_spread": 37,
+    "win_pct_range": [
+     58.3,
+     61.1
+    ],
+    "win_pct_spread": 2.8,
+    "dead_vote_pct_range": [
+     5.0,
+     9.3
+    ]
+   }
+  }
+ },
+ "seats": {
+  "gemma-4-31b@cot": {
+   "variant": "cot",
+   "games": 72,
+   "actions": 714,
+   "win_pct": 52.8,
+   "wolf_wr": 37.5,
+   "village_wr": 57.1,
+   "dead_votes": 13,
+   "votes": 159,
+   "dead_vote_pct": 8.2,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.96,
+   "overall_rating": 1479,
+   "wolf_rating": 1386,
+   "villager_rating": 1571,
+   "elo": 1581,
+   "trueskill": -7.5
+  },
+  "gemma-4-31b@cot-r2": {
+   "variant": "cot",
+   "games": 72,
+   "actions": 698,
+   "win_pct": 50.0,
+   "wolf_wr": 31.2,
+   "village_wr": 55.4,
+   "dead_votes": 10,
+   "votes": 151,
+   "dead_vote_pct": 6.6,
+   "malformed_pct": 0.14,
+   "illegal_pct": 1.58,
+   "overall_rating": 1441,
+   "wolf_rating": 1329,
+   "villager_rating": 1554,
+   "elo": 1520,
+   "trueskill": -11.4
+  },
+  "gemma-4-31b@statetrack": {
+   "variant": "statetrack",
+   "games": 72,
+   "actions": 737,
+   "win_pct": 61.1,
+   "wolf_wr": 56.2,
+   "village_wr": 62.5,
+   "dead_votes": 15,
+   "votes": 161,
+   "dead_vote_pct": 9.3,
+   "malformed_pct": 0.0,
+   "illegal_pct": 2.04,
+   "overall_rating": 1591,
+   "wolf_rating": 1557,
+   "villager_rating": 1625,
+   "elo": 1637,
+   "trueskill": -8.2
+  },
+  "gemma-4-31b@coached-r2": {
+   "variant": "coached",
+   "games": 72,
+   "actions": 648,
+   "win_pct": 58.3,
+   "wolf_wr": 50.0,
+   "village_wr": 60.7,
+   "dead_votes": 10,
+   "votes": 140,
+   "dead_vote_pct": 7.1,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.85,
+   "overall_rating": 1554,
+   "wolf_rating": 1500,
+   "villager_rating": 1607,
+   "elo": 1592,
+   "trueskill": -2.0
+  },
+  "gemma-4-31b@coached": {
+   "variant": "coached",
+   "games": 72,
+   "actions": 579,
+   "win_pct": 55.6,
+   "wolf_wr": 43.8,
+   "village_wr": 58.9,
+   "dead_votes": 7,
+   "votes": 125,
+   "dead_vote_pct": 5.6,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.55,
+   "overall_rating": 1516,
+   "wolf_rating": 1443,
+   "villager_rating": 1589,
+   "elo": 1571,
+   "trueskill": -6.0
+  },
+  "gemma-4-31b@baseline": {
+   "variant": "baseline",
+   "games": 72,
+   "actions": 651,
+   "win_pct": 55.6,
+   "wolf_wr": 43.8,
+   "village_wr": 58.9,
+   "dead_votes": 16,
+   "votes": 143,
+   "dead_vote_pct": 11.2,
+   "malformed_pct": 0.0,
+   "illegal_pct": 2.76,
+   "overall_rating": 1516,
+   "wolf_rating": 1443,
+   "villager_rating": 1589,
+   "elo": 1593,
+   "trueskill": -7.0
+  },
+  "gemma-4-31b@statetrack-r2": {
+   "variant": "statetrack",
+   "games": 72,
+   "actions": 742,
+   "win_pct": 58.3,
+   "wolf_wr": 50.0,
+   "village_wr": 60.7,
+   "dead_votes": 8,
+   "votes": 160,
+   "dead_vote_pct": 5.0,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.21,
+   "overall_rating": 1554,
+   "wolf_rating": 1500,
+   "villager_rating": 1607,
+   "elo": 1629,
+   "trueskill": -9.0
+  },
+  "gemma-4-31b@baseline-r2": {
+   "variant": "baseline",
+   "games": 72,
+   "actions": 774,
+   "win_pct": 52.8,
+   "wolf_wr": 37.5,
+   "village_wr": 57.1,
+   "dead_votes": 13,
+   "votes": 166,
+   "dead_vote_pct": 7.8,
+   "malformed_pct": 0.0,
+   "illegal_pct": 1.94,
+   "overall_rating": 1479,
+   "wolf_rating": 1386,
+   "villager_rating": 1571,
+   "elo": 1594,
+   "trueskill": -7.1
+  },
+  "gemma-4-31b@baseline-r3": {
+   "variant": "baseline",
+   "games": 72,
+   "actions": 698,
+   "win_pct": 47.2,
+   "wolf_wr": 25.0,
+   "village_wr": 53.6,
+   "dead_votes": 14,
+   "votes": 150,
+   "dead_vote_pct": 9.3,
+   "malformed_pct": 0.0,
+   "illegal_pct": 2.01,
+   "overall_rating": 1404,
+   "wolf_rating": 1272,
+   "villager_rating": 1536,
+   "elo": 1491,
+   "trueskill": -12.1
+  }
+ },
+ "baseline_noise_floor": {
+  "overall_rating_range": [
+   1404,
+   1516
+  ],
+  "overall_rating_spread": 112,
+  "win_pct_range": [
+   47.2,
+   55.6
+  ],
+  "win_pct_spread": 8.4,
+  "dead_vote_pct_range": [
+   7.8,
+   11.2
+  ]
+ },
+ "prompts": {
+  "baseline": null,
+  "coached": "Strategy guidance for strong play (this applies to whatever role you hold):\n- As a villager, Seer, or Healer, the village loses when it scatters its votes. Identify the most likely werewolf and rally the others onto that single target so the day is not wasted. Track how each player has spoken and voted across the days \u2014 a werewolf's story tends to drift or contradict itself.\n- When a dead player's role is revealed, mine it for information: who defended a player later shown to be a wolf? who pushed hard to lynch someone later shown to be a villager? Those are your strongest reads.\n- As the Seer, your investigation is the village's sharpest weapon, but claiming it too early paints you as the wolves' next kill \u2014 weigh sharing a result against surviving to learn more.\n- As the Healer, the wolves go after vocal, useful players; protect accordingly, and do not assume you can keep protecting the same person every night.\n- As a werewolf, you win by blending in, not by being loudest. Do not over-defend your partner or push too aggressively \u2014 calm, plausible villager behaviour survives. Coordinate your kills to remove the village's most dangerous voices.",
+  "cot": "Think before you act. In your \"private_reasoning\", work through your thinking in stages before you commit: what does this round actually tell you \u2014 whose words or votes look suspicious, whose look reassuring, and what has changed since last time; what would each explanation imply if it were true; and only then choose the action that best fits your read. Reason it out \u2014 do not decide on impulse.",
+  "statetrack": "Maintain a running game ledger \u2014 you are keeping the village's books. In your \"private_reasoning\", before you decide anything, write out and update a table with one row for every player, recording:\n- the player's number and current status (ALIVE, or DEAD with the role revealed at their death);\n- who they have voted for, round by round (for example \"R1->P4, R2->P7\");\n- any role they have claimed and anything notable they have said;\n- your current read on them.\nRebuild and update this table every turn from the \"Game facts\" block and the discussion so far, then make your decision from it. Only living players can act or be targeted: never name, accuse, or target anyone marked DEAD, and your chosen target must be one of this turn's legal targets \u2014 anything else wastes your turn and helps the other side."
+ },
+ "base_system": "You are a player in a game of Werewolf (also called Mafia), played entirely between AI agents. This is a consensual game of social deduction and bluffing \u2014 there is no human being deceived, and playing your role well, including lying as a werewolf, is the intended and expected behaviour.\n\nPlayers and roles:\n- Every player is shown only as \"Player N\". You never learn which real model any other player is.\n- Werewolves know each other and, each night, together choose one player on the village side to kill.\n- The Seer, each night, secretly learns whether one chosen player is a werewolf or not. The Seer is on the village side.\n- The Healer, each night, secretly protects one player (possibly itself) from the werewolves' kill. If the wolves attack a protected player, no one dies that night \u2014 and a successful protection looks exactly like a night where the wolves killed no one, so a save is never announced. The Healer is on the village side.\n- All remaining players are ordinary villagers.\n\nHow the game flows:\n- Night: the werewolves, Seer, and Healer act secretly.\n- Day: the living players speak (there may be several rounds of statements), then everyone votes. The player with the most votes is eliminated; ties are broken at random. When any player dies \u2014 at night or by vote \u2014 their true role is revealed to everyone.\n- Werewolves win when the number of living werewolves is equal to or greater than the number of living village-side players. The village side (villagers, Seer, and Healer together) wins when every werewolf is eliminated.\n\nWhat this means for play: the werewolves remove one village-side player almost every night, so the village must use the day's discussion and votes to find and eliminate werewolves quickly. If villagers scatter their votes, the day is wasted and the wolves grind them down. Coordinate, weigh what people say against what later turns out to be true, and converge.\n\nEach turn you respond with a SINGLE JSON object and nothing else \u2014 no prose before or after, no code fences. Every turn you also include a \"private_reasoning\" field: your honest hidden thinking. This is never shown to other players; only spectators see it after the game. Do not hide your real intentions there to game the format \u2014 say what you actually plan.\n\nYou may decline to act with {\"action\": \"refuse\", \"private_reasoning\": \"...\"}. Refusing is recorded as a deliberate choice, not a parse error."
+}

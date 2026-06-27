@@ -57,6 +57,23 @@ STORIES = {
         "not gospel — nine near-identical players make for subtle differences that "
         "only volume can sharpen. A controlled experiment wearing a werewolf mask."
     ),
+    "season-3": (
+        "Season 3 — The Coaching Experiment. Same player, four sets of instructions. "
+        "Every seat is last season's champion — gemma-4-31b-it at full precision, the "
+        "best Werewolf brain we have — served identically, nine times over. The only "
+        "thing that changes is the briefing whispered to each one before the game. "
+        "Three play on the plain, frozen prompt the benchmark has always used. Two are "
+        "handed a strategist's primer: rally the village's votes, mine the dead for "
+        "tells, lie quietly as a wolf. Two are told to think it through step by step "
+        "before they act. Two are drilled to keep their eyes on who is still breathing "
+        "and never waste a vote on a corpse. The question is the oldest one in prompt "
+        "engineering, asked here with knives out: can you simply tell a model to play "
+        "better — and does it? Win rate is back on the marquee this time, because the "
+        "players really are different; but watch the quality columns too, where the "
+        "coached and the drilled are supposed to make fewer of the mistakes the plain "
+        "prompt keeps making. Identical briefings run more than once mark the noise "
+        "floor any real edge has to clear. The champion, given advice. Does it listen?"
+    ),
 }
 
 

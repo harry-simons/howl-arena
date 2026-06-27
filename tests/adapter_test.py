@@ -473,6 +473,53 @@ def test_s2_provider_override_wins_over_prefs_and_sets_quant():
     print("[23] per-call provider_override beats model pin; enforced quant tracks the route")
 
 
+def test_s3_prompt_variant_changes_only_the_system_prompt():
+    """Season 3 seam: a PromptVariant swaps the standing system prompt while the
+    game-state user message stays byte-for-byte identical to the baseline — the
+    controlled-experiment invariant (only the prompt text varies between seats).
+    The frozen build_messages output is unchanged by the refactor."""
+    _, view = _seat_view(Role.VILLAGER, Phase.DAY_VOTE)
+    baseline_msgs = prompt.build_messages(view)
+    # The frozen path still emits the frozen system prompt + the shared user body.
+    assert baseline_msgs[0]["content"] == prompt.BASE_SYSTEM
+    assert baseline_msgs[1]["content"] == prompt.build_user(view)
+
+    variant = prompt.PromptVariant("s3-test", prompt.BASE_SYSTEM + "\n\nEXTRA GUIDANCE.")
+    variant_msgs = variant.build_messages(view)
+    assert variant_msgs[0]["content"].endswith("EXTRA GUIDANCE.")
+    assert variant_msgs[0]["content"] != baseline_msgs[0]["content"]   # system differs
+    assert variant_msgs[1]["content"] == baseline_msgs[1]["content"]   # user identical
+    print("[24] prompt variant changes only the system prompt; user message is identical")
+
+
+def test_s3_agent_uses_its_prompt_variant():
+    """The agent sends the seat's variant system prompt when given one, and the
+    frozen module prompt when not — so baseline and treatment seats in the same
+    game are driven by different standing instructions."""
+    class RecordingTransport:
+        def __init__(self):
+            self.systems = []
+
+        def complete(self, model_id, messages, temperature, max_tokens,
+                     provider_override=None):
+            self.systems.append(messages[0]["content"])
+            return CallResult(text='{"action": "refuse", "private_reasoning": "x"}',
+                              input_tokens=10, output_tokens=2, cost=0.0001)
+
+    _, view = _seat_view(Role.VILLAGER, Phase.DAY_VOTE)
+    transport = RecordingTransport()
+    cost = CostAccumulator()
+    variant = prompt.PromptVariant("s3-test", prompt.BASE_SYSTEM + "\n\nUNIQUE-MARKER-XYZ.")
+    coached = OpenRouterAgent("gemma@coached", transport, _config(), cost,
+                              prompt_variant=variant)
+    plain = OpenRouterAgent("gemma@baseline", transport, _config(), cost)
+    coached.get_action(view)
+    plain.get_action(view)
+    assert "UNIQUE-MARKER-XYZ." in transport.systems[0], "variant system prompt not used"
+    assert transport.systems[1] == prompt.BASE_SYSTEM, "no-variant seat must use frozen prompt"
+    print("[25] agent uses its prompt variant's system prompt; default seat uses the frozen one")
+
+
 def test_void_detection():
     """A normal completed game is scored; a degenerate one (most turns failed) is
     flagged void so it is excluded from ratings."""
@@ -538,6 +585,8 @@ if __name__ == "__main__":
     test_provider_pin_injected_into_request()
     test_s2_seat_decouples_label_from_api_model_and_route()
     test_s2_provider_override_wins_over_prefs_and_sets_quant()
+    test_s3_prompt_variant_changes_only_the_system_prompt()
+    test_s3_agent_uses_its_prompt_variant()
     test_void_detection()
     test_concurrent_games_are_independent()
     print("\nAll adapter checks passed.")

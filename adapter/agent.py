@@ -30,6 +30,7 @@ class OpenRouterAgent:
         cost: CostAccumulator,
         api_model_id: str | None = None,
         routing: dict | None = None,
+        prompt_variant: "prompt.PromptVariant | None" = None,
     ):
         # `model_id` is the seat's DISPLAY IDENTITY — what the runner reads into
         # seat_models and what the scorer/site key off. In Season 1 it equals the
@@ -42,6 +43,11 @@ class OpenRouterAgent:
         self.model_id = model_id
         self._api_model_id = api_model_id or model_id
         self._routing = routing
+        # Season 3 seam: a per-seat system-prompt variant. None => the frozen
+        # module prompt (the Season 1 / Season 2 path, unchanged). When set, this
+        # seat's standing system prompt is the only thing that differs from a
+        # baseline seat — the user message (game state) and reprompt are shared.
+        self._prompt = prompt_variant
         self._transport = transport
         self._config = config
         self._cost = cost
@@ -67,7 +73,11 @@ class OpenRouterAgent:
         return result
 
     def get_action(self, view: PlayerView) -> Action:
-        messages = prompt.build_messages(view)
+        # Use this seat's prompt variant if it has one (Season 3), else the
+        # frozen module prompt (Season 1 / Season 2). Both expose the same
+        # build_messages / build_reprompt_correction surface.
+        pv = self._prompt or prompt
+        messages = pv.build_messages(view)
         result = self._call(messages)
         parsed = parsing.parse_reply(result.text, view)
         if parsed.action is not None:
@@ -78,7 +88,7 @@ class OpenRouterAgent:
         # One reprompt, carrying the parse error, before abstaining.
         messages = messages + [
             {"role": "assistant", "content": result.text},
-            prompt.build_reprompt_correction(parsed.error or "unparseable reply"),
+            pv.build_reprompt_correction(parsed.error or "unparseable reply"),
         ]
         result = self._call(messages)
         reparsed = parsing.parse_reply(result.text, view)

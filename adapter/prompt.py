@@ -166,9 +166,12 @@ def _ask(view: PlayerView) -> str:
     return 'Respond with: {"action": "refuse", "private_reasoning": "..."}'
 
 
-def build_messages(view: PlayerView) -> list[dict]:
-    """Turn the redacted view into the chat messages for one decision."""
-    user = "\n\n".join(
+def build_user(view: PlayerView) -> str:
+    """The user message for one decision: the game state, exactly as the player
+    is allowed to see it. This is the SHARED, prompt-variant-independent part —
+    every Season 3 prompt variant fills the same state in here and differs only
+    in the standing system prompt (see PromptVariant)."""
+    return "\n\n".join(
         [
             _setup_line(view),
             _role_block(view),
@@ -178,9 +181,17 @@ def build_messages(view: PlayerView) -> list[dict]:
             _ask(view),
         ]
     )
+
+
+def build_messages(view: PlayerView) -> list[dict]:
+    """Turn the redacted view into the chat messages for one decision.
+
+    This is the frozen Season 1 / Season 2 apparatus: the single fixed system
+    prompt plus the game-state user message. Its output is unchanged by the
+    Season 3 refactor — the baseline variant produces exactly this."""
     return [
         {"role": "system", "content": _SYSTEM},
-        {"role": "user", "content": user},
+        {"role": "user", "content": build_user(view)},
     ]
 
 
@@ -197,3 +208,40 @@ def build_reprompt_correction(error: str) -> dict:
             "single JSON object only — no other text, no code fences."
         ),
     }
+
+
+# Public alias for the frozen baseline system prompt, so the Season 3 variants
+# can build on it explicitly (baseline = this verbatim; treatments = this plus an
+# appended guidance block). Naming it makes "the only thing that changed is the
+# added block" legible at the call site.
+BASE_SYSTEM = _SYSTEM
+
+
+class PromptVariant:
+    """A named system-prompt variant for the Season 3 prompt-engineering study.
+
+    Season 3 holds the model and the route fixed and varies ONLY the standing
+    system prompt across seats — the question is "can we prompt a better
+    player?". To keep that a clean controlled experiment, every variant shares
+    the identical user message (the game state, from build_user) and the
+    identical reprompt wording; the sole difference between two seats is this
+    `system` string. The `version` (e.g. "s3-coached") is the variant's tag,
+    encoded into the seat's display label so it flows through the record,
+    scoring and the site without any schema change — exactly as Season 2
+    encoded the provider/quant route into the label.
+    """
+
+    def __init__(self, version: str, system: str):
+        self.version = version
+        self.system = system
+
+    def build_messages(self, view: PlayerView) -> list[dict]:
+        return [
+            {"role": "system", "content": self.system},
+            {"role": "user", "content": build_user(view)},
+        ]
+
+    @staticmethod
+    def build_reprompt_correction(error: str) -> dict:
+        # Identical to the frozen apparatus — the reprompt is not a variable.
+        return build_reprompt_correction(error)

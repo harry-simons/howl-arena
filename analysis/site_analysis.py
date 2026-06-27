@@ -307,10 +307,164 @@ def _build_season2():
     }
 
 
+def _build_season3():
+    """Reshape analysis/out/season3.json (the prompt study) for the site.
+
+    One model, one route, four system-prompt variants (baseline x3, coached x2,
+    cot x2, statetrack x2). Carries kind='prompt'; the site renders it with its
+    own view (variant comparison + the dead-vote directed test + noise band).
+    """
+    s3 = _load("season3.json")
+    if not s3:
+        return None
+    pv = s3["per_variant"]
+    order = [v for v in ("baseline", "coached", "cot", "statetrack") if v in pv]
+    total_actions = sum(pv[v]["actions"] for v in order)
+    wins = s3["wins"]
+    nwolf, nvil = wins.get("werewolves", 0), wins.get("villagers", 0)
+    nf = s3["baseline_noise_floor"]
+
+    variant_rows = [{
+        "variant": v,
+        "win_pct": pv[v]["win_pct"],
+        "village_wr": pv[v]["village_wr"],
+        "wolf_wr": pv[v]["wolf_wr"],
+        "dead_vote_pct": pv[v]["dead_vote_pct"],
+        "illegal_pct": pv[v]["illegal_pct"],
+        "overall": pv[v]["overall_rating"],
+        "overall_prov": pv[v]["overall_provisional"],
+        "villager": pv[v]["villager_rating"],
+        "elo": pv[v]["elo"],
+        "trueskill": pv[v]["trueskill"],
+        "n_replicas": pv[v]["n_replicas"],
+    } for v in order]
+
+    seats = s3["seats"]
+    seat_rows = sorted(
+        [{"seat": lbl.split("@")[1], "variant": d["variant"], "games": d["games"],
+          "win_pct": d["win_pct"], "dead_vote_pct": d["dead_vote_pct"],
+          "overall": d["overall_rating"], "elo": d["elo"]}
+         for lbl, d in seats.items()],
+        key=lambda r: (["baseline", "coached", "cot", "statetrack"].index(r["variant"]), r["seat"]))
+
+    # the prompts themselves, with a one-line "what is this trying to do" gloss, so
+    # a reader understands the experiment before reading the results.
+    GLOSS = {
+        "baseline": ("The frozen benchmark prompt, unchanged. It states the rules and "
+                     "the win conditions but offers no strategy. The control: every "
+                     "other variant is this exact prompt plus one added block."),
+        "coached": ("A strategist's primer on how to actually play each role: rally "
+                    "the village's votes, mine the dead for tells, lie quietly as a "
+                    "wolf. Hypothesis: tell the model good tactics and it plays better."),
+        "cot": ("An instruction to reason step by step in private before committing. "
+                "Hypothesis: forcing deliberation sharpens its decisions."),
+        "statetrack": ("An instruction to keep an explicit ledger every turn: who is "
+                       "alive, who is dead, who voted for whom. Hypothesis: a "
+                       "bookkeeping aid cuts votes cast at already-dead players."),
+    }
+    prompts = [{
+        "variant": v, "gloss": GLOSS.get(v, ""),
+        "text": (s3.get("prompts") or {}).get(v),
+        "is_control": v == "baseline",
+    } for v in order]
+
+    base = pv.get("baseline", {})
+    narrative = {
+        "headline": (
+            f"Season 3 complete: {s3['n_games']} games. You can prompt a better player, "
+            "but only with prompts that engage the model with the GAME. The state-"
+            "tracking ledger and the tactics primer both pull clear of the plain baseline "
+            "and of a generic think-step-by-step prompt. The ledger (statetrack) finishes "
+            "top on win rate and both rating ladders, on the back of much stronger wolf "
+            "play; the primer (coached) makes the fewest mistakes. The two are level with "
+            "each other. Chain-of-thought added nothing."
+        ),
+        "variants": (
+            "The whole study in one table. Each variant's replicas are pooled and "
+            "re-scored as one player. Two variants separate from the pack: statetrack "
+            "tops win rate, Glicko and Elo, while coached tops the dead-vote and "
+            "TrueSkill columns. Their gap is inside the noise floor, so read them as "
+            "jointly best rather than first and second. cot sits flat on the baseline: a "
+            "bare instruction to reason added nothing measurable."
+        ),
+        "deadvote": (
+            f"Every game-engaging prompt cut the dead-vote rate below the baseline's "
+            f"{base.get('dead_vote_pct','?')}%: coached lowest at "
+            f"{pv.get('coached',{}).get('dead_vote_pct','?')}%, statetrack "
+            f"{pv.get('statetrack',{}).get('dead_vote_pct','?')}%, even cot a little. "
+            "That revises a tempting mid-run hunch, that the bug was pure attention and a "
+            "ledger would not help. It did help: making the model keep books on who is "
+            "alive and how they voted cut its dead-votes, and statetrack finished the "
+            "strongest player overall. The fair reading is that BOTH levers work, because "
+            "both make the model attend to the state of the game, whether through an "
+            "explicit ledger or a primer that tells it to track votes and read the dead. "
+            "The one prompt that did not engage with the game, generic chain-of-thought, "
+            "helped least."
+        ),
+        "winrate": (
+            "Win rate separated by the end. statetrack wins "
+            f"{pv.get('statetrack',{}).get('win_pct','?')}% and coached "
+            f"{pv.get('coached',{}).get('win_pct','?')}%, both above the baseline's "
+            f"{base.get('win_pct','?')}% and clear of (or at the edge of) the replica "
+            f"band of {nf['win_pct_range'][0]}-{nf['win_pct_range'][1]}%; cot at "
+            f"{pv.get('cot',{}).get('win_pct','?')}% sits on the baseline. statetrack's "
+            f"margin is concentrated in the wolf seat ({pv.get('statetrack',{}).get('wolf_wr','?')}% "
+            f"wolf wins against the baseline's {base.get('wolf_wr','?')}%), which hints a "
+            "ledger helps most when the model must keep a deception consistent. Wolf games "
+            "are the thinnest sample, so hold the statetrack-over-coached order lightly; "
+            "their difference is within the noise."
+        ),
+        "noise": (
+            "The rating ladder is not the whole story. The baseline prompt is run three "
+            f"times; in self-play its replicas still drift {nf['overall_rating_spread']} "
+            "rating points apart from chance alone. Any between-variant gap smaller than "
+            "that band is noise, which is why statetrack versus coached is a coin toss; "
+            "what clears the band is the pair of them together pulling above baseline and "
+            "cot."
+        ),
+        "quality": (
+            "Format is unbreakable. Zero malformed turns across every variant and all "
+            f"{s3['n_games']} games: gemma's JSON discipline does not depend on the "
+            "prompt. Where quality differs it is illegal moves, chiefly votes for dead "
+            "players, and coaching makes the fewest."
+        ),
+    }
+
+    return {
+        "kind": "prompt",
+        "title": "Season 3 technical analysis",
+        "subtitle": f"{s3['n_games']} games | one model, one route, four prompt variants | computed offline",
+        "narrative": narrative,
+        "prompts": prompts,
+        "base_system": s3.get("base_system"),
+        "metrics": [
+            {"value": "0", "label": "malformed turns", "note": f"across {total_actions:,} actions, every variant"},
+            {"value": f"${s3['cost_per_game']:.4f}", "label": "cost per game", "note": f"${s3['total_cost']:.2f} so far"},
+            {"value": f"{nvil}-{nwolf}", "label": "village-wolf wins", "note": "mild village tilt, in line with the format"},
+            {"value": f"{nf['overall_rating_spread']} pts", "label": "baseline noise floor", "note": "identical prompts drift this far"},
+        ],
+        "variant_rows": variant_rows,
+        "baseline_band": {
+            "dead_lo": nf["dead_vote_pct_range"][0], "dead_hi": nf["dead_vote_pct_range"][1],
+            "win_lo": nf["win_pct_range"][0], "win_hi": nf["win_pct_range"][1],
+            "rating_spread": nf["overall_rating_spread"],
+        },
+        "seat_rows": seat_rows,
+        "caveats": [
+            f"Volume. {s3['n_games']} games, complete. Each variant has only ~30 wolf appearances, so the wolf ladder is the noisiest column and statetrack's finish on top rests partly on it.",
+            f"Noise floor. Identical baseline replicas drift {nf['overall_rating_spread']} rating points and ~8 win-rate points apart, so only the gap from the (statetrack, coached) pair down to the (baseline, cot) pair is safe; the order within each pair is not.",
+            "Not pure self-play. Unlike Season 2 the prompts genuinely differ, so win rate is informative, but the seats still share one model, so any single result is a team outcome.",
+            "Two winners, not one. statetrack and coached separate cleanly from baseline and cot but are level with each other; chain-of-thought, a generic reasoning instruction, matched the control and bought nothing.",
+        ],
+    }
+
+
 def build(season_id: str):
     """Return the analysis blob for a season, or None if not available."""
     if season_id == "season-2":
         return _build_season2()
+    if season_id == "season-3":
+        return _build_season3()
     if season_id != "season-1":
         return None
     quant = _load("quant.json")
